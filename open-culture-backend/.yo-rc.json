@@ -1,0 +1,37 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.openculture.org"
+    },
+    "jhipsterVersion": "6.10.1",
+    "applicationType": "monolith",
+    "baseName": "openculture",
+    "packageName": "com.openculture.org",
+    "packageFolder": "com/openculture/org",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": false,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "postgresql",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "MTBiNDg4MGI2MTJiZDBkOWQyM2NlNmM3NDZkZWEyN2FjZTI1MzIyM2IzNDQwZjVmOWYxOTBhY2ZiYTA2ODliYmNkOTI3YWVjYzU2ZjZhYmY0ZGVmZTU0Y2U2NWE1M2U0YjUyNzA0YTJiMzdmZGVlMjlhYmY3ZDExYmEyZmMxMTQ=",
+    "embeddableLaunchScript": false,
+    "creationTimestamp": 1615595760288,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false,
+    "clientPackageManager": "npm",
+    "blueprints": [],
+    "skipClient": true
+  }
+}
