@@ -1,0 +1,47 @@
+{
+  "name": "Oeuvre",
+  "fields": [
+    {
+      "fieldName": "titre",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dateSortie",
+      "fieldType": "Instant"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "typeOeuvre",
+      "otherEntityRelationshipName": "oeuvre",
+      "relationshipName": "typeOeuvre",
+      "otherEntityField": "id",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "artisteOeuvre",
+      "otherEntityRelationshipName": "oeuvre",
+      "relationshipName": "artisteOeuvre"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "regroupement",
+      "otherEntityRelationshipName": "oeuvre",
+      "relationshipName": "regroupement",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20210314183129",
+  "entityTableName": "oeuvre",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

@@ -1,0 +1,29 @@
+{
+  "name": "TypeOeuvre",
+  "fields": [
+    {
+      "fieldName": "intitule",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "oeuvre",
+      "otherEntityRelationshipName": "typeOeuvre",
+      "relationshipName": "oeuvre",
+      "ownerSide": false
+    }
+  ],
+  "changelogDate": "20210314183229",
+  "entityTableName": "type_oeuvre",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

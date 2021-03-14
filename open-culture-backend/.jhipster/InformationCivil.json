@@ -1,0 +1,45 @@
+{
+  "name": "InformationCivil",
+  "fields": [
+    {
+      "fieldName": "nationalite",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dateNaissance",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "lieuNaissance",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "numeroP",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "numeroS",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "artiste",
+      "otherEntityRelationshipName": "informationCivil",
+      "relationshipName": "artiste",
+      "ownerSide": false
+    }
+  ],
+  "changelogDate": "20210314183029",
+  "entityTableName": "information_civil",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}
