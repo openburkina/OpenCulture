@@ -1,0 +1,55 @@
+entity Artiste {
+    nom       String,
+    prenom       String,
+}
+entity InformationCivil {
+    nationalite    String,
+    dateNaissance  LocalDate,
+    lieuNaissance  String,
+    numeroP        String,
+    numeroS        String,
+}
+entity Oeuvre {
+    titre String,
+    dateSortie Instant, 
+}
+
+entity TypeOeuvre {
+	intitule String,
+}
+
+entity ArtisteOeuvre {
+	role String,
+}
+
+entity Regroupement {
+	type String,
+    intitule String,
+}
+
+entity Abonnement {
+	dateAbonnement Instant,
+    type String,
+}
+
+relationship OneToOne {
+    Artiste {informationCivil} to InformationCivil {artiste}
+}
+relationship OneToMany {
+    Oeuvre {artisteOeuvre} to ArtisteOeuvre {oeuvre}
+}
+
+relationship OneToOne {
+    Oeuvre {typeOeuvre} to TypeOeuvre {oeuvre}
+}
+
+relationship OneToMany {
+    Artiste {artisteOeuvre} to ArtisteOeuvre {artiste}
+}
+
+relationship OneToMany {
+    Regroupement{oeuvre} to Oeuvre {regroupement}
+}
+service * with serviceClass
+dto * with mapstruct
+paginate * with pagination

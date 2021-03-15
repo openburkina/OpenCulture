@@ -1,0 +1,40 @@
+{
+  "name": "Artiste",
+  "fields": [
+    {
+      "fieldName": "nom",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "prenom",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "informationCivil",
+      "otherEntityRelationshipName": "artiste",
+      "relationshipName": "informationCivil",
+      "otherEntityField": "id",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "artisteOeuvre",
+      "otherEntityRelationshipName": "artiste",
+      "relationshipName": "artisteOeuvre"
+    }
+  ],
+  "changelogDate": "20210314182929",
+  "entityTableName": "artiste",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}
