@@ -24,32 +24,32 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": [
-                "src/favicon.ico",
-                "src/assets"
+              "src/favicon.ico",
+              "src/assets"
             ],
             "styles": [
-                "node_modules/bootstrap/scss/bootstrap.scss",
-                "node_modules/owl.carousel/dist/assets/owl.carousel.min.css",
-                "node_modules/owl.carousel/dist/assets/owl.theme.default.min.css",
-                "src/assets/css/animate.min.css",
-                "node_modules/jquery-nice-select/scss/nice-select.scss",
-                "src/assets/css/flaticon.css",
-                "src/assets/css/meanmenu.css",
-                "src/assets/css/boxicons.min.css",
-                "node_modules/magnific-popup/dist/magnific-popup.css",
-                "src/styles.scss",
-                "src/responsive.scss"
+              "node_modules/bootstrap/scss/bootstrap.scss",
+              "node_modules/owl.carousel/dist/assets/owl.carousel.min.css",
+              "node_modules/owl.carousel/dist/assets/owl.theme.default.min.css",
+              "src/assets/css/animate.min.css",
+              "node_modules/jquery-nice-select/scss/nice-select.scss",
+              "src/assets/css/flaticon.css",
+              "src/assets/css/meanmenu.css",
+              "src/assets/css/boxicons.min.css",
+              "node_modules/magnific-popup/dist/magnific-popup.css",
+              "src/styles.scss",
+              "src/responsive.scss"
             ],
             "scripts": [
-                "node_modules/jquery/dist/jquery.min.js",
-                "node_modules/popper.js/dist/umd/popper.min.js",
-                "node_modules/bootstrap/dist/js/bootstrap.min.js",
-                "node_modules/owl.carousel/dist/owl.carousel.min.js",
-                "node_modules/jquery-nice-select/js/jquery.nice-select.min.js",
-                "node_modules/magnific-popup/dist/jquery.magnific-popup.min.js",
-                "src/assets/js/meanmenu.js",
-                "node_modules/wowjs/dist/wow.js",
-                "src/assets/js/custom.js"
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/popper.js/dist/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/owl.carousel/dist/owl.carousel.min.js",
+              "node_modules/jquery-nice-select/js/jquery.nice-select.min.js",
+              "node_modules/magnific-popup/dist/jquery.magnific-popup.min.js",
+              "src/assets/js/meanmenu.js",
+              "node_modules/wowjs/dist/wow.js",
+              "src/assets/js/custom.js"
             ]
           },
           "configurations": {
@@ -143,6 +143,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "gloz-ng"
+    }
+  },
+  "defaultProject": "gloz-ng",
+  "cli": {
+    "analytics": false
+  }
 }

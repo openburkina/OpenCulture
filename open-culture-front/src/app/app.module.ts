@@ -30,6 +30,7 @@ import { AppleNowComponent } from './components/pages/apple-now/apple-now.compon
 import { TeamComponent } from './components/pages/team/team.component';
 import { AboutComponent } from './components/pages/about/about.component';
 import { ContactComponent } from './components/pages/contact/contact.component';
+import { AccountComponent } from './components/pages/account/account.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { ContactComponent } from './components/pages/contact/contact.component';
     AppleNowComponent,
     TeamComponent,
     AboutComponent,
-    ContactComponent
+    ContactComponent,
+    AccountComponent
   ],
   imports: [
     BrowserModule,
