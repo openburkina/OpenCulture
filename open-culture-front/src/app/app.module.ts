@@ -31,6 +31,9 @@ import { TeamComponent } from './components/pages/team/team.component';
 import { AboutComponent } from './components/pages/about/about.component';
 import { ContactComponent } from './components/pages/contact/contact.component';
 import { AccountComponent } from './components/pages/account/account.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -62,11 +65,15 @@ import { AccountComponent } from './components/pages/account/account.component';
     TeamComponent,
     AboutComponent,
     ContactComponent,
-    AccountComponent
+    AccountComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    HttpClientModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

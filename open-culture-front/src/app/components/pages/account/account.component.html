@@ -1,131 +1,273 @@
-<!-- Inner Banner -->
-<div class="inner-banner inner-bg2">
-    <div class="container">
-        <div class="inner-title text-center">
-            <h3>Contact Us</h3>
-            <ul>
-                <li><a routerLink="/">Home</a></li>
-                <li><i class='bx bxs-chevron-right'></i></li>
-                <li>Contact Us</li>
-            </ul>
+<div class="card-group">
+    <div class="card">
+        <div class="card-header border-bottom text-center text-white bg-primary">
+            Inscription sur OpenCulture
         </div>
-    </div>
-</div>
-<!-- Inner Banner End -->
-
-<!-- Contact Section -->
-<div class="contact-section pt-100 pb-70">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-sm-6 col-md-4">
-                <div class="contact-card">
-                    <i class='bx bxs-phone'></i>
-                    <div class="content">
-                        <h3>Contact Number</h3>
-                        <p><a href="tel:+61283171401">+612-831-714-01</a></p>
-                        <span><a href="tel:+61283175421">+612-831-754-21</a></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-sm-6 col-md-4">
-                <div class="contact-card">
-                    <i class='bx bx-map'></i>
-                    <div class="content">
-                        <h3>Address</h3>
-                        <p>6th Floor, Barbosa</p>
-                        <span>Sydney</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-sm-6 col-md-4 offset-lg-0 offset-md-0 offset-sm-3">
-                <div class="contact-card">
-                    <i class='bx bx-envelope'></i>
-                    <div class="content">
-                        <h3>Email</h3>
-                        <p><a href="mailto:info@gloz.com">info@gloz.com</a></p>
-                        <span><a href="hello@gloz.com">hello@gloz.com</a></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Contact Section End -->
-
-<!-- Leader Area -->
-<div class="leader-area">
-    <div class="container">
-        <div class="leader-content">
-            <div class="section-title text-center">
-                <h2>Expand Your Presence And Be A Leader Of The World</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla amet bibendum ante. Vestibulum ante ipsum primis in faucibus orci.</p>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Leader Area End -->
-
-<!-- Contact Area -->
-<div class="contact-area pb-100">
-    <div class="container">
-        <div class="contact-area-bg">
+        <div class="card-body">
             <div class="row">
-                <div class="col-lg-6 col-md-12">
-                    <div class="contact-form">
-                        <div class="section-title text-center">
-                            <h2>Contact Us</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ante nisi, feugiat vel leo eget, dictum.</p>
+                <div class="col-12">
+                    <form [formGroup]="formAccount" (ngSubmit)="onAccount()" >
+                        <p class="text-muted text-center font-italic">
+                            Veuillez renseigner les informations suivantes pour vous inscrire. <br>
+                            Les champs marqués (<i class="text-danger">*</i>) sont obligatoires
+                        </p>
+
+                        <!--<div class="form-group">
+                            <label for="paysId" class="col-form-label text-secondary">Pays <i class="text-danger">*</i></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                      <i class="fa fa-flag"></i>
+                                    </span>
+                                </div>
+                                <select class="form-select form-control" id="paysId" name="paysId" formControlName="paysId">
+                                    <option selected disabled>&#45;&#45;Sélectionner le pays&#45;&#45;</option>
+                                </select>
+                            </div>
                         </div>
 
-                        <form id="contactForm">
-                            <div class="row">
-                                <div class="col-lg-6 col-sm-6">
-                                    <div class="form-group">
-                                        <input type="text" name="name" id="name" class="form-control" required placeholder="Name">
-                                    </div>
+                        <div class="form-group">
+                            <label for="regionId" class="col-form-label text-secondary">Region <i class="text-danger">*</i></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                      <i class="fa fa-flag"></i>
+                                    </span>
                                 </div>
-
-                                <div class="col-lg-6 col-sm-6">
-                                    <div class="form-group">
-                                        <input type="email" name="email" id="email" class="form-control" required placeholder="Email">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6 col-sm-6">
-                                    <div class="form-group">
-                                        <input type="text" name="phone_number" id="phone_number" required class="form-control" placeholder="Phone">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6 col-sm-6">
-                                    <div class="form-group">
-                                        <input type="text" name="msg_subject" id="msg_subject" class="form-control" required placeholder="Your Subject">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-12 col-md-12">
-                                    <div class="form-group">
-                                        <textarea name="message" class="form-control" id="message" cols="30" rows="8" required placeholder="Your Message"></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-12 col-md-12 text-center">
-                                    <button type="submit" class="default-btn">Submit</button>
-                                </div>
+                                <select class="form-select form-control" id="regionId" name="regionId" formControlName="regionId">
+                                    <option selected disabled>&#45;&#45;Sélectionner la region&#45;&#45;</option>
+                                </select>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="provinceId" class="col-form-label text-secondary">Province <i class="text-danger">*</i></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                      <i class="fa fa-flag"></i>
+                                    </span>
+                                </div>
+                                <select class="form-select form-control" id="provinceId" name="provinceId" formControlName="provinceId">
+                                    <option selected disabled>&#45;&#45;Sélectionner la province&#45;&#45;</option>
+                                </select>
+                            </div>
+                        </div>-->
+
+                        <div class="form-group">
+                            <label for="firstName" class="col-form-label text-secondary">Nom <i class="text-danger">*</i></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                      <i class="fa fa-user"></i>
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control" autocomplete="firstName" name="firstName" formControlName="firstName" id="firstName" required>
+                            </div>
+                            <div *ngIf="formAccount.get('firstName').invalid && (formAccount.get('firstName').touched || formAccount.get('firstName').dirty)">
+                                <small class="text-danger font-italic" *ngIf="formAccount.get('firstName').errors.required">
+                                    Votre nom est obligatoire
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lastName" class="col-form-label text-secondary">Prénom(s) <i class="text-danger">*</i></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                      <i class="fa fa-user"></i>
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control" autocomplete="lastName" id="lastName"
+                                       name="lastName" formControlName="lastName" required>
+                            </div>
+                            <div *ngIf="formAccount.get('lastName').invalid && (formAccount.get('lastName').touched || formAccount.get('lastName').dirty)">
+                                <small class="text-danger font-italic" *ngIf="formAccount.get('lastName').errors.required">
+                                    Votre prénom est obligatoire
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="col-form-label text-secondary">Email <i class="text-danger">*</i></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text">
+                                    <i class="fa fa-envelope"></i>
+                                  </span>
+                                </div>
+                                <input type="email" class="form-control" autocomplete="email" id="email"
+                                       name="email" formControlName="email" placeholder="monemail@gmail.com" required>
+                            </div>
+
+                            <div *ngIf="formAccount.get('email').invalid && (formAccount.get('email').touched || formAccount.get('email').dirty)">
+                                <small class="text-danger font-italic" *ngIf="formAccount.get('email').errors.required">
+                                    Votre email est obligatoire
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telephone" class="col-form-label text-secondary">Téléphone <i class="text-danger">*</i></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                      <i class="fa fa-phone"></i>
+                                    </span>
+                                </div>
+                                <input type="tel" class="form-control"
+                                       id="telephone" autocomplete="telephone" placeholder="+22670707070"
+                                       name="telephone" formControlName="telephone" required>
+                            </div>
+
+                            <div *ngIf="formAccount.get('telephone').invalid && (formAccount.get('telephone').touched || formAccount.get('telephone').dirty)">
+                                <small class="text-danger font-italic" *ngIf="formAccount.get('telephone').errors.required">
+                                    Votre numéro de téléphone est obligatoire
+                                </small>
+                            </div>
+                        </div>
+
+                      <!--  <div class="form-group">
+                            <label for="genre" class="col-form-label text-secondary">Genre <i class="text-danger">*</i></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                      <i class="fa fa-venus-mars"></i>
+                                    </span>
+                                </div>
+                                <select class="form-select form-control" name="genre" formControlName="genre" id="genre">
+                                    <option selected disabled>&#45;&#45;Sélectionner votre genre&#45;&#45;</option>
+                                    <option value="MASCULIN">MASCULIN</option>
+                                    <option value="FEMININ">FEMININ</option>
+                                </select>
+                            </div>
+
+                            <div >
+                                <small class="text-danger font-italic">
+                                    Votre genre est obligatoire
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="nameClub" class="col-form-label text-secondary">Nom du club <i class="text-danger">*</i></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-flag"></i>
+                  </span>
+                                </div>
+                                <input type="text" class="form-control"
+                                       id="nameClub" autocomplete="nameClub"
+                                       name="nameClub" formControlName="nameClub" required>
+                            </div>
+                            <div >
+                                <small class="text-danger font-italic">
+                                    Le nom du club est obligatoire
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="artClub" class="col-form-label text-secondary">Arts du club <i class="text-danger">*</i></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                      <i class="fa fa-anchor"></i>
+                                    </span>
+                                </div>
+                                <select class="form-select form-control" multiple size="2" id="artClub" name="artClub" formControlName="artClub">
+                                    <option selected disabled>&#45;&#45;Sélectionner vos arts&#45;&#45;</option>
+
+                                </select>
+                            </div>
+
+                            <div >
+                                <small class="text-danger font-italic" >
+                                    Veuillez choisir l'art pratiqué par votre club
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="emailClub" class="col-form-label text-secondary">Email du club</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                      <i class="fa fa-envelope"></i>
+                                    </span>
+                                </div>
+                                <input type="email" class="form-control"
+                                       id="emailClub" autocomplete="emailClub"
+                                       name="emailClub" formControlName="emailClub" placeholder="club@gmail.com" required>
+                            </div>
+                        </div>-->
+
+                       <!-- <div class="form-group">
+                            <label for="phoneClub" class="col-form-label text-secondary">Téléphone du club</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                      <i class="fa fa-phone"></i>
+                                    </span>
+                                </div>
+                                <input type="tel" class="form-control"
+                                       id="phoneClub" autocomplete="phoneClub" placeholder="+22675757575"
+                                       name="phoneClub" formControlName="phoneClub" required>
+                            </div>
+                        </div>-->
+
+
+                        <div class="form-group">
+                            <label for="password" class="col-form-label text-secondary">Mot de passe <i class="text-danger">*</i></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                      <i class="fa fa-lock"></i>
+                                    </span>
+                                </div>
+                                <input type="password" class="form-control"
+                                       id="password" name="password" formControlName="password">
+                            </div>
+
+                            <div *ngIf="formAccount.get('password').invalid && (formAccount.get('password').touched || formAccount.get('password').dirty)">
+                                <small class="text-danger font-italic" *ngIf="formAccount.get('password').errors.required">
+                                    Le mot de passe est obligatoire
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirmPassword" class="col-form-label text-secondary">Confirmation du mot de passe <i class="text-danger">*</i></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                      <i class="fa fa-lock"></i>
+                                    </span>
+                                </div>
+                                <input type="password" class="form-control"
+                                       id="confirmPassword" name="confirmPassword" formControlName="confirmPassword">
+                            </div>
+
+                            <div *ngIf="formAccount.get('confirmPassword').invalid && (formAccount.get('confirmPassword').touched || formAccount.get('confirmPassword').dirty)">
+                                <small class="text-danger font-italic" *ngIf="formAccount.get('confirmPassword').errors.required">
+                                    La confirmation du mot de passe est obligatoire
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-group text-right">
+                            <button class="btn btn-danger mr-2" (click)="onDismiss(false)">
+                                <i class="fa fa-chevron-left"></i> Annuler
+                            </button>
+                            <button type="submit" [disabled]="formAccount.invalid" class="btn btn-primary px-4">
+                                S'inscrire <i class="fa fa-sign-in-alt"></i>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </div>.
+    </div>
 </div>
-<!-- Contact Area End -->
-
-<!-- Map Area -->
-<div class="map-area">
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d424146.10263665376!2d150.65179679116446!3d-33.847356725232856!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b12ae665e892fdd%3A0x3133f8d75a1ac251!2sSydney%20Opera%20House!5e0!3m2!1sen!2sbd!4v1599988407815!5m2!1sen!2sbd"></iframe>
-</div>
-<!-- Map Area End -->
