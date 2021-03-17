@@ -6,7 +6,7 @@ import java.io.Serializable;
  * A DTO for the {@link com.openculture.org.domain.Artiste} entity.
  */
 public class ArtisteDTO implements Serializable {
-    
+
     private Long id;
 
     private String nom;
@@ -14,8 +14,8 @@ public class ArtisteDTO implements Serializable {
     private String prenom;
 
 
-    private Long informationCivilId;
-    
+    private InformationCivilDTO informationCivilDTO;
+
     public Long getId() {
         return id;
     }
@@ -40,12 +40,12 @@ public class ArtisteDTO implements Serializable {
         this.prenom = prenom;
     }
 
-    public Long getInformationCivilId() {
-        return informationCivilId;
+    public InformationCivilDTO getInformationCivilDTO() {
+        return informationCivilDTO;
     }
 
-    public void setInformationCivilId(Long informationCivilId) {
-        this.informationCivilId = informationCivilId;
+    public void setInformationCivilDTO(InformationCivilDTO informationCivilDTO) {
+        this.informationCivilDTO = informationCivilDTO;
     }
 
     @Override
@@ -66,13 +66,14 @@ public class ArtisteDTO implements Serializable {
     }
 
     // prettier-ignore
+
     @Override
     public String toString() {
         return "ArtisteDTO{" +
-            "id=" + getId() +
-            ", nom='" + getNom() + "'" +
-            ", prenom='" + getPrenom() + "'" +
-            ", informationCivilId=" + getInformationCivilId() +
-            "}";
+            "id=" + id +
+            ", nom='" + nom + '\'' +
+            ", prenom='" + prenom + '\'' +
+            ", informationCivilDTO=" + informationCivilDTO +
+            '}';
     }
 }

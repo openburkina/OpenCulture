@@ -3,6 +3,7 @@ package com.openculture.org.service;
 import com.openculture.org.domain.Artiste;
 import com.openculture.org.repository.ArtisteRepository;
 import com.openculture.org.service.dto.ArtisteDTO;
+import com.openculture.org.service.dto.InformationCivilDTO;
 import com.openculture.org.service.mapper.ArtisteMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +28,12 @@ public class ArtisteService {
 
     private final ArtisteMapper artisteMapper;
 
-    public ArtisteService(ArtisteRepository artisteRepository, ArtisteMapper artisteMapper) {
+    private final InformationCivilService informationCivilService;
+
+    public ArtisteService(ArtisteRepository artisteRepository, ArtisteMapper artisteMapper, InformationCivilService informationCivilService) {
         this.artisteRepository = artisteRepository;
         this.artisteMapper = artisteMapper;
+        this.informationCivilService = informationCivilService;
     }
 
     /**
@@ -38,11 +42,30 @@ public class ArtisteService {
      * @param artisteDTO the entity to save.
      * @return the persisted entity.
      */
-    public ArtisteDTO save(ArtisteDTO artisteDTO) {
+    public ArtisteDTO save(ArtisteDTO artisteDTO) throws Exception {
         log.debug("Request to save Artiste : {}", artisteDTO);
-        Artiste artiste = artisteMapper.toEntity(artisteDTO);
-        artiste = artisteRepository.save(artiste);
-        return artisteMapper.toDto(artiste);
+
+        if(validedArtiste(artisteDTO) && validedInformationCivil(artisteDTO.getInformationCivilDTO())){
+            artisteDTO.setInformationCivilDTO(informationCivilService.save(artisteDTO.getInformationCivilDTO()));
+            Artiste artiste = artisteMapper.toEntity(artisteDTO);
+            artiste = artisteRepository.save(artiste);
+            return artisteMapper.toDto(artiste);
+        } else {
+            throw new Exception("Certains paramètres concernant l'artiste sont manquants");
+        }
+    }
+
+    public boolean validedInformationCivil(InformationCivilDTO inf){
+        if (inf.getDateNaissance() != null && inf.getLieuNaissance() != null &&
+            inf.getNationalite() != null && (inf.getNumeroP() != null || inf.getNumeroS() != null))
+            return true;
+        return false;
+    }
+
+    public boolean validedArtiste(ArtisteDTO art){
+        if (art.getNom() != null && art.getPrenom() != null && art.getInformationCivilDTO() != null )
+            return true;
+        return false;
     }
 
     /**

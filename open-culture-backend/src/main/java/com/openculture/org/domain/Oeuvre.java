@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,6 +26,18 @@ public class Oeuvre implements Serializable {
 
     @Column(name = "titre")
     private String titre;
+
+    @Column(name = "resume")
+    private String resume;
+
+    @Column(name = "file_name")
+    private String file_name;
+
+    @Column(name = "file_content")
+    private byte[] file_content;
+
+    @Column(name = "file_extension")
+    private String file_extension;
 
     @Column(name = "date_sortie")
     private Instant dateSortie;
@@ -125,6 +138,39 @@ public class Oeuvre implements Serializable {
     public void setRegroupement(Regroupement regroupement) {
         this.regroupement = regroupement;
     }
+
+    public String getResume() {
+        return resume;
+    }
+
+    public void setResume(String resume) {
+        this.resume = resume;
+    }
+
+    public String getFile_name() {
+        return file_name;
+    }
+
+    public void setFile_name(String file_name) {
+        this.file_name = file_name;
+    }
+
+    public byte[] getFile_content() {
+        return file_content;
+    }
+
+    public void setFile_content(byte[] file_content) {
+        this.file_content = file_content;
+    }
+
+    public String getFile_extension() {
+        return file_extension;
+    }
+
+    public void setFile_extension(String file_extension) {
+        this.file_extension = file_extension;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -143,13 +189,19 @@ public class Oeuvre implements Serializable {
         return 31;
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
         return "Oeuvre{" +
-            "id=" + getId() +
-            ", titre='" + getTitre() + "'" +
-            ", dateSortie='" + getDateSortie() + "'" +
-            "}";
+            "id=" + id +
+            ", titre='" + titre + '\'' +
+            ", resume='" + resume + '\'' +
+            ", file_name='" + file_name + '\'' +
+            ", file_content=" + Arrays.toString(file_content) +
+            ", file_extension='" + file_extension + '\'' +
+            ", dateSortie=" + dateSortie +
+            ", typeOeuvre=" + typeOeuvre +
+            ", artisteOeuvres=" + artisteOeuvres +
+            ", regroupement=" + regroupement +
+            '}';
     }
 }

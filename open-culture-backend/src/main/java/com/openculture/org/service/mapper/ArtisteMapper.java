@@ -12,10 +12,10 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {InformationCivilMapper.class})
 public interface ArtisteMapper extends EntityMapper<ArtisteDTO, Artiste> {
 
-    @Mapping(source = "informationCivil.id", target = "informationCivilId")
+    @Mapping(source = "informationCivil", target = "informationCivilDTO")
     ArtisteDTO toDto(Artiste artiste);
 
-    @Mapping(source = "informationCivilId", target = "informationCivil")
+    @Mapping(source = "informationCivilDTO", target = "informationCivil")
     @Mapping(target = "artisteOeuvres", ignore = true)
     @Mapping(target = "removeArtisteOeuvre", ignore = true)
     Artiste toEntity(ArtisteDTO artisteDTO);
