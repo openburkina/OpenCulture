@@ -51,7 +51,7 @@ public class ArtisteResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/artistes")
-    public ResponseEntity<ArtisteDTO> createArtiste(@RequestBody ArtisteDTO artisteDTO) throws URISyntaxException {
+    public ResponseEntity<ArtisteDTO> createArtiste(@RequestBody ArtisteDTO artisteDTO) throws Exception {
         log.debug("REST request to save Artiste : {}", artisteDTO);
         if (artisteDTO.getId() != null) {
             throw new BadRequestAlertException("A new artiste cannot already have an ID", ENTITY_NAME, "idexists");
@@ -72,7 +72,7 @@ public class ArtisteResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/artistes")
-    public ResponseEntity<ArtisteDTO> updateArtiste(@RequestBody ArtisteDTO artisteDTO) throws URISyntaxException {
+    public ResponseEntity<ArtisteDTO> updateArtiste(@RequestBody ArtisteDTO artisteDTO) throws Exception {
         log.debug("REST request to update Artiste : {}", artisteDTO);
         if (artisteDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

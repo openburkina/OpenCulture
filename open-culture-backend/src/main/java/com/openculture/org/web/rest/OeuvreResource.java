@@ -14,12 +14,20 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,7 +59,7 @@ public class OeuvreResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/oeuvres")
-    public ResponseEntity<OeuvreDTO> createOeuvre(@RequestBody OeuvreDTO oeuvreDTO) throws URISyntaxException {
+    public ResponseEntity<OeuvreDTO> createOeuvre(@RequestBody OeuvreDTO oeuvreDTO) throws Exception {
         log.debug("REST request to save Oeuvre : {}", oeuvreDTO);
         if (oeuvreDTO.getId() != null) {
             throw new BadRequestAlertException("A new oeuvre cannot already have an ID", ENTITY_NAME, "idexists");
@@ -72,7 +80,7 @@ public class OeuvreResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/oeuvres")
-    public ResponseEntity<OeuvreDTO> updateOeuvre(@RequestBody OeuvreDTO oeuvreDTO) throws URISyntaxException {
+    public ResponseEntity<OeuvreDTO> updateOeuvre(@RequestBody OeuvreDTO oeuvreDTO) throws Exception {
         log.debug("REST request to update Oeuvre : {}", oeuvreDTO);
         if (oeuvreDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -122,4 +130,12 @@ public class OeuvreResource {
         oeuvreService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
+
+    @CrossOrigin("http://localhost:8080")
+    @GetMapping("/test/{id}")
+    public ResponseEntity<Object> getVideo(@PathVariable Long id) {
+        return oeuvreService.readVideo(id);
+    }
+
+
 }
