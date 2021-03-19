@@ -34,6 +34,7 @@ import { AccountComponent } from './components/pages/account/account.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import { OeuvreComponent } from './components/pages/oeuvre/oeuvre.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import {HttpClientModule} from '@angular/common/http';
     AboutComponent,
     ContactComponent,
     AccountComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    OeuvreComponent
   ],
   imports: [
     BrowserModule,

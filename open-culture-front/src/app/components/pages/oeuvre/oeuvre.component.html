@@ -1,0 +1,49 @@
+<div class="special-area pt-100 pb-70">
+    <div class="container">
+        <div class="row" *ngFor="let oeuvre of oeuvresVideo">
+            <div class="col-lg-4 col-md-6" *ngFor="let item of oeuvre?.items ">
+                <div class="special-card">
+                    <a routerLink="/services-details"><img src="assets/img/contact/contact-img.png" alt="Images"></a>
+<!--                    <a routerLink="/services-details"><img [src]="item.pathFile" alt="Images"></a>-->
+                    <div class="content">
+                        <h3><a routerLink="/services-details">{{(item.titre | slice:0:12)+'...'+' de '}}{{item.nomArtiste}}</a></h3>
+<!--                        <p>{{item.resume}}</p>-->
+<!--                        <a routerLink="/services-details" class="learn-btn text-center">Learn More</a>-->
+                    </div>
+                </div>
+            </div>
+<!--            <div class="row" *ngFor="let oeuvre of oeuvres" style="background-color:#09d99f ">
+                <div class="col-lg-4 col-md-6" >
+                    <div class="special-card">
+                        <a routerLink="/services-details"><img src="assets/img/special/special-img1.jpg" alt="Images"></a>
+                        <div class="content">
+                            <h3><a routerLink="/services-details">{{oeuvre.titre+' de '}}{{oeuvre.nomArtiste}}</a></h3>
+                            <p>{{oeuvre.resume}}</p>
+                            <a routerLink="/services-details" class="learn-btn text-center">Learn More</a>
+                        </div>
+                    </div>
+                </div>-->
+<!--            <div class="col-lg-4 col-md-6">
+                <div class="special-card">
+                    <a routerLink="/services-details"><img src="assets/img/special/special-img2.jpg" alt="Images"></a>
+                    <div class="content">
+                        <h3><a routerLink="/services-details">Well Approach</a></h3>
+                        <p>Sed vel risus a sem cursus fermentum. Aliquam a fermentum velit. Sed varius nisl libero, at tempor lectus mollis. </p>
+                        <a routerLink="/services-details" class="learn-btn text-center">Learn More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 offset-lg-0 offset-md-3">
+                <div class="special-card">
+                    <a routerLink="/services-details"><img src="assets/img/special/special-img3.jpg" alt="Images"></a>
+                    <div class="content">
+                        <h3><a routerLink="/services-details">Save Your Tax</a></h3>
+                        <p>Sed vel risus a sem cursus fermentum. Aliquam a fermentum velit. Sed varius nisl libero, at tempor lectus mollis. </p>
+                        <a routerLink="/services-details" class="learn-btn text-center">Learn More</a>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</div>
