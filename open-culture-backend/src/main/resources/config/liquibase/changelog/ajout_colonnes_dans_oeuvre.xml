@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    
+    <!--
+        Added columns to entity oeuvre.
+    -->
+    <changeSet id="190320211458" author="kiemani">
+        <createTable tableName="oeuvre">
+            <column name="file_name" type="varchar(255)"></column>
+            <column name="file_content" type="longblob"></column>
+            <column name="file_extension" type="varchar(255)"></column>
+            <column name="resume" type="varchar(255)"></column>
+            <column name="type" type="varchar(255)"></column>
+
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+    </changeSet>
+<databaseChangeLog>    

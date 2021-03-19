@@ -1,5 +1,6 @@
 package com.openculture.org.web.rest;
 
+import com.openculture.org.domain.enumeration.TypeFichier;
 import com.openculture.org.service.OeuvreService;
 import com.openculture.org.web.rest.errors.BadRequestAlertException;
 import com.openculture.org.service.dto.OeuvreDTO;
@@ -97,10 +98,10 @@ public class OeuvreResource {
      * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of oeuvres in body.
      */
-    @GetMapping("/oeuvres")
-    public ResponseEntity<List<OeuvreDTO>> getAllOeuvres(Pageable pageable) {
+    @GetMapping("/oeuvres/{typeFichier}")
+    public ResponseEntity<List<OeuvreDTO>> getAllOeuvres(@PathVariable TypeFichier typeFichier,Pageable pageable) {
         log.debug("REST request to get a page of Oeuvres");
-        Page<OeuvreDTO> page = oeuvreService.findAll(pageable);
+        Page<OeuvreDTO> page = oeuvreService.findAll(typeFichier,pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -114,8 +115,10 @@ public class OeuvreResource {
     @GetMapping("/oeuvres/{id}")
     public ResponseEntity<OeuvreDTO> getOeuvre(@PathVariable Long id) {
         log.debug("REST request to get Oeuvre : {}", id);
-        Optional<OeuvreDTO> oeuvreDTO = oeuvreService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(oeuvreDTO);
+        OeuvreDTO oeuvreDTO = oeuvreService.findOne(id);
+        return ResponseEntity.ok()
+        .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, oeuvreDTO.getId().toString()))
+        .body(oeuvreDTO);
     }
 
     /**
@@ -134,7 +137,7 @@ public class OeuvreResource {
     @CrossOrigin("http://localhost:8080")
     @GetMapping("/test/{id}")
     public ResponseEntity<Object> getVideo(@PathVariable Long id) {
-        return oeuvreService.readVideo(id);
+        return oeuvreService.readMedia(id);
     }
 
 
