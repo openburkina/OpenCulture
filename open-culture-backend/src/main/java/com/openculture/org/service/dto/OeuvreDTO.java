@@ -1,6 +1,9 @@
 package com.openculture.org.service.dto;
 
 import javax.persistence.Column;
+
+import com.openculture.org.domain.enumeration.TypeFichier;
+
 import java.time.Instant;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -34,6 +37,8 @@ public class OeuvreDTO implements Serializable {
 
     private String pathFile;
 
+    private TypeFichier typeFichier;
+
     public Long getId() {
         return id;
     }
@@ -48,6 +53,14 @@ public class OeuvreDTO implements Serializable {
 
     public void setTitre(String titre) {
         this.titre = titre;
+    }
+
+    public TypeFichier getTypeFichier() {
+        return typeFichier;
+    }
+
+    public void setTypeFichier(TypeFichier typeFichier) {
+        this.typeFichier = typeFichier;
     }
 
     public Instant getDateSortie() {

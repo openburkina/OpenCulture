@@ -1,6 +1,10 @@
 package com.openculture.org.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonAppend.Prop;
+import com.openculture.org.domain.enumeration.TypeFichier;
+
+import org.hibernate.mapping.PropertyGeneration;
 
 import javax.persistence.*;
 
@@ -42,6 +46,11 @@ public class Oeuvre implements Serializable {
     @Column(name = "date_sortie")
     private Instant dateSortie;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
+    private TypeFichier typeFichier;
+
+
     @OneToOne
     @JoinColumn(unique = true)
     private TypeOeuvre typeOeuvre;
@@ -69,6 +78,14 @@ public class Oeuvre implements Serializable {
     public Oeuvre titre(String titre) {
         this.titre = titre;
         return this;
+    }
+    
+    public TypeFichier getTypeFichier() {
+        return typeFichier;
+    }
+
+    public void setTypeFichier(TypeFichier typeFichier) {
+        this.typeFichier = typeFichier;
     }
 
     public void setTitre(String titre) {
@@ -170,6 +187,8 @@ public class Oeuvre implements Serializable {
     public void setFile_extension(String file_extension) {
         this.file_extension = file_extension;
     }
+
+
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
