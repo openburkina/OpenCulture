@@ -14,5 +14,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface OeuvreRepository extends JpaRepository<Oeuvre, Long> {
-    Page<Oeuvre> findAllByType(Pageable pageable,TypeFichier typeFichier);
+    Page<Oeuvre> findAllByTypeFichier(Pageable pageable,TypeFichier typeFichier);
 }

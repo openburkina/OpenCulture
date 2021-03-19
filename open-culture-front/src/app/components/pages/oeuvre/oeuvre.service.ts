@@ -16,8 +16,8 @@ export class OeuvreService {
 
   constructor(protected httpClient: HttpClient) { }
 
-  findAll(typeFichier: TypeFichier): Observable<EntityArrayOeuvre> {
-      return this.httpClient.get<OeuvreDTO[]>(`${this.resourceUrl}/${typeFichier}`,{observe: 'response'});
+  findAll(typeFichier: string): Observable<EntityArrayOeuvre> {
+      return this.httpClient.get<OeuvreDTO[]>(`${this.resourceUrl+'/filter'}/${typeFichier}`,{observe: 'response'});
   }
 
   findOne(id: number): Observable<EntityOeuvre> {

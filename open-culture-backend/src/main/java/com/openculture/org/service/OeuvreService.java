@@ -1,6 +1,8 @@
 package com.openculture.org.service;
 
 import com.openculture.org.config.Constants;
+import com.openculture.org.domain.Artiste;
+import com.openculture.org.domain.ArtisteOeuvre;
 import com.openculture.org.domain.Oeuvre;
 import com.openculture.org.domain.enumeration.TypeFichier;
 import com.openculture.org.repository.OeuvreRepository;
@@ -16,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,7 +34,10 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterOutputStream;
 
@@ -84,16 +90,16 @@ public class OeuvreService {
             }
 
             File media = new File(oeuvreDTO.getPathFile());
-            oeuvreDTO.setFile_content(FileUtils.readFileToByteArray(media));
+            oeuvreDTO.setFileContent(FileUtils.readFileToByteArray(media));
             String s[] = media.getName().split("\\.");
-            oeuvreDTO.setFile_name(s[0]);
-            oeuvreDTO.setFile_extension(s[1]);
+            oeuvreDTO.setFileName(s[0]);
+            oeuvreDTO.setFileExtension(s[1]);
 
-            log.debug("\ntaille avant: {}",oeuvreDTO.getFile_content().length);
+            log.debug("\ntaille avant: {}",oeuvreDTO.getFileContent().length);
 
-            oeuvreDTO.setFile_content(compressData(oeuvreDTO.getFile_content()));
+            oeuvreDTO.setFileContent(compressData(oeuvreDTO.getFileContent()));
 
-            log.debug("\ntaille apres: {}",oeuvreDTO.getFile_content().length);
+            log.debug("\ntaille apres: {}",oeuvreDTO.getFileContent().length);
 
             Oeuvre oeuvre = oeuvreMapper.toEntity(oeuvreDTO);
             oeuvre = oeuvreRepository.save(oeuvre);
@@ -156,8 +162,26 @@ public class OeuvreService {
     @Transactional(readOnly = true)
     public Page<OeuvreDTO> findAll(TypeFichier typeFichier,Pageable pageable) {
         log.debug("Request to get all Oeuvres");
-        return oeuvreRepository.findAllByType(pageable,typeFichier)
-            .map(oeuvreMapper::toDto);
+//        return oeuvreRepository.findAllByType(pageable,typeFichier)
+//            .map(oeuvreMapper::toDto);
+
+        List<Oeuvre> oeuvres = oeuvreRepository.findAllByTypeFichier(pageable,typeFichier).getContent();
+        List<OeuvreDTO> oeuvresDTO = new ArrayList<>();
+        for (Oeuvre oeuvre: oeuvres){
+            List<String> noms = oeuvre.getArtisteOeuvres().stream().map(ArtisteOeuvre::getArtiste).map(Artiste::getNom).collect(Collectors.toList());
+            String artiste = noms.get(0);
+            if (noms.size()>1){
+                artiste = artiste+" Feat ";
+                for (int i = 1; i < noms.size(); i++) {
+                    artiste = artiste+noms.get(i)+",";
+                }
+            }
+            OeuvreDTO oeuvreDTO = oeuvreMapper.toDto(oeuvre);
+            oeuvreDTO.setNomArtiste(artiste);
+            oeuvresDTO.add(oeuvreDTO);
+        }
+        oeuvreMapper.toDto(oeuvres);
+        return new PageImpl<>(oeuvresDTO,pageable,oeuvresDTO.size());
     }
 
 
@@ -171,11 +195,11 @@ public class OeuvreService {
     public OeuvreDTO findOne(Long id) {
         log.debug("Request to get Oeuvre : {}", id);
         Oeuvre oeuvre = oeuvreRepository.findById(id).get();
-        int taille = oeuvre.getFile_content().length;
-        oeuvre.setFile_content(deCompressData(oeuvre.getFile_content()));
-        
+        int taille = oeuvre.getFileContent().length;
+        oeuvre.setFileContent(deCompressData(oeuvre.getFileContent()));
+
         log.debug("taille compressee: {}", taille);
-        log.debug("taille reelle: {}", oeuvre.getFile_content().length);
+        log.debug("taille reelle: {}", oeuvre.getFileContent().length);
 
         return oeuvreMapper.toDto(oeuvre);
     }
@@ -183,19 +207,19 @@ public class OeuvreService {
     @Transactional(readOnly = true)
     public ResponseEntity<Object> readMedia(Long id) {
         log.debug("Request to get Oeuvre : {}", id);
-        OeuvreDTO oeuvre =  (findOne(id));        
+        OeuvreDTO oeuvre =  (findOne(id));
 
-        if(isVideo(oeuvre.getFile_extension()))
+        if(isVideo(oeuvre.getFileExtension()))
             return ResponseEntity.ok()
-            .contentLength(oeuvre.getFile_content().length)
-            .contentType(MediaType.parseMediaType(getContentType(oeuvre.getFile_extension())))
-            .body(new InputStreamResource(new ByteArrayInputStream(oeuvre.getFile_content())));
+            .contentLength(oeuvre.getFileContent().length)
+            .contentType(MediaType.parseMediaType(getContentType(oeuvre.getFileExtension())))
+            .body(new InputStreamResource(new ByteArrayInputStream(oeuvre.getFileContent())));
         else {
             return ResponseEntity.ok()
-            .contentLength(oeuvre.getFile_content().length)
-            .contentType(MediaType.parseMediaType(getContentType(oeuvre.getFile_extension())))
-            .body(new InputStreamResource(new ByteArrayInputStream(oeuvre.getFile_content())));
-        }    
+            .contentLength(oeuvre.getFileContent().length)
+            .contentType(MediaType.parseMediaType(getContentType(oeuvre.getFileExtension())))
+            .body(new InputStreamResource(new ByteArrayInputStream(oeuvre.getFileContent())));
+        }
     }
 
     public String getContentType(String contentType){
@@ -209,9 +233,9 @@ public class OeuvreService {
         else if(contentType.equals("avi"))
             contentType = Constants.CONTENT_TYPE_AVI;
         else if(contentType.equals("mp3"))
-            contentType = Constants.CONTENT_TYPE_MP3; 
+            contentType = Constants.CONTENT_TYPE_MP3;
         else if(contentType.equals("mp2"))
-            contentType = Constants.CONTENT_TYPE_MP2;    
+            contentType = Constants.CONTENT_TYPE_MP2;
 
         return contentType;
     }

@@ -98,7 +98,7 @@ public class OeuvreResource {
      * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of oeuvres in body.
      */
-    @GetMapping("/oeuvres/{typeFichier}")
+    @GetMapping("/oeuvres/filter/{typeFichier}")
     public ResponseEntity<List<OeuvreDTO>> getAllOeuvres(@PathVariable TypeFichier typeFichier,Pageable pageable) {
         log.debug("REST request to get a page of Oeuvres");
         Page<OeuvreDTO> page = oeuvreService.findAll(typeFichier,pageable);

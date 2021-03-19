@@ -37,9 +37,9 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://localhost:5432/openculture
+    url: jdbc:postgresql://localhost:5434/openculture
     username: postgres
-    password: Abdoul
+    password: postgres++
     hikari:
       poolName: Hikari
       auto-commit: false

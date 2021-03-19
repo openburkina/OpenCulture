@@ -3,22 +3,22 @@
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
     xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    
-    <!--
-        Added columns to entity oeuvre.
-    -->
-    <changeSet id="190320211458" author="kiemani">
-        <createTable tableName="oeuvre">
-            <column name="file_name" type="varchar(255)"></column>
-            <column name="file_content" type="longblob"></column>
-            <column name="file_extension" type="varchar(255)"></column>
-            <column name="resume" type="varchar(255)"></column>
-            <column name="type" type="varchar(255)"></column>
-
-            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
-        </createTable>
+    <property name="autoIncrement" value="true"/>
+    <changeSet author="kiemani sapiens" id="190320211656">
+        <!--Ajouter les colonnes-->
+        <addColumn tableName="oeuvre">
+            <column name="file_name" type="varchar(255)"/>
+            <column name="file_content" type="longblob"/>
+            <column name="file_extension" type="varchar(255)"/>
+            <column name="resume" type="varchar(255)"/>
+            <column name="type_fichier" type="varchar(255)"/>
+        </addColumn>
     </changeSet>
-<databaseChangeLog>    
+</databaseChangeLog>
+
+
+
+

@@ -29,11 +29,13 @@ public class OeuvreDTO implements Serializable {
 
     private String resume;
 
-    private String file_name;
+    private String fileName;
 
-    private byte[] file_content;
+    private byte[] fileContent;
 
-    private String file_extension;
+    private String fileExtension;
+
+    private String nomArtiste;
 
     private String pathFile;
 
@@ -111,28 +113,36 @@ public class OeuvreDTO implements Serializable {
         this.resume = resume;
     }
 
-    public String getFile_name() {
-        return file_name;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setFile_name(String file_name) {
-        this.file_name = file_name;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
-    public byte[] getFile_content() {
-        return file_content;
+    public byte[] getFileContent() {
+        return fileContent;
     }
 
-    public void setFile_content(byte[] file_content) {
-        this.file_content = file_content;
+    public void setFileContent(byte[] fileContent) {
+        this.fileContent = fileContent;
     }
 
-    public String getFile_extension() {
-        return file_extension;
+    public String getFileExtension() {
+        return fileExtension;
     }
 
-    public void setFile_extension(String file_extension) {
-        this.file_extension = file_extension;
+    public void setFileExtension(String fileExtension) {
+        this.fileExtension = fileExtension;
+    }
+
+    public String getNomArtiste() {
+        return nomArtiste;
+    }
+
+    public void setNomArtiste(String nomArtiste) {
+        this.nomArtiste = nomArtiste;
     }
 
     public String getPathFile() {
@@ -173,10 +183,12 @@ public class OeuvreDTO implements Serializable {
             ", artisteId=" + artisteId +
             ", artisteDTO=" + artisteDTO +
             ", resume='" + resume + '\'' +
-            ", file_name='" + file_name + '\'' +
-            ", file_content=" + Arrays.toString(file_content) +
-            ", file_extension='" + file_extension + '\'' +
+            ", fileName='" + fileName + '\'' +
+            ", fileContent=" + Arrays.toString(fileContent) +
+            ", fileExtension='" + fileExtension + '\'' +
+            ", nomArtiste='" + nomArtiste + '\'' +
             ", pathFile='" + pathFile + '\'' +
+            ", typeFichier=" + typeFichier +
             '}';
     }
 }
