@@ -137,9 +137,11 @@ public class UserService {
 
     public User createUser(UserDTO userDTO) {
         User user = new User();
+        Authority authority;
         user.setLogin(userDTO.getLogin().toLowerCase());
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
+        user.setTelephone(userDTO.getTelephone());
         if (userDTO.getEmail() != null) {
             user.setEmail(userDTO.getEmail().toLowerCase());
         }
@@ -162,6 +164,14 @@ public class UserService {
                 .map(Optional::get)
                 .collect(Collectors.toSet());
             user.setAuthorities(authorities);
+        } else {
+            Set<Authority> authoritie = new HashSet<>();
+            System.out.println("====AUTORITY1=====");
+            authority = authorityRepository.getOne(AuthoritiesConstants.USER);
+            System.out.println("====AUTORITY2=====");
+            authoritie.add(authority);
+            user.setAuthorities(authoritie);
+            System.out.println("====AUTORITY3=====");
         }
         userRepository.save(user);
         this.clearUserCaches(user);
