@@ -33,10 +33,15 @@ import { ContactComponent } from './components/pages/contact/contact.component';
 import { AccountComponent } from './components/pages/account/account.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+<<<<<<< HEAD
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {InterceptorService} from './components/services/interceptor/interceptor.service';
 import {NgxWebstorageModule} from 'ngx-webstorage';
 import { NgxSpinnerModule } from 'ngx-spinner';
+=======
+import {HttpClientModule} from '@angular/common/http';
+import { OeuvreComponent } from './components/pages/oeuvre/oeuvre.component';
+>>>>>>> 4f785ddddd2f3c094f7760542c3f22630eaf1e6e
 
 @NgModule({
   declarations: [
@@ -69,7 +74,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     AboutComponent,
     ContactComponent,
     AccountComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    OeuvreComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,10 @@
 package com.openculture.org.service;
 
+import com.openculture.org.config.Constants;
+import com.openculture.org.domain.Artiste;
+import com.openculture.org.domain.ArtisteOeuvre;
 import com.openculture.org.domain.Oeuvre;
+import com.openculture.org.domain.enumeration.TypeFichier;
 import com.openculture.org.repository.OeuvreRepository;
 import com.openculture.org.service.dto.ArtisteDTO;
 import com.openculture.org.service.dto.ArtisteOeuvreDTO;
@@ -14,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -29,7 +34,15 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.zip.DeflaterOutputStream;
+import java.util.zip.InflaterOutputStream;
+
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
 
 /**
  * Service Implementation for managing {@link Oeuvre}.
@@ -40,11 +53,6 @@ public class OeuvreService {
 
     private final Logger log = LoggerFactory.getLogger(OeuvreService.class);
 
-    private static final String HEADER_CONTENT_TYPE = "Content-Type";
-    private static final String HEADER_CONTENT_LENGTH = "Content-Length";
-    private static final String HEADER_ACCEPT_RANGES = "Accept-Ranges";
-    private static final String HEADER_CONTENT_RANGE = "Content-Range";
-    private static final String CONTENT_TYPE_MP4 = "video/mp4";
 
     private final OeuvreRepository oeuvreRepository;
 
@@ -81,11 +89,17 @@ public class OeuvreService {
                 artisteOeuvre.setArtisteId(artisteService.save(oeuvreDTO.getArtisteDTO()).getId());
             }
 
-            File video = new File(oeuvreDTO.getPathFile());
-            oeuvreDTO.setFile_content(FileUtils.readFileToByteArray(video));
-            oeuvreDTO.setFile_name(video.getName());
-            String s[] = oeuvreDTO.getFile_name().split("\\.");
-            oeuvreDTO.setFile_extension(s[1]);
+            File media = new File(oeuvreDTO.getPathFile());
+            oeuvreDTO.setFileContent(FileUtils.readFileToByteArray(media));
+            String s[] = media.getName().split("\\.");
+            oeuvreDTO.setFileName(s[0]);
+            oeuvreDTO.setFileExtension(s[1]);
+
+            log.debug("\ntaille avant: {}",oeuvreDTO.getFileContent().length);
+
+            oeuvreDTO.setFileContent(compressData(oeuvreDTO.getFileContent()));
+
+            log.debug("\ntaille apres: {}",oeuvreDTO.getFileContent().length);
 
             Oeuvre oeuvre = oeuvreMapper.toEntity(oeuvreDTO);
             oeuvre = oeuvreRepository.save(oeuvre);
@@ -109,6 +123,36 @@ public class OeuvreService {
         return false;
     }
 
+    public static byte[] compressData(byte[] contentFile){
+        try {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DeflaterOutputStream dStream = new DeflaterOutputStream(out);
+            dStream.write(contentFile);
+            dStream.flush();
+            dStream.close();
+
+            return out.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static byte[] deCompressData(byte[] contentFile){
+        try {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            InflaterOutputStream iStream = new InflaterOutputStream(out);
+            iStream.write(contentFile);
+            iStream.flush();
+            iStream.close();
+
+            return out.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     /**
      * Get all the oeuvres.
      *
@@ -116,10 +160,28 @@ public class OeuvreService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<OeuvreDTO> findAll(Pageable pageable) {
+    public Page<OeuvreDTO> findAll(TypeFichier typeFichier,Pageable pageable) {
         log.debug("Request to get all Oeuvres");
-        return oeuvreRepository.findAll(pageable)
-            .map(oeuvreMapper::toDto);
+//        return oeuvreRepository.findAllByType(pageable,typeFichier)
+//            .map(oeuvreMapper::toDto);
+
+        List<Oeuvre> oeuvres = oeuvreRepository.findAllByTypeFichier(pageable,typeFichier).getContent();
+        List<OeuvreDTO> oeuvresDTO = new ArrayList<>();
+        for (Oeuvre oeuvre: oeuvres){
+            List<String> noms = oeuvre.getArtisteOeuvres().stream().map(ArtisteOeuvre::getArtiste).map(Artiste::getNom).collect(Collectors.toList());
+            String artiste = noms.get(0);
+            if (noms.size()>1){
+                artiste = artiste+" Feat ";
+                for (int i = 1; i < noms.size(); i++) {
+                    artiste = artiste+noms.get(i)+",";
+                }
+            }
+            OeuvreDTO oeuvreDTO = oeuvreMapper.toDto(oeuvre);
+            oeuvreDTO.setNomArtiste(artiste);
+            oeuvresDTO.add(oeuvreDTO);
+        }
+        oeuvreMapper.toDto(oeuvres);
+        return new PageImpl<>(oeuvresDTO,pageable,oeuvresDTO.size());
     }
 
 
@@ -130,20 +192,70 @@ public class OeuvreService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<OeuvreDTO> findOne(Long id) {
+    public OeuvreDTO findOne(Long id) {
         log.debug("Request to get Oeuvre : {}", id);
-        return oeuvreRepository.findById(id)
-            .map(oeuvreMapper::toDto);
+        Oeuvre oeuvre = oeuvreRepository.findById(id).get();
+        int taille = oeuvre.getFileContent().length;
+        oeuvre.setFileContent(deCompressData(oeuvre.getFileContent()));
+
+        log.debug("taille compressee: {}", taille);
+        log.debug("taille reelle: {}", oeuvre.getFileContent().length);
+
+        return oeuvreMapper.toDto(oeuvre);
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<Object> readVideo(Long id) {
+    public ResponseEntity<Object> readMedia(Long id) {
         log.debug("Request to get Oeuvre : {}", id);
-        Oeuvre oeuvre =  oeuvreRepository.findById(id).get();
-        return ResponseEntity.ok()
-            .contentLength(oeuvre.getFile_content().length)
-            .contentType(MediaType.parseMediaType(CONTENT_TYPE_MP4))
-            .body(new InputStreamResource(new ByteArrayInputStream(oeuvre.getFile_content())));
+        OeuvreDTO oeuvre =  (findOne(id));
+
+        if(isVideo(oeuvre.getFileExtension()))
+            return ResponseEntity.ok()
+            .contentLength(oeuvre.getFileContent().length)
+            .contentType(MediaType.parseMediaType(getContentType(oeuvre.getFileExtension())))
+            .body(new InputStreamResource(new ByteArrayInputStream(oeuvre.getFileContent())));
+        else {
+            return ResponseEntity.ok()
+            .contentLength(oeuvre.getFileContent().length)
+            .contentType(MediaType.parseMediaType(getContentType(oeuvre.getFileExtension())))
+            .body(new InputStreamResource(new ByteArrayInputStream(oeuvre.getFileContent())));
+        }
+    }
+
+    public String getContentType(String contentType){
+
+        if(contentType.equals("mp4"))
+            contentType = Constants.CONTENT_TYPE_MP4;
+        else if(contentType.equals("flv"))
+            contentType = Constants.CONTENT_TYPE_FLV;
+        else if(contentType.equals("wmv"))
+            contentType = Constants.CONTENT_TYPE_WMV;
+        else if(contentType.equals("avi"))
+            contentType = Constants.CONTENT_TYPE_AVI;
+        else if(contentType.equals("mp3"))
+            contentType = Constants.CONTENT_TYPE_MP3;
+        else if(contentType.equals("mp2"))
+            contentType = Constants.CONTENT_TYPE_MP2;
+
+        return contentType;
+    }
+
+    public boolean isVideo(String contentType){
+        if(contentType.equals("flv") || contentType.equals("wmv") || contentType.equals("avi")){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    public void readAudio(){
+        // byte[] b;
+        // Files.write(Paths.get("audio"),b);
+        // File file = FileUtils.writeByteArrayToFile(file, b);
+        // InputStream inputStream = new ByteArrayInputStream(b);
+        // AudioFormat audioFormat = new AudioFormat();
+        // AudioInputStream audioInputStream = new AudioInputStream(inputStream, , length);
     }
 
     /**
@@ -156,42 +268,42 @@ public class OeuvreService {
         oeuvreRepository.deleteById(id);
     }
 
-    public ResponseEntity<StreamingResponseBody> readVideo (String videoName){
-        try {
-            StreamingResponseBody streamingResponseBody;
-            final HttpHeaders httpHeaders = new HttpHeaders();
+    // public ResponseEntity<StreamingResponseBody> readVideo (String videoName){
+    //     try {
+    //         StreamingResponseBody streamingResponseBody;
+    //         final HttpHeaders httpHeaders = new HttpHeaders();
 
-            final Path filePath = getVideoPath(videoName);
-            final long fileSize = Files.size(filePath);
+    //         final Path filePath = getVideoPath(videoName);
+    //         final long fileSize = Files.size(filePath);
 
-            byte[] buffer = new byte[1024];
+    //         byte[] buffer = new byte[1024];
 
-            httpHeaders.add(HEADER_CONTENT_TYPE, CONTENT_TYPE_MP4);
-            httpHeaders.add(HEADER_CONTENT_LENGTH, Long.toString(fileSize));
-            streamingResponseBody = os -> {
-                try (RandomAccessFile file = new RandomAccessFile(filePath.toFile(), "r")) {
-                    long pos = 0;
-                    file.seek(pos);
+    //         httpHeaders.add(Constants.HEADER_CONTENT_TYPE, getContentType());
+    //         httpHeaders.add(C, Long.toString(fileSize));
+    //         streamingResponseBody = os -> {
+    //             try (RandomAccessFile file = new RandomAccessFile(filePath.toFile(), "r")) {
+    //                 long pos = 0;
+    //                 file.seek(pos);
 
-                    while (pos < fileSize) {
-                        file.read(buffer);
-                        os.write(buffer);
-                        pos += buffer.length;
-                    }
+    //                 while (pos < fileSize) {
+    //                     file.read(buffer);
+    //                     os.write(buffer);
+    //                     pos += buffer.length;
+    //                 }
 
-                    os.flush();
-                } catch (Exception ignored) {
-                    // Noop
-                }
-            };
-            return new ResponseEntity<>(streamingResponseBody, httpHeaders, HttpStatus.OK);
+    //                 os.flush();
+    //             } catch (Exception ignored) {
+    //                 // Noop
+    //             }
+    //         };
+    //         return new ResponseEntity<>(streamingResponseBody, httpHeaders, HttpStatus.OK);
 
-        } catch (FileNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (IOException e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+    //     } catch (FileNotFoundException e) {
+    //         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    //     } catch (IOException e) {
+    //         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
+    // }
 
     public Path getVideoPath(String videoName) throws FileNotFoundException {
         final URL videoResource = OeuvreResource.class.getClassLoader().getResource(videoName);

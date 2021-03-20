@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="autoIncrement" value="true"/>
+    <changeSet author="kiemani sapiens" id="190320211656">
+        <!--Ajouter les colonnes-->
+        <addColumn tableName="oeuvre">
+            <column name="file_name" type="varchar(255)"/>
+            <column name="file_content" type="longblob"/>
+            <column name="file_extension" type="varchar(255)"/>
+            <column name="resume" type="varchar(255)"/>
+            <column name="type_fichier" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>
+
+
+
+

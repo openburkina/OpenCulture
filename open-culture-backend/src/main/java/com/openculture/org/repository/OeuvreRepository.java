@@ -1,7 +1,10 @@
 package com.openculture.org.repository;
 
 import com.openculture.org.domain.Oeuvre;
+import com.openculture.org.domain.enumeration.TypeFichier;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -11,4 +14,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface OeuvreRepository extends JpaRepository<Oeuvre, Long> {
+    Page<Oeuvre> findAllByTypeFichier(Pageable pageable,TypeFichier typeFichier);
 }

@@ -24,12 +24,17 @@ import { SignUpComponent } from './components/pages/sign-up/sign-up.component';
 import { TeamComponent } from './components/pages/team/team.component';
 import { TermsConditionsComponent } from './components/pages/terms-conditions/terms-conditions.component';
 import { TestimonialsComponent } from './components/pages/testimonials/testimonials.component';
+<<<<<<< HEAD
 import {AccountComponent} from './components/pages/account/account.component';
+=======
+import {AccountComponent} from "./components/pages/account/account.component";
+import {OeuvreComponent} from './components/pages/oeuvre/oeuvre.component';
+>>>>>>> 4f785ddddd2f3c094f7760542c3f22630eaf1e6e
 
 const routes: Routes = [
     {path: '', component: HomeOneComponent},
     {path: 'home-two', component: HomeTwoComponent},
-    {path: 'home-three', component: HomeThreeComponent},
+    {path: 'home-three', component: OeuvreComponent},
     {path: 'about', component: AboutComponent},
     {path: 'team', component: TeamComponent},
     {path: 'apply-now', component: AppleNowComponent},

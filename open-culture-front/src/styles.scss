@@ -18,7 +18,7 @@ body {
     font-weight: 400;
 }
 p {
-    color: $paragraph-color; 
+    color: $paragraph-color;
 }
 a {
     display: inline-block;
@@ -84,7 +84,7 @@ img {
     padding-bottom: 20px;
 }
 /*================================
-Default btn Style 
+Default btn Style
 ===================================*/
 .default-btn {
     padding: 14px 27px;
@@ -118,7 +118,7 @@ Default btn Style
     }
 }
 /*================================
-Section Title Style 
+Section Title Style
 ===================================*/
 .section-title {
     span {
@@ -197,7 +197,7 @@ Section Title Style End
                 }
             }
         }
-    } 
+    }
 }
 
 .header-right {
@@ -258,7 +258,7 @@ Section Title Style End
         &:hover ul {
           display: block;
         }
-        a { 
+        a {
             font-size: 16px;
             color: $color-white;
             text-decoration: none;
@@ -365,7 +365,7 @@ Navbar Area
                         color:#da691f !important;
                     }
                     &.active {
-                        color: $main-color !important; 
+                        color: $main-color !important;
                     }
                     .active::before {
                         transform: scale(1);
@@ -446,7 +446,7 @@ Navbar Area
                 }
                 &.active {
                     display: block;
-                }  
+                }
             }
             .menu-icon {
                 .menu-icon-two {
@@ -511,7 +511,7 @@ Navbar Area
                 i {
                     font-size: 18px;
                     font-weight: bold;
-                }   
+                }
             }
         }
     }
@@ -614,7 +614,7 @@ Navbar Area
                     }
                     &.active {
                         display: block;
-                    }  
+                    }
                 }
                 .menu-icon {
                     .menu-icon-two {
@@ -753,7 +753,7 @@ Sidebar Modal
                     display: block;
                     color: $paragraph-color;
                 }
-            } 
+            }
         }
     }
     .sidebar-instagram-feed {
@@ -811,7 +811,7 @@ Sidebar Modal
         }
         .social-wrap {
             line-height: 1;
-        }  
+        }
         .social-wrap {
             list-style: none;
             margin: 0;
@@ -826,10 +826,10 @@ Sidebar Modal
                     }
                     &:hover {
                         transform: translateY(-2px);
-                    }                    
+                    }
                 }
             }
-        }      
+        }
     }
     &.active {
         opacity: 1;
@@ -845,7 +845,7 @@ Sidebar Modal
 ====================================*/
 
 /*=================================
-Main Banner Area 
+Main Banner Area
 ====================================*/
 .banner-area {
     background-color: $color-purple;
@@ -966,7 +966,7 @@ Main Banner Area
         top: 50px;
         left: 20px;
     }
-    
+
 }
 .down-btn-area {
     float: left;
@@ -1090,7 +1090,7 @@ Main Banner Area
         right: 0;
     }
 }
-.banner-area-three { 
+.banner-area-three {
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -1249,7 +1249,7 @@ Inner Banner
 }
 
 /*=================================
-Status Area 
+Status Area
 ====================================*/
 .status-area {
     position: relative;
@@ -1386,7 +1386,8 @@ Special Area
         }
     }
     .content {
-        padding: 30px 20px;
+        // taille des cadres pour les videos
+        padding: 10px 10px;
         h3 {
             margin-bottom: 10px;
             color: $paragraph-color;
@@ -1573,7 +1574,7 @@ About Area End
 ====================================*/
 
 /*=================================
-Video Area 
+Video Area
 ====================================*/
 .video-area {
     background-size: cover;
@@ -1861,7 +1862,7 @@ Video Area End
     }
 }
 /*=================================
-Service Area 
+Service Area
 ====================================*/
 .services-area {
     position: relative;
@@ -2326,7 +2327,7 @@ Service Area
                     font-weight: normal;
                     font-weight: 600;
                 }
-            }              
+            }
         }
     }
     .services-bar-widget-tag {
@@ -2393,7 +2394,7 @@ Service Area End
 ====================================*/
 
 /*=================================
-Choose Area 
+Choose Area
 ====================================*/
 .choose-area {
     background-color:#f9f9f9;
@@ -2742,7 +2743,7 @@ Choose Area End
     }
 }
 /*=================================
-Solutions Area 
+Solutions Area
 ====================================*/
 .solutions-area {
     background-image: url(assets/img/solution-bg.jpg);
@@ -2779,7 +2780,7 @@ Solutions Area End
 ====================================*/
 
 /*=================================
-Project Area 
+Project Area
 ====================================*/
 .project-title {
     margin-bottom: 30px;
@@ -2954,7 +2955,7 @@ Project Area
     }
 }
 
-.project-article { 
+.project-article {
     margin-bottom: 30px;
     .blog-article-img {
         margin-bottom: 30px;
@@ -3070,7 +3071,7 @@ Project Area End
 ====================================*/
 
 /*=================================
-Blog Area 
+Blog Area
 ====================================*/
 .blog-area {
     .section-title {
@@ -3118,7 +3119,7 @@ Blog Area
             p {
                 color: #c1bcc7;
             }
-            .blog-more { 
+            .blog-more {
                 background-color: $main-color;
             }
         }
@@ -3207,7 +3208,7 @@ Blog Area
         }
     }
 }
-.blog-article { 
+.blog-article {
     .blog-article-img {
         margin-bottom: 30px;
     }
@@ -3443,7 +3444,7 @@ Blog Area
             i {
                 color: $color-white;
               }
-              
+
             &:hover {
                 background-color: $paragraph-color;
             }
@@ -3493,7 +3494,7 @@ Blog Area
                     color: $main-color;
                     font-weight: 500;
                 }
-            }              
+            }
         }
     }
     .widget-popular-post {
@@ -3587,7 +3588,7 @@ Blog Area End
 ====================================*/
 
 /*=================================
-Team Area 
+Team Area
 ====================================*/
 .team-area {
     .section-title {
@@ -3684,7 +3685,7 @@ Team Area
         p {
             color: #6e607c;
             margin-top: 10px;
-            margin-bottom: 0; 
+            margin-bottom: 0;
         }
     }
 }
@@ -3709,7 +3710,7 @@ Team Area End
 ====================================*/
 
 /*=================================
-Client Area 
+Client Area
 ====================================*/
 .client-area {
     padding-bottom: 270px;
@@ -3935,7 +3936,7 @@ Client Area
         margin-top: -35px;
         float: right;
     }
-    
+
 }
 .client-shape {
     .shape1 {
@@ -3960,7 +3961,7 @@ Client Area End
 ====================================*/
 
 /*=================================
-Leader Area 
+Leader Area
 ====================================*/
 .leader-area {
     background-image: url(assets/img/bg-img.jpg);
@@ -4018,7 +4019,7 @@ Leader Area End
 ====================================*/
 
 /*==================================
-Faq Area 
+Faq Area
 =================================*/
 .faq-accordion {
     max-width: 470px;
@@ -4089,7 +4090,7 @@ Faq Area End
 =================================*/
 
 /*=================================
-Contact Area 
+Contact Area
 ====================================*/
 .contact-form {
     padding: 45px;
@@ -4324,8 +4325,8 @@ User All Form End
 404 Error Area End
 ===================================*/
 
-/*================================== 
-Coming Soon Area 
+/*==================================
+Coming Soon Area
 ====================================*/
 .coming-soon-area {
     position: relative;
@@ -4394,7 +4395,7 @@ Coming Soon Area
                     margin-right: 0;
                     &::before {
                         display: none;
-                    }  
+                    }
                 }
                 &:first-child {
                     margin-left: 0;
@@ -4491,7 +4492,7 @@ Coming Soon Area
         color: #dc3545 !important;
     }
 }
-/*================================== 
+/*==================================
 Coming Soon Area End
 ====================================*/
 
@@ -4509,7 +4510,7 @@ Coming Soon Area End
 }
 
 /*=================================
-Map Area 
+Map Area
 ====================================*/
 .map-area iframe {
     display: block;
@@ -4522,7 +4523,7 @@ Map Area End
 ====================================*/
 
 /*==============================
-Pagination Area 
+Pagination Area
 =================================*/
 .pagination-area {
     margin-top: 10px;
@@ -4557,7 +4558,7 @@ Pagination Area End
 =================================*/
 
 /*=================================
-Footer Area 
+Footer Area
 ====================================*/
 .footer-area {
     background-color: #f5f5f5;
@@ -4672,7 +4673,7 @@ Footer Area
             margin-top: 15px;
             outline: none;
             border: 0;
-            padding: 12px 50px;         
+            padding: 12px 50px;
         }
         .validation-danger {
             font-size: 16px;
@@ -4717,7 +4718,7 @@ Footer Area End
 
 
 /*==================================
-Back To Top Button 
+Back To Top Button
 =====================================*/
 #toTop {
 	position: fixed;
@@ -4726,7 +4727,7 @@ Back To Top Button
 	cursor: pointer;
     display: none;
     z-index: 99;
-} 
+}
 .top-btn {
     background-color: $main-color;
     color: $color-white;
@@ -4746,11 +4747,11 @@ Back To Top Button
     }
 }
 /*==============================
-Back To Top Button 
+Back To Top Button
 =================================*/
 
 /*==================================
-Preloader CSS 
+Preloader CSS
 =====================================*/
 .preloader {
     position: fixed;
@@ -4760,7 +4761,7 @@ Preloader CSS
     height: 100%;
     z-index: 999999;
     background-color: $paragraph-color;
-} 
+}
 .spinner {
     width: 40px;
     height: 40px;
@@ -4768,7 +4769,7 @@ Preloader CSS
     background-color: $color-white;
     margin: 100px auto;
     animation: rotate-in 1.2s infinite ease-in-out;
-}  
+}
 /*==================================
 Preloader CSS End
 =====================================*/
@@ -4825,7 +4826,7 @@ Animation CSS
               transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
     }
 }
-  
+
 @keyframes rotate-in {
     0% {
         -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg);
@@ -4855,7 +4856,7 @@ Animation CSS
               transform: translate(0, 0);
     }
 }
-  
+
 @keyframes running-in {
     0% {
       -webkit-transform: translate(0, 0);
@@ -4881,7 +4882,7 @@ Animation CSS
               transform: rotateZ(-360deg);
     }
   }
-  
+
   @keyframes rotated360 {
     0% {
       -webkit-transform: rotateZ(0deg);

@@ -1,6 +1,10 @@
 package com.openculture.org.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonAppend.Prop;
+import com.openculture.org.domain.enumeration.TypeFichier;
+
+import org.hibernate.mapping.PropertyGeneration;
 
 import javax.persistence.*;
 
@@ -31,16 +35,21 @@ public class Oeuvre implements Serializable {
     private String resume;
 
     @Column(name = "file_name")
-    private String file_name;
+    private String fileName;
 
     @Column(name = "file_content")
-    private byte[] file_content;
+    private byte[] fileContent;
 
     @Column(name = "file_extension")
-    private String file_extension;
+    private String fileExtension;
 
     @Column(name = "date_sortie")
     private Instant dateSortie;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type_fichier")
+    private TypeFichier typeFichier;
+
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -69,6 +78,14 @@ public class Oeuvre implements Serializable {
     public Oeuvre titre(String titre) {
         this.titre = titre;
         return this;
+    }
+
+    public TypeFichier getTypeFichier() {
+        return typeFichier;
+    }
+
+    public void setTypeFichier(TypeFichier typeFichier) {
+        this.typeFichier = typeFichier;
     }
 
     public void setTitre(String titre) {
@@ -147,28 +164,28 @@ public class Oeuvre implements Serializable {
         this.resume = resume;
     }
 
-    public String getFile_name() {
-        return file_name;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setFile_name(String file_name) {
-        this.file_name = file_name;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
-    public byte[] getFile_content() {
-        return file_content;
+    public byte[] getFileContent() {
+        return fileContent;
     }
 
-    public void setFile_content(byte[] file_content) {
-        this.file_content = file_content;
+    public void setFileContent(byte[] fileContent) {
+        this.fileContent = fileContent;
     }
 
-    public String getFile_extension() {
-        return file_extension;
+    public String getFileExtension() {
+        return fileExtension;
     }
 
-    public void setFile_extension(String file_extension) {
-        this.file_extension = file_extension;
+    public void setFileExtension(String fileExtension) {
+        this.fileExtension = fileExtension;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -195,10 +212,11 @@ public class Oeuvre implements Serializable {
             "id=" + id +
             ", titre='" + titre + '\'' +
             ", resume='" + resume + '\'' +
-            ", file_name='" + file_name + '\'' +
-            ", file_content=" + Arrays.toString(file_content) +
-            ", file_extension='" + file_extension + '\'' +
+            ", fileName='" + fileName + '\'' +
+            ", fileContent=" + Arrays.toString(fileContent) +
+            ", fileExtension='" + fileExtension + '\'' +
             ", dateSortie=" + dateSortie +
+            ", typeFichier=" + typeFichier +
             ", typeOeuvre=" + typeOeuvre +
             ", artisteOeuvres=" + artisteOeuvres +
             ", regroupement=" + regroupement +
