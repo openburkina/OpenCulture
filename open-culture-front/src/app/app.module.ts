@@ -33,7 +33,10 @@ import { ContactComponent } from './components/pages/contact/contact.component';
 import { AccountComponent } from './components/pages/account/account.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {InterceptorService} from './components/services/interceptor/interceptor.service';
+import {NgxWebstorageModule} from 'ngx-webstorage';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -72,10 +75,18 @@ import {HttpClientModule} from '@angular/common/http';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    NgxWebstorageModule.forRoot(),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxSpinnerModule
   ],
-  providers: [],
+  providers: [
+      {
+          provide: HTTP_INTERCEPTORS,
+          useClass: InterceptorService,
+          multi: true
+      },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

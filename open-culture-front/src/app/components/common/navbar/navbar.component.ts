@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AccountComponent} from '../../pages/account/account.component';
+import {SignInComponent} from "../../pages/sign-in/sign-in.component";
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +17,11 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-    openAccount() {
+    openAccount(): void {
          const currentModal = this.modal.open(AccountComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
+    }
+
+    openSignin(): void {
+        const currentModal = this.modal.open(SignInComponent, {container: 'body', size: 'lg', centered: true});
     }
 }

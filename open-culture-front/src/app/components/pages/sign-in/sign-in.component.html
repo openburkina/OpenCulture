@@ -1,64 +1,77 @@
-<!-- Inner Banner -->
-<div class="inner-banner inner-bg5">
-    <div class="container">
-        <div class="inner-title text-center">
-            <h3>Sign In</h3>
-            <ul>
-                <li><a routerLink="/">Home</a></li>
-                <li><i class='bx bxs-chevron-right'></i></li>
-                <li>Sign In</li>
-            </ul>
-        </div>
-    </div>
-</div>
-<!-- Inner Banner End -->
+<div class="card-group">
+    <div class="row">
+        <div class="col-12 col-md-6 card p-2">
+            <div class="alert alert-danger text-center font-italic font-weight-bold text-danger"
+                 *ngIf="errorMessage !== null">
+                {{ errorMessage }}
+            </div>
+            <div class="card-body">
+                <form [formGroup]="formLogin" (ngSubmit)="onLogin()">
+                    <div class="text-center h1 text-danger">OpenCulture</div>
+                    <div class="text-center h2 text-secondary">Connexion</div>
+                    <p class="text-muted text-center">Connectez-vous pour accéder à votre espace de travail</p>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-envelope"></i>
+            </span>
+                        </div>
+                        <input type="text" class="form-control"
+                               placeholder="email" autocomplete="username"
+                               name="username" formControlName="username" required>
+                    </div>
+                    <!--<div class="input-group mb-4">
+                      <div class="input-group-prepend">
+                        <input type="text" class="form-control"
+                           placeholder="email" autocomplete="username"
+                           name="username" formControlName="username" required>
+                      </div>
+                    </div>-->
+                    <div class="input-group mb-4">
+                        <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-lock"></i>
+            </span>
+                        </div>
+                        <input type="password" class="form-control"
+                               placeholder="Password" autocomplete="current-password"
+                               name="password" formControlName="password"
+                               required>
+                    </div>
 
-<!-- Sign In Area -->
-<div class="sign-in-area pt-100 pb-70">
-    <div class="container">
-        <div class="user-all-form pt-45">
-            <div class="contact-form">
-                <div class="section-title text-center">
-                    <span>Sign In</span>
-                    <h2>Sign in to Your Account!</h2>
-                </div>
+                    <div class="form-group mb-4">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label text-primary" for="rememberMe">Se souvenir de moi</label>
+                        </div>
+                    </div>
 
-                <form id="contactForm">
                     <div class="row">
-                        <div class="col-lg-12 ">
-                            <div class="form-group">
-                                <input type="text" name="name" id="name" class="form-control" placeholder="Username or Email">
-                            </div>
+                        <div class="col-8 offset-2">
+                            <button type="submit" [disabled]="formLogin.invalid" class="btn btn-primary px-4">
+                                Se connecter <i class="fa fa-sign-in-alt"></i>
+                            </button>
                         </div>
+                    </div>
 
-                        <div class="col-12">
-                            <div class="form-group">
-                                <input class="form-control" type="password" name="password" placeholder="Password">
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6 col-sm-6 form-condition">
-                            <div class="agree-label">
-                                <input type="checkbox" id="chb1">
-                                <label for="chb1">Remember Me</label>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6 col-sm-6">
-                            <a class="forget" routerLink="/">Forgot my password?</a>
-                        </div>
-
-                        <div class="col-lg-12 col-md-12 text-center">
-                            <button type="submit" class="default-btn">Sign In Now</button>
-                        </div>
-
-                        <div class="col-12">
-                            <p class="account-desc">Not a member? <a routerLink="/sign-up">Sign Up</a></p>
+                    <div class="row">
+                        <div class="col-8 offset-2">
+                            <button type="button" class="btn btn-link px-0">Mot de passe oublié ?</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
+
+        <div class="col-12 col-md-6 card text-white bg-primary py-5 d-md-down-none">
+            <div class="card-body text-center">
+                <div>
+                    <h2>Inscription</h2>
+                    <p>Si vous n'avez pas encore de compte sur SyGesCAM,
+                        veuillez vous inscrire d'abord en choisissant l'offre souhaité!
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<!-- Sign In Area End -->

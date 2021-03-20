@@ -24,7 +24,7 @@ import { SignUpComponent } from './components/pages/sign-up/sign-up.component';
 import { TeamComponent } from './components/pages/team/team.component';
 import { TermsConditionsComponent } from './components/pages/terms-conditions/terms-conditions.component';
 import { TestimonialsComponent } from './components/pages/testimonials/testimonials.component';
-import {AccountComponent} from "./components/pages/account/account.component";
+import {AccountComponent} from './components/pages/account/account.component';
 
 const routes: Routes = [
     {path: '', component: HomeOneComponent},
