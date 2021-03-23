@@ -22,7 +22,7 @@ export class AccountService {
   ) { }
 
     save(account: Account): Observable<{}> {
-        return this.http.post(environment.SERVER_URL + '/account', account);
+        return this.http.post(environment.apiUrl + '/account', account);
     }
 
     authenticate(identity: Account | null): void {
@@ -74,7 +74,7 @@ export class AccountService {
     }
 
     private fetch(): Observable<Account> {
-        return this.http.get<Account>(environment.SERVER_URL + '/account');
+        return this.http.get<Account>(environment.apiUrl + '/account');
     }
 
     private navigateToStoredUrl(): void {

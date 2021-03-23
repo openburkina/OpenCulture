@@ -9,7 +9,7 @@
                 <form [formGroup]="formLogin" (ngSubmit)="onLogin()">
                     <div class="text-center h1 text-danger">OpenCulture</div>
                     <div class="text-center h2 text-secondary">Connexion</div>
-                    <p class="text-muted text-center">Connectez-vous pour accéder à votre espace de travail</p>
+                    <p class="text-muted text-center">Connectez-vous à votre compte</p>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
             <span class="input-group-text">
@@ -56,7 +56,7 @@
 
                     <div class="row">
                         <div class="col-8 offset-2">
-                            <button type="button" class="btn btn-link px-0">Mot de passe oublié ?</button>
+                            <button type="button" class="btn btn-link px-0" (click)="changePassword()">Mot de passe oublié ?</button>
                         </div>
                     </div>
                 </form>
@@ -67,8 +67,8 @@
             <div class="card-body text-center">
                 <div>
                     <h2>Inscription</h2>
-                    <p>Si vous n'avez pas encore de compte sur SyGesCAM,
-                        veuillez vous inscrire d'abord en choisissant l'offre souhaité!
+                    <p>Si vous n'avez pas encore de compte sur OpenCulture,
+                        veuillez vous inscrire !
                     </p>
                 </div>
             </div>

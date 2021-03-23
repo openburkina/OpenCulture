@@ -17,7 +17,7 @@ export class InterceptorService {
         console.log('TEST');
         console.log(request);
         if (!request || !request.url || (request.url.startsWith('http') &&
-            !(environment.SERVER_URL && request.url.startsWith(environment.SERVER_URL)))) {
+            !(environment.apiUrl && request.url.startsWith(environment.apiUrl)))) {
 
             return next.handle(request);
         }

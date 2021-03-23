@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {LoginVM} from '../../models/login-vm';
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Router} from "@angular/router";
 import {SpinnerService} from "../../services/spinner/spinner.service";
 import {LoginService} from "../../services/auth/login.service";
+import {ChangePasswordComponent} from "../change-password/change-password.component";
 
 @Component({
   selector: 'app-sign-in',
@@ -26,6 +27,7 @@ export class SignInComponent implements OnInit {
       private fb: FormBuilder,
       private router: Router,
       private activeModal: NgbActiveModal,
+      private modal: NgbModal,
   ) { }
 
   ngOnInit(): void {
@@ -60,5 +62,10 @@ export class SignInComponent implements OnInit {
 
     onDismiss(param: any): void {
         this.activeModal.close(param);
+    }
+
+    changePassword() {
+       this.onDismiss(false);
+        const currentModal = this.modal.open(ChangePasswordComponent, {container: 'body', size: 'lg', centered: true});
     }
 }

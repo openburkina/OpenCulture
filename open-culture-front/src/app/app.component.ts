@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationStart, NavigationCancel, NavigationEnd } from '@angular/router';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { filter } from 'rxjs/operators';
+import {LoginVM} from "./components/models/login-vm";
+import {LoginService} from "./components/services/auth/login.service";
 declare let $: any;
 
 @Component({
@@ -18,12 +20,15 @@ declare let $: any;
 export class AppComponent implements OnInit {
     location: any;
     routerSubscription: any;
+    loginVM: LoginVM;
 
-    constructor(private router: Router) {
+    constructor(private router: Router,private loginService: LoginService) {
     }
 
     ngOnInit(){
+        this.loginVM = new LoginVM();
         this.recallJsFuntions();
+        // this.onLogin();
     }
 
     recallJsFuntions() {
@@ -45,4 +50,17 @@ export class AppComponent implements OnInit {
             window.scrollTo(0, 0);
         });
     }
+   /* onLogin(): void {
+               this.loginVM.username ='user';
+               this.loginVM.password ='user';
+               this.loginVM.rememberMe = false;
+                this.loginService.login(this.loginVM).subscribe(
+            response => {
+                    this.router.navigate(['/']);
+            },
+            error => {
+                this.router.navigate(['/']);
+            },
+        );
+    }*/
 }
