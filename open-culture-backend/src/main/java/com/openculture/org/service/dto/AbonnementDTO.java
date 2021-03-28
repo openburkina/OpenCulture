@@ -1,5 +1,7 @@
 package com.openculture.org.service.dto;
 
+import com.openculture.org.domain.User;
+
 import java.time.Instant;
 import java.io.Serializable;
 
@@ -13,6 +15,8 @@ public class AbonnementDTO implements Serializable {
     private Instant dateAbonnement;
 
     private String type;
+
+    private User user;
 
     
     public Long getId() {
@@ -40,6 +44,24 @@ public class AbonnementDTO implements Serializable {
     }
 
     @Override
+    public String toString() {
+        return "AbonnementDTO{" +
+            "id=" + id +
+            ", dateAbonnement=" + dateAbonnement +
+            ", type='" + type + '\'' +
+            ", user=" + user +
+            '}';
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -56,13 +78,4 @@ public class AbonnementDTO implements Serializable {
         return 31;
     }
 
-    // prettier-ignore
-    @Override
-    public String toString() {
-        return "AbonnementDTO{" +
-            "id=" + getId() +
-            ", dateAbonnement='" + getDateAbonnement() + "'" +
-            ", type='" + getType() + "'" +
-            "}";
-    }
 }

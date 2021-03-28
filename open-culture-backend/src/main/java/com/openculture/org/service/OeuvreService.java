@@ -12,7 +12,7 @@ import com.openculture.org.service.dto.InformationCivilDTO;
 import com.openculture.org.service.dto.OeuvreDTO;
 import com.openculture.org.service.mapper.OeuvreMapper;
 import com.openculture.org.web.rest.OeuvreResource;
-import org.apache.commons.io.FileUtils;
+import io.undertow.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

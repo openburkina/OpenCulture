@@ -9,6 +9,8 @@ import com.openculture.org.security.AuthoritiesConstants;
 import com.openculture.org.security.SecurityUtils;
 import com.openculture.org.service.dto.UserDTO;
 
+import com.openculture.org.web.rest.AccountResource;
+import com.openculture.org.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.security.RandomUtil;
 
 import org.slf4j.Logger;
@@ -263,6 +265,22 @@ public class UserService {
                 this.clearUserCaches(user);
                 log.debug("Changed password for User: {}", user);
             });
+    }
+
+    @Transactional
+    public User changeUserPassword(String login, String newPassword) {
+
+        Optional<User> user = userRepository.findOneByLogin(login);
+        if (!user.isPresent()){
+            throw new BadRequestAlertException("Votre Email est incorrect","","");
+        }
+        if (user.isPresent()){
+            String encryptedPassword = passwordEncoder.encode(newPassword);
+            user.get().setPassword(encryptedPassword);
+            this.clearUserCaches(user.get());
+        }
+        log.debug("Changed password for User: {}", user);
+        return userRepository.save(user.get());
     }
 
     @Transactional(readOnly = true)

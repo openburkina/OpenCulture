@@ -9,6 +9,7 @@ import com.openculture.org.service.dto.PasswordChangeDTO;
 import com.openculture.org.service.dto.UserDTO;
 import com.openculture.org.web.rest.errors.*;
 import com.openculture.org.web.rest.vm.KeyAndPasswordVM;
+import com.openculture.org.web.rest.vm.LoginVM;
 import com.openculture.org.web.rest.vm.ManagedUserVM;
 
 import org.apache.commons.lang3.StringUtils;
@@ -140,6 +141,15 @@ public class AccountResource {
             throw new InvalidPasswordException();
         }
         userService.changePassword(passwordChangeDto.getCurrentPassword(), passwordChangeDto.getNewPassword());
+    }
+
+
+    @PostMapping(path = "/account/change-user-password")
+    public User changeUserPassword(@RequestBody LoginVM loginVM) {
+        if (!checkPasswordLength(loginVM.getPassword())) {
+            throw new InvalidPasswordException();
+        }
+        return  userService.changeUserPassword(loginVM.getUsername(), loginVM.getPassword());
     }
 
     /**

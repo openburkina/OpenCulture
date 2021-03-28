@@ -1,6 +1,8 @@
 package com.openculture.org.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 import java.io.Serializable;
@@ -26,6 +28,9 @@ public class Abonnement implements Serializable {
     @Column(name = "type")
     private String type;
 
+    @ManyToOne
+    @JsonIgnoreProperties(value = "abonnements", allowSetters = true)
+    private User user;
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -60,7 +65,15 @@ public class Abonnement implements Serializable {
     public void setType(String type) {
         this.type = type;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+// jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
     public boolean equals(Object o) {
@@ -78,13 +91,13 @@ public class Abonnement implements Serializable {
         return 31;
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
         return "Abonnement{" +
-            "id=" + getId() +
-            ", dateAbonnement='" + getDateAbonnement() + "'" +
-            ", type='" + getType() + "'" +
-            "}";
+            "id=" + id +
+            ", dateAbonnement=" + dateAbonnement +
+            ", type='" + type + '\'' +
+            ", user=" + user +
+            '}';
     }
 }
