@@ -12,14 +12,14 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {TypeOeuvreMapper.class, RegroupementMapper.class})
 public interface OeuvreMapper extends EntityMapper<OeuvreDTO, Oeuvre> {
 
-    @Mapping(source = "typeOeuvre.id", target = "typeOeuvreId")
-    @Mapping(source = "regroupement.id", target = "regroupementId")
+    @Mapping(source = "typeOeuvre", target = "typeOeuvreDTO")
+    @Mapping(source = "regroupement", target = "regroupementDTO")
     OeuvreDTO toDto(Oeuvre oeuvre);
 
-    @Mapping(source = "typeOeuvreId", target = "typeOeuvre")
+    @Mapping(source = "typeOeuvreDTO", target = "typeOeuvre")
     @Mapping(target = "artisteOeuvres", ignore = true)
     @Mapping(target = "removeArtisteOeuvre", ignore = true)
-    @Mapping(source = "regroupementId", target = "regroupement")
+    @Mapping(source = "regroupementDTO", target = "regroupement")
     Oeuvre toEntity(OeuvreDTO oeuvreDTO);
 
     default Oeuvre fromId(Long id) {

@@ -53,7 +53,6 @@ public class OeuvreService {
 
     private final Logger log = LoggerFactory.getLogger(OeuvreService.class);
 
-
     private final OeuvreRepository oeuvreRepository;
 
     private final OeuvreMapper oeuvreMapper;
@@ -77,6 +76,7 @@ public class OeuvreService {
      *
      * @param oeuvreDTO the entity to save.
      * @return the persisted entity.
+     * @throws Exception
      */
     public OeuvreDTO save(OeuvreDTO oeuvreDTO) throws Exception {
         log.debug("Request to save Oeuvre : {}", oeuvreDTO);
@@ -89,17 +89,17 @@ public class OeuvreService {
                 artisteOeuvre.setArtisteId(artisteService.save(oeuvreDTO.getArtisteDTO()).getId());
             }
 
-            File media = new File(oeuvreDTO.getPathFile());
-            oeuvreDTO.setFileContent(FileUtils.readFileToByteArray(media));
-            String s[] = media.getName().split("\\.");
-            oeuvreDTO.setFileName(s[0]);
-            oeuvreDTO.setFileExtension(s[1]);
+            // File media = new File(oeuvreDTO.getPathFile());
+            // oeuvreDTO.setFileContent(FileUtils.readFileToByteArray(media));
+            // String s[] = media.getName().split("\\.");
+            // oeuvreDTO.setFileName(s[0]);
+            // oeuvreDTO.setFileExtension(s[1]);
 
-            log.debug("\ntaille avant: {}",oeuvreDTO.getFileContent().length);
+            // log.debug("\ntaille avant: {}",oeuvreDTO.getFileContent().length);
 
-            oeuvreDTO.setFileContent(compressData(oeuvreDTO.getFileContent()));
+            // oeuvreDTO.setFileContent(compressData(oeuvreDTO.getFileContent()));
 
-            log.debug("\ntaille apres: {}",oeuvreDTO.getFileContent().length);
+            // log.debug("\ntaille apres: {}",oeuvreDTO.getFileContent().length);
 
             Oeuvre oeuvre = oeuvreMapper.toEntity(oeuvreDTO);
             oeuvre = oeuvreRepository.save(oeuvre);
@@ -109,16 +109,22 @@ public class OeuvreService {
             return oeuvreMapper.toDto(oeuvre);
         }
         else {
+            log.debug("titre: {}",oeuvreDTO.getTitre());
+            log.debug("type: {}",oeuvreDTO.getTypeOeuvreId());
+            log.debug("reg: {}",oeuvreDTO.getRegroupementId());
+            log.debug("date: {}",oeuvreDTO.getDateSortie());
+            
             throw new Exception("Certains paramètres concernant l'oeuvre sont manquants");
         }
     }
 
     public boolean validedOeuvre(OeuvreDTO oeuvreDTO){
         if (oeuvreDTO.getTitre() != null
-/*            && oeuvreDTO.getTypeOeuvreId() != null
-            && oeuvreDTO.getRegroupementId() != null*/
-            && oeuvreDTO.getDateSortie()!=null
-            && oeuvreDTO.getPathFile() != null)
+            && oeuvreDTO.getTypeOeuvreId() != null
+            && oeuvreDTO.getRegroupementId() != null
+           // && oeuvreDTO.getDateSortie()!=null)
+            // && oeuvreDTO.getPathFile() != null
+            )
             return true;
         return false;
     }
@@ -159,13 +165,28 @@ public class OeuvreService {
      * @param pageable the pagination information.
      * @return the list of entities.
      */
+
+    @Transactional(readOnly = true)
+    public Page<OeuvreDTO> findComplet(Pageable pageable) {
+        log.debug("Request to get all Oeuvres");
+    //    return oeuvreRepository.findAll(pageable)
+        //    .map(oeuvreMapper::toDto);
+        return getOeuvreWithArtiste(oeuvreRepository.findAll(pageable).getContent(), pageable);
+    }
+
+
     @Transactional(readOnly = true)
     public Page<OeuvreDTO> findAll(TypeFichier typeFichier,Pageable pageable) {
         log.debug("Request to get all Oeuvres");
-//        return oeuvreRepository.findAllByType(pageable,typeFichier)
-//            .map(oeuvreMapper::toDto);
 
         List<Oeuvre> oeuvres = oeuvreRepository.findAllByTypeFichier(pageable,typeFichier).getContent();
+
+        return getOeuvreWithArtiste(oeuvres, pageable);
+        
+    }
+
+    public Page<OeuvreDTO> getOeuvreWithArtiste(List<Oeuvre> oeuvres, Pageable pageable){
+
         List<OeuvreDTO> oeuvresDTO = new ArrayList<>();
         for (Oeuvre oeuvre: oeuvres){
             List<String> noms = oeuvre.getArtisteOeuvres().stream().map(ArtisteOeuvre::getArtiste).map(Artiste::getNom).collect(Collectors.toList());
@@ -182,8 +203,8 @@ public class OeuvreService {
         }
         oeuvreMapper.toDto(oeuvres);
         return new PageImpl<>(oeuvresDTO,pageable,oeuvresDTO.size());
-    }
 
+    }
 
     /**
      * Get one oeuvre by id.

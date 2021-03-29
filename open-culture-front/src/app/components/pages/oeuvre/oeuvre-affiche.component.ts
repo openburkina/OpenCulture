@@ -9,10 +9,10 @@ import { OeuvreDeleteComponent } from './oeuvre-delete.component';
 
 @Component({
   selector: 'app-oeuvre',
-  templateUrl: './oeuvre.component.html',
+  templateUrl: './oeuvre-affiche.component.html',
   styleUrls: ['./oeuvre.component.scss']
 })
-export class OeuvreComponent implements OnInit {
+export class OeuvreAfficheComponent implements OnInit {
   oeuvres:  OeuvreDTO[];
   oeuvresVideo =  new Array();
   oeuvresAudio =  new Array();
@@ -42,10 +42,9 @@ export class OeuvreComponent implements OnInit {
   }
 
   loadAll(): void {
-    this.oeuvreService.findAll(this.typeFichier).subscribe(
+    this.oeuvreService.findComplet().subscribe(
       response => {
           this.oeuvres = response.body;
-          this.forRowView(response.body,this.typeFichier);
           console.log(this.oeuvres);
       }
     );
@@ -55,31 +54,16 @@ export class OeuvreComponent implements OnInit {
     const modal = this.ngModalService.open(OeuvreEditComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
   }
 
-  forRowView(tab: OeuvreDTO[],typeFichier: TypeFichier): void{
-    if(this.oeuvres.length === 0)
-      this.oeuvresVideo = this.oeuvresAudio = [];
-    else {
-      const k = 3;
-      for (let i = 0; i < tab.length; i += k ){
-          tab[i].pathFile = this.imagePath[i];
-      }
-      for (let i = 0; i < tab.length; i += k ){
-            if(typeFichier == TypeFichier.VIDEO)
-               this.oeuvresVideo.push({items: this.oeuvres.slice(i,i+k)});
-
-            else if (typeFichier == TypeFichier.AUDIO)
-                this.oeuvresAudio.push({items: this.oeuvres.slice(i,i+k)});
-      }
-    }  
-  }
-
-  editer(oeuvre: OeuvreDTO): void{
+  editer(oeuvreDTO: OeuvreDTO): void{
+    console.log(oeuvreDTO);
     const modal = this.ngModalService.open(OeuvreEditComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
-    modal.componentInstance.oeuvre = oeuvre;
+    modal.componentInstance.oeuvre = oeuvreDTO;
+    
   }
 
-  delete(oeuvre: OeuvreDTO): void{
+  delete(oeuvreDTO: OeuvreDTO): void{
     const modal = this.ngModalService.open(OeuvreDeleteComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
-    modal.componentInstance.oeuvre = oeuvre;
+    modal.componentInstance.oeuvre = oeuvreDTO;
+    console.log(modal.componentInstance.oeuvreDTO);
   }
 }

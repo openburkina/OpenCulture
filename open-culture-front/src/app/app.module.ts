@@ -35,6 +35,61 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { OeuvreComponent } from './components/pages/oeuvre/oeuvre.component';
+import { OeuvreEditComponent } from './components/pages/oeuvre/oeuvre-edit.component';
+import { NotifierModule, NotifierOptions } from 'angular-notifier';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { RegroupementComponent } from './components/pages/regroupement/regroupement.component';
+import { TypeOeuvreComponent } from './components/pages/type-oeuvre/type-oeuvre.component';
+import { ArtisteComponent } from './components/pages/artiste/artiste.component';
+import { RegroupementDeleteComponent } from "./components/pages/regroupement/regroupement-delete.component";
+import { TypeOeuvreDeleteComponent } from "./components/pages/type-oeuvre/type-oeuvre-delete.component";
+import { OeuvreDeleteComponent } from "./components/pages/oeuvre/oeuvre-delete.component";
+import { RegroupementEditComponent } from "./components/pages/regroupement/regroupement-edit.component";
+import { TypeOeuvreEditComponent } from "./components/pages/type-oeuvre/type-oeuvre-edit.component";
+import { ArtisteEditComponent } from "./components/pages/artiste/artiste-edit.component";
+import { ArtisteDeleteComponent } from "./components/pages/artiste/artiste-delete.component";
+import { OeuvreAfficheComponent } from "./components/pages/oeuvre/oeuvre-affiche.component";
+const notifierDefaultOptions: NotifierOptions = {
+  position: {
+    horizontal: {
+      position: 'right',
+      distance: 12,
+    },
+    vertical: {
+      position: 'top',
+      distance: 12,
+      gap: 10,
+    },
+  },
+  theme: 'material',
+  behaviour: {
+    autoHide: 1000,
+    onClick: false,
+    onMouseover: 'pauseAutoHide',
+    showDismissButton: true,
+    stacking: 4,
+  },
+  animations: {
+    enabled: true,
+    show: {
+      preset: 'slide',
+      speed: 300,
+      easing: 'ease',
+    },
+    hide: {
+      preset: 'fade',
+      speed: 300,
+      easing: 'ease',
+      offset: 50,
+    },
+    shift: {
+      speed: 300,
+      easing: 'ease',
+    },
+    overlap: 150,
+  },
+};
 
 @NgModule({
   declarations: [
@@ -68,16 +123,32 @@ import { OeuvreComponent } from './components/pages/oeuvre/oeuvre.component';
     ContactComponent,
     AccountComponent,
     SpinnerComponent,
-    OeuvreComponent
+    OeuvreComponent,
+    OeuvreEditComponent,
+    RegroupementComponent,
+    TypeOeuvreComponent,
+    ArtisteComponent,
+    RegroupementDeleteComponent,
+    TypeOeuvreDeleteComponent,
+    OeuvreDeleteComponent,
+    RegroupementEditComponent,
+    TypeOeuvreEditComponent,
+    ArtisteEditComponent,
+    ArtisteDeleteComponent,
+    OeuvreAfficheComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NotifierModule.withConfig(notifierDefaultOptions),
+    BrowserAnimationsModule,
+    NgbDatepickerModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  
 })
 export class AppModule { }

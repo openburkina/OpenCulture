@@ -106,6 +106,14 @@ public class OeuvreResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/oeuvres")
+    public ResponseEntity<List<OeuvreDTO>> getAllOeuvres(Pageable pageable) {
+        log.debug("REST request to get a page of Oeuvres");
+        Page<OeuvreDTO> page = oeuvreService.findComplet(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
     /**
      * {@code GET  /oeuvres/:id} : get the "id" oeuvre.
      *

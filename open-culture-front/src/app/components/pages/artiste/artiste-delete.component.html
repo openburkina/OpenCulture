@@ -1,0 +1,27 @@
+ <!-- Apply Area -->
+ <div class="card-header text-center bg" style="background-color: darkorange;">Suppresion d'un artiste</div>
+ <div class="apply-area pt-5 modal-body">
+     <div class="container">
+         <div class="apply-form">
+             <div class="contact-form">
+                 <form  name="artForm">
+                     <div class="row">
+                         <div class="col-lg-6 col-sm-6">
+                             <div class="form-group">
+                                 <p>Supprimer vraiment cet artiste?</p>
+                             </div>
+                         </div>
+                         <div class="col-lg-12 col-md-12">
+                             <div class="form-group float-right">
+                                <button class="btn btn-danger mr-2" (click)="clear()">Annuler</button>
+                                <button class="btn btn-warning px-4" (click)="confirmDelete(art.id)">OK</button>
+                             </div>
+                         </div>
+                     </div>
+                 </form>
+             </div>
+         </div>
+     </div>
+ </div>
+ 
+ <!-- Apply Area End -->

@@ -23,6 +23,10 @@ public class OeuvreDTO implements Serializable {
 
     private Long regroupementId;
 
+    private TypeOeuvreDTO typeOeuvreDTO;
+
+    private RegroupementDTO regroupementDTO;
+
     private Long artisteId;
 
     private ArtisteDTO artisteDTO;
@@ -101,9 +105,26 @@ public class OeuvreDTO implements Serializable {
         return artisteDTO;
     }
 
+    public void setTypeOeuvreDTO(TypeOeuvreDTO typeOeuvreDTO) {
+        this.typeOeuvreDTO = typeOeuvreDTO;
+    }
+
+    public TypeOeuvreDTO getTypeOeuvreDTO() {
+        return typeOeuvreDTO;
+    }
+
+    public void setRegroupementDTO(RegroupementDTO regroupementDTO) {
+        this.regroupementDTO = regroupementDTO;
+    }
+
+    public RegroupementDTO getRegroupementDTO() {
+        return regroupementDTO;
+    }
+
     public void setArtisteDTO(ArtisteDTO artisteDTO) {
         this.artisteDTO = artisteDTO;
     }
+
 
     public String getResume() {
         return resume;

@@ -1,11 +1,12 @@
 <div>
-    <div class="btn float-right pb-0 mr-1">
-        <label for="filtre">Filtre</label>
-        <select name="filtre" [(ngModel)]="typeFichier" (ngModelChange)="loadAll()" id="filtre">
-            <option value="VIDEO">VIDEO</option>
-            <option value="AUDIO">AUDIO</option>
+    <div class=" float-right pb-0 mr-4">
+        <!-- <label for="filtre">Filtre</label> -->
+        <button class="btn btn-warning px-4" (click)="create()">New</button>
+        <!-- <select name="filtre" [(ngModel)]="typeFichier" #ngModelDir="ngModel" (ngModelChange)="create($event,ngModelDir)" id="filtre">
+            <option value="VIDEO">VIDEOS</option>
+            <option value="AUDIO">AUDIOS</option>
             <option value="PDF">PDF</option>
-        </select>
+        </select> -->
     </div>
     <div class="special-area pt-100 pb-70" *ngIf="oeuvresVideo?.length>0">
         <div class="container">

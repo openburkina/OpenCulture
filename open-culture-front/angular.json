@@ -39,6 +39,7 @@
               "node_modules/magnific-popup/dist/magnific-popup.css",
               "src/styles.scss",
               "src/responsive.scss"
+            
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

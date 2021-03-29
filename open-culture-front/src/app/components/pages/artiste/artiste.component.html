@@ -1,0 +1,39 @@
+<div class="text-justify-content">
+    <div class="col-lg-8 col-sm-6 mx-auto">
+        <button class="btn btn-warning px-4" (click)="create()">New</button>
+        <div class="table-responsive" *ngIf="arts?.length > 0">
+            <table class="table table-striped mt-4" aria-describedby="page-heading">
+                <thead class="bg-warning">
+                <tr >
+                <th ><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th ><span>Nom</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th ><span>Prenom</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th ><span>Nationalite</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th ><span>Né à</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th ><span>Né le</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th ><span>Telephone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let art of arts ;trackBy: trackId">
+                    <td>{{art.id}}</td>
+                    <td>{{art.nom}}</td>
+                    <td>{{art.prenom}}</td>
+                    <td>{{art.informationCivilDTO.nationalite}}</td>
+                    <td>{{art.informationCivilDTO.lieuNaissance}}</td>
+                    <td>{{art.informationCivilDTO.dateNaissance}}</td>
+                    <td>{{art.informationCivilDTO.numeroP}}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button class="btn btn-primary px-4" (click)="editer(art)">New</button>
+                            <button class="btn btn-danger px-4" (click)="delete(art)">New</button>
+                            <!-- <button class="btn btn-warning px-4" (click)="create()">New</button> -->
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
