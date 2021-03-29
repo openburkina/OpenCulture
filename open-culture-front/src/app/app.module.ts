@@ -33,7 +33,10 @@ import { ContactComponent } from './components/pages/contact/contact.component';
 import { AccountComponent } from './components/pages/account/account.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {InterceptorService} from './components/services/interceptor/interceptor.service';
+import {NgxWebstorageModule} from 'ngx-webstorage';
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { OeuvreComponent } from './components/pages/oeuvre/oeuvre.component';
 import { OeuvreEditComponent } from './components/pages/oeuvre/oeuvre-edit.component';
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
@@ -141,14 +144,21 @@ const notifierDefaultOptions: NotifierOptions = {
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    NgxWebstorageModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     NotifierModule.withConfig(notifierDefaultOptions),
     BrowserAnimationsModule,
-    NgbDatepickerModule
+    NgbDatepickerModule,
+    NgxSpinnerModule
+  ],    
+  providers: [
+      {
+          provide: HTTP_INTERCEPTORS,
+          useClass: InterceptorService,
+          multi: true
+      },
   ],
-  providers: [],
-  bootstrap: [AppComponent],
-  
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

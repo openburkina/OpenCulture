@@ -4,6 +4,9 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {User} from '../../models/User';
 import {SpinnerService} from '../../services/spinner/spinner.service';
 import {ApiService} from '../../services/api/api.service';
+import {LoginService} from "../../services/auth/login.service";
+import {LoginVM} from "../../models/login-vm";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-account',
@@ -14,6 +17,7 @@ export class AccountComponent implements OnInit {
 
     user: User;
     errorMessage = null;
+    loginVM: LoginVM;
     formAccount = this.fb.group({
         firstName: [null, Validators.required],
         lastName: [null, Validators.required],
@@ -28,10 +32,13 @@ export class AccountComponent implements OnInit {
       private fb: FormBuilder,
       private spinner: SpinnerService,
       private apiService: ApiService,
+      private loginService: LoginService,
+      private router: Router,
   ) { }
 
   ngOnInit(): void {
       this.user = new User();
+      this.loginVM = new LoginVM();
   }
 
     onDismiss(b: boolean): void {
@@ -49,22 +56,44 @@ export class AccountComponent implements OnInit {
             this.user.telephone = this.formAccount.get('telephone').value;
             this.user.password = this.formAccount.get('password').value;
             this.user.login = this.formAccount.get('email').value;
-            console.info('USER ', this.user);
+            this.loginVM.username = this.user.login;
+            this.loginVM.password = this.user.password;
             this.apiService.doInscriptionUser(this.user).subscribe(
                 response => {
-                    this.spinner.close();
+                  //  this.spinner.close();
                     if (response.body === null) {
                         this.errorMessage = 'Erreur lors de l\'inscription. Veuillez réessayer !';
                     } else {
-                        // this.onLogin();
+                         this.onLogin();
                     }
                 },
                 error => {
-                   // this.spinner.close();
+                    this.spinner.close();
                     this.errorMessage = error.error.title;
                 },
             );
         }
 
+    }
+
+    onLogin(): void {
+        this.spinner.loading();
+        this.loginService.login(this.loginVM).subscribe(
+            response => {
+                this.spinner.close();
+                if (response === null) {
+                    this.errorMessage = 'Erreur lors de la connexion !';
+                } else {
+                    this.router.navigate(['/']);
+                    this.onDismiss(true);
+                }
+            },
+            error => {
+                this.spinner.close();
+                this.errorMessage = error.error.title;
+                this.router.navigate(['/']);
+                this.onDismiss(true);
+            },
+        );
     }
 }

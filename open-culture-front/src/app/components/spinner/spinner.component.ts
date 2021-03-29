@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import {NgxSpinnerService} from "ngx-spinner";
 
 @Component({
   selector: 'app-spinner',
@@ -22,9 +23,11 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 export class SpinnerComponent implements OnInit {
 
   constructor(
+      private spinner: NgxSpinnerService,
   ) { }
 
   ngOnInit(): void {
+      this.spinner.show();
   }
 
 }
