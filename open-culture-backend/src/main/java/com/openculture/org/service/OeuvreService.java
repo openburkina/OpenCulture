@@ -90,7 +90,7 @@ public class OeuvreService {
             }
 
             File media = new File(oeuvreDTO.getPathFile());
-            oeuvreDTO.setFileContent(FileUtils.readFileToByteArray(media));
+           // oeuvreDTO.setFileContent(FileUtils.readFileToByteArray(media));
             String s[] = media.getName().split("\\.");
             oeuvreDTO.setFileName(s[0]);
             oeuvreDTO.setFileExtension(s[1]);

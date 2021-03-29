@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -79,6 +80,12 @@ public class ArtisteService {
         log.debug("Request to get all Artistes");
         return artisteRepository.findAll(pageable)
             .map(artisteMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Artiste> onSearch(String search) {
+        log.debug("Request to get all Artistes");
+        return artisteRepository.findArtisteByCritaria(search);
     }
 
 
