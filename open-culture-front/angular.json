@@ -38,8 +38,9 @@
               "src/assets/css/boxicons.min.css",
               "node_modules/magnific-popup/dist/magnific-popup.css",
               "src/styles.scss",
-              "src/responsive.scss"
-            
+              "src/responsive.scss",
+              "src/ng-multiselect-dropdown.theme.scss"
+
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
