@@ -1,0 +1,28 @@
+<div class="text-justify-content">
+    <div class="col-lg-8 col-sm-6 mx-auto">
+        <div class="table-responsive" *ngIf="typeOeuvres?.length > 0">
+            <table class="table table-striped mt-4" aria-describedby="page-heading">
+                <thead class="bg-warning">
+                <tr >
+                <th ><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th ><span>Intitule</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let reg of typeOeuvres ;trackBy: trackId">
+                    <td>{{reg.id}}</td>
+                    <td>{{reg.intitule}}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button class="btn btn-primary px-4" (click)="editer(reg)">New</button>
+                            <button class="btn btn-danger px-4" (click)="delete(reg)">New</button>
+                            <!-- <button class="btn btn-warning px-4" (click)="create()">New</button> -->
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

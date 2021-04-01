@@ -26,11 +26,16 @@ import { TermsConditionsComponent } from './components/pages/terms-conditions/te
 import { TestimonialsComponent } from './components/pages/testimonials/testimonials.component';
 import {AccountComponent} from './components/pages/account/account.component';
 import {OeuvreComponent} from './components/pages/oeuvre/oeuvre.component';
+import { ArtisteComponent } from './components/pages/artiste/artiste.component';
+import { OeuvreEditComponent } from './components/pages/oeuvre/oeuvre-edit.component';
+import { RegroupementComponent } from './components/pages/regroupement/regroupement.component';
+import { TypeOeuvreComponent } from './components/pages/type-oeuvre/type-oeuvre.component';
+import { OeuvreAfficheComponent } from './components/pages/oeuvre/oeuvre-affiche.component';
 
 const routes: Routes = [
-    {path: '', component: HomeOneComponent},
-    {path: 'home-two', component: HomeTwoComponent},
-    {path: 'home-three', component: OeuvreComponent},
+    {path: '', component: ArtisteComponent},
+    {path: 'home-three', component: TypeOeuvreComponent},
+    {path: 'home-two', component: OeuvreAfficheComponent},
     {path: 'about', component: AboutComponent},
     {path: 'team', component: TeamComponent},
     {path: 'apply-now', component: AppleNowComponent},

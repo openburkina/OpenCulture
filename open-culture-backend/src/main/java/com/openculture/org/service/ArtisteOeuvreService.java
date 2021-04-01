@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -80,5 +81,11 @@ public class ArtisteOeuvreService {
     public void delete(Long id) {
         log.debug("Request to delete ArtisteOeuvre : {}", id);
         artisteOeuvreRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ArtisteOeuvre> findByArtisteId(Long id) {
+        log.debug("Request to get all ArtisteOeuvres");
+        return artisteOeuvreRepository.findByArtisteId(id);
     }
 }

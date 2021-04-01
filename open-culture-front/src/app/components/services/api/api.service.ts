@@ -20,4 +20,8 @@ export class ApiService {
     changePassword(loginVM: LoginVM): Observable<HttpResponse<User>> {
         return this.http.post<LoginVM>(`${environment.apiUrl}/account/change-user-password`, loginVM, {observe: 'response'});
     }
+
+    onSearch(search: String): Observable<HttpResponse<any>> {
+        return this.http.get(`${environment.apiUrl}/artistes/search/${search}`, {observe: 'response'});
+    }
 }

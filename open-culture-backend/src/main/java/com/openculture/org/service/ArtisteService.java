@@ -1,9 +1,11 @@
 package com.openculture.org.service;
 
 import com.openculture.org.domain.Artiste;
+import com.openculture.org.domain.ArtisteOeuvre;
 import com.openculture.org.repository.ArtisteRepository;
 import com.openculture.org.service.dto.ArtisteDTO;
 import com.openculture.org.service.dto.InformationCivilDTO;
+import com.openculture.org.service.dto.RechercheDTO;
 import com.openculture.org.service.mapper.ArtisteMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,12 +31,15 @@ public class ArtisteService {
 
     private final ArtisteMapper artisteMapper;
 
+    private final ArtisteOeuvreService artisteOeuvreService;
+
     private final InformationCivilService informationCivilService;
 
-    public ArtisteService(ArtisteRepository artisteRepository, ArtisteMapper artisteMapper, InformationCivilService informationCivilService) {
+    public ArtisteService(ArtisteRepository artisteRepository, ArtisteMapper artisteMapper, InformationCivilService informationCivilService,ArtisteOeuvreService artisteOeuvreService) {
         this.artisteRepository = artisteRepository;
         this.artisteMapper = artisteMapper;
         this.informationCivilService = informationCivilService;
+        this.artisteOeuvreService = artisteOeuvreService;
     }
 
     /**
@@ -83,9 +88,17 @@ public class ArtisteService {
     }
 
     @Transactional(readOnly = true)
-    public List<Artiste> onSearch(String search) {
+    public List<RechercheDTO> onSearch(String search) {
         log.debug("Request to get all Artistes");
-        return artisteRepository.findArtisteByCritaria(search);
+        List<Artiste> artistes;
+        List<ArtisteOeuvre> artisteOeuvres;
+        artistes = artisteRepository.findArtisteByCritaria(search);
+        if (artistes.size()>0) {
+          artistes.forEach(artiste -> {
+               artisteOeuvreService.findByArtisteId(artiste.getId());
+          });
+        }
+        return null;
     }
 
 

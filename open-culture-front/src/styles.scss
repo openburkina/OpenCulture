@@ -1,3 +1,4 @@
+@import "~angular-notifier/styles";
 /* You can add global styles to this file, and also import other style files */
 
 /*================================================
@@ -4093,7 +4094,7 @@ Faq Area End
 Contact Area
 ====================================*/
 .contact-form {
-    padding: 45px;
+    padding: 5px;
     max-width: 800px;
     position: relative;
     z-index: 1;
@@ -4233,7 +4234,7 @@ Contact Area
 .apply-form {
     .contact-form {
         padding: 0;
-        margin-bottom: 30px;
+        margin-bottom: 0;
         margin-left: auto;
         margin-right: auto;
     }

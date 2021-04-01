@@ -139,10 +139,12 @@
     </div>
 </div>-->
 
-<div class="apply-area pt-100 pb-70">
+<div class="card-header text-center bg" style="background-color: darkorange;">
+    <h2>Inscription sur OpenCulture</h2>
+</div>
+<div class="apply-area ">
     <div class="container">
         <div class="section-title text-center">
-            <h2>Inscription sur OpenCulture</h2>
             <p>Veuillez renseigner les informations suivantes pour vous inscrire. <br>
                 Les champs marqués (<i class="text-danger">*</i>) sont obligatoires</p>
         </div>
@@ -217,17 +219,11 @@
                             </div>
                         </div>
 
-                       <!-- <div class="col-lg-12 col-md-12">
-                            <div class="form-group">
-                                <textarea name="message" class="form-control" id="message" cols="30" rows="8" required placeholder="Your Message"></textarea>
-                            </div>
-                        </div>-->
-
-                        <div class="col-lg-12 col-md-12 text-center">
+                        <div class="col-lg-12 col-md-12 mt-5 mb-5 text-center">
                             <button class="btn btn-danger mr-2" (click)="onDismiss(false)">
                                 <i class="fa fa-chevron-left"></i> Annuler
                             </button>
-                            <button type="submit" [disabled]="formAccount.invalid" class="btn btn-primary px-4">
+                            <button type="submit" [disabled]="formAccount.invalid" class="btn btn-warning px-4">
                                 S'inscrire <i class="fa fa-sign-in-alt"></i>
                             </button>
                         </div>

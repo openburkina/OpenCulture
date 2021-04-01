@@ -1,0 +1,92 @@
+ <!-- Apply Area -->
+<div class="card-header text-center bg" style="background-color: darkorange;">Enregistrer une oeuvre</div>
+<div class="apply-area pt-5 modal-body">
+    <div class="container">
+        <div class="apply-form">
+            <div class="contact-form">
+                <form id=" oeuvreForm" name=" oeuvreForm" role="form" [formGroup]="oeuvreForm">
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-6">
+                            <div class="form-group">
+                                <input type="text" name="titre" id="first_name" class="form-control" formControlName="titre" required placeholder="Titre ">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-6">
+                            <!-- *ngIf="oeuvre.id === undefined || oeuvre.id === null" -->
+                            <div class="form-group">
+                                <select class="form-control" id="field_artiste" for="field_artiste" name="artiste" formControlName="artisteId">
+                                    <option [ngValue]="null" [disabled]="true">Artiste</option>
+                                    <option [ngValue]="artisteOption.id" *ngFor="let artisteOption of artiste; trackBy: trackArtisteById">{{artisteOption.nom}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- <div class="col-lg-6 col-sm-6" *ngIf="oeuvre.id !== undefined || oeuvre.id !== null">
+                            <div class="form-group">
+                                <input type="text" name="artiste" id="first_name" class="form-control" formControlName="nomArtiste" required placeholder="artiste ">
+                            </div>
+                        </div> -->
+                        <div class="col-lg-6 col-sm-6">
+                            <div class="form-group">
+                                <select class="form-control" id="field_typeOeuvre" for="field_typeOeuvre" name="typeOeuvre" formControlName="typeOeuvreId">
+                                    <option [ngValue]="null" [disabled]="true">Type Oeuvre</option>
+                                    <option [ngValue]="typeOeuvreOption.id" *ngFor="let typeOeuvreOption of typeOeuvre; trackBy: trackTypeOeuvreById">{{typeOeuvreOption.intitule}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-6">
+                            <div class="form-group">
+                                <select class="form- form-control" id="field_regroupement" name="regroupement" formControlName="regroupementId">
+                                    <option [ngValue]="null" [disabled]="true">Regroupement</option>
+                                    <option [ngValue]="regroupementOption.id" *ngFor="let regroupementOption of regroupement; trackBy: trackRegroupementById">{{regroupementOption.intitule}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-6">
+                            <div class="form-group">
+                                    <input id="field_dateSortie" type="date" placeholder="Date de sortie"  class="form-control" name="dateSortie" formControlName="dateSortie"/>
+                            </div>
+                        </div>
+
+                        <!-- <div class="col-lg-6 col-sm-6">
+                            <div class="form-group">
+                                    <img hidden [src]="'data:' +  oeuvreForm.get('fileExtension').value + ';base64,' +  oeuvreForm.get('fileContent').value" *ngIf=" oeuvreForm.get('fileContent').value" alt="oeuvre"/>
+                                    <div *ngIf=" oeuvreFor m.get('fileContent').value" class="form-text text-danger clearfix">
+                                    </div> 
+                                    <input type="file" id="fileContent"  class="form-control" (change)="setFileData($event, 'fileContent', true)" accept="image/*">
+                                <input type="hidden" class="form-control" name="fileContent" id="field_fileContent"
+                                       formControlName="fileContent"/>
+                                <input type="hidden" class="form-control" name="fileExtension" id="field_fileExtension"
+                                       formControlName="fileExtension" />
+                            </div>
+                        </div> -->
+                        <!-- <div class="col-lg-6 col-sm-6">
+                            <div class="form-group">
+                                <input type="file" class="form-control" name="fileContent" (change)="setFileData($event, 'fileContent', true)" id="field_fileContent"
+                                       formControlName="fileContent"/>
+                            </div>
+                        </div> -->
+                        <!-- <div class="form-group">
+                            <label class="form-control-label" for="field_date">Date</label>
+                            <div class="d-flex">
+                                <input id="field_date" type="datetime-local" class="form-control" name="date" formControlName="dateSortie" placeholder="YYYY-MM-DD HH:mm"/>
+                            </div>
+                        </div> -->
+                        <div class="col-lg-12 col-md-12">
+                            <div class="form-group">
+                                <textarea name="resume" formControlName="resume" class="form-control" id="resume" cols="30" rows="4" required placeholder="Resumé"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="form-group float-right">
+                                <button class="btn btn-danger mr-2" (click)="cancel(false)">Annuler</button>
+                                <button class="btn btn-warning px-4" (click)="save()">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Apply Area End -->

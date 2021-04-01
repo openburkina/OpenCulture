@@ -2,6 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {OeuvreDTO} from '../../models/oeuvre.model';
 import {OeuvreService} from './oeuvre.service';
 import {TypeFichier} from '../../models/enumeration/type-fichier.enum';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { OeuvreEditComponent } from "./oeuvre-edit.component";
+import { Router } from '@angular/router';
+import { OeuvreDeleteComponent } from './oeuvre-delete.component';
 
 @Component({
   selector: 'app-oeuvre',
@@ -29,8 +33,8 @@ export class OeuvreComponent implements OnInit {
   ];
   constructor(
     protected oeuvreService: OeuvreService,
-
-   // protected ngModalService: NgbModal
+    protected ngModalService: NgbModal,
+    protected route: Router
     ) { this.typeFichier = TypeFichier.VIDEO }
 
   ngOnInit(): void {
@@ -41,29 +45,41 @@ export class OeuvreComponent implements OnInit {
     this.oeuvreService.findAll(this.typeFichier).subscribe(
       response => {
           this.oeuvres = response.body;
-          this.forRowView(this.oeuvres,this.typeFichier);
+          this.forRowView(response.body,this.typeFichier);
           console.log(this.oeuvres);
       }
     );
   }
 
   create(): void{
-  }
-
-  delete(): void{
+    const modal = this.ngModalService.open(OeuvreEditComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
   }
 
   forRowView(tab: OeuvreDTO[],typeFichier: TypeFichier): void{
+    if(this.oeuvres.length === 0)
+      this.oeuvresVideo = this.oeuvresAudio = [];
+    else {
       const k = 3;
       for (let i = 0; i < tab.length; i += k ){
           tab[i].pathFile = this.imagePath[i];
       }
       for (let i = 0; i < tab.length; i += k ){
             if(typeFichier == TypeFichier.VIDEO)
-                this.oeuvresVideo.push({items: this.oeuvres.slice(i,i+k)});
+               this.oeuvresVideo.push({items: this.oeuvres.slice(i,i+k)});
+
             else if (typeFichier == TypeFichier.AUDIO)
                 this.oeuvresAudio.push({items: this.oeuvres.slice(i,i+k)});
       }
+    }  
   }
 
+  editer(oeuvre: OeuvreDTO): void{
+    const modal = this.ngModalService.open(OeuvreEditComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
+    modal.componentInstance.oeuvre = oeuvre;
+  }
+
+  delete(oeuvre: OeuvreDTO): void{
+    const modal = this.ngModalService.open(OeuvreDeleteComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
+    modal.componentInstance.oeuvre = oeuvre;
+  }
 }

@@ -1,0 +1,69 @@
+ <!-- Apply Area -->
+ <div class="card-header text-center bg" style="background-color: darkorange;" *ngIf="art === undefined">Enregistrer un artiste</div>
+ <div class="card-header text-center bg" style="background-color: darkorange;" *ngIf="art !== null && art !== undefined">Modifier une artiste</div>
+ <div class="apply-area pt-5 modal-body">
+     <div class="container">
+         <div class="apply-form">
+             <div class="contact-form">
+                 <form id="artForm" name="artForm" role="form" [formGroup]="artForm">
+                     <div class="row">
+                        <div class="col-lg-6 col-sm-6" hidden>
+                            <div class="form-group">
+                                <input type="text" name="id" readonly id="id" class="form-control" formControlName="id" required placeholder="id ">
+                            </div>
+                        </div>
+                         <div class="col-lg-6 col-sm-6">
+                             <div class="form-group">
+                                 <input type="text" name="nom" id="nom" class="form-control" formControlName="nom" required placeholder="nom ">
+                             </div>
+                         </div>
+                         <div class="col-lg-6 col-sm-6">
+                            <div class="form-group">
+                                <input type="text" name="prenom" id="prenom" class="form-control" formControlName="prenom" required placeholder="prenom ">
+                            </div>
+                        </div>
+                         <div class="col-lg-6 col-sm-6">
+                            <div class="form-group">
+                                <input type="text" name="lieuNaissance" id="lieuNaissance" class="form-control" formControlName="lieuNaissance" required placeholder="lieu de naissance ">
+                            </div>
+                        </div>
+                        <!-- <div class="col-lg-6 col-sm-6">
+                            <div class="form-group">
+                                <input id="field_dateNaissance" type="text"
+                                 (click)="dateNaissanceDp.toggle()" class="form-control" name="dateNaissance" ngbDatepicker [(ngModel)]="dateNaiss" #dateNaissanceDp="ngbDatepicker" [formControlName]="dateNaissance"/>
+                            </div>
+                        </div> -->
+                        <div class="col-lg-6 col-sm-6">
+                            <div class="form-group">
+                                <input id="field_dateNaissance" type="date" class="form-control" name="dateNaissance" formControlName="dateNaissance"/>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-6">
+                            <div class="form-group">
+                                <input type="text" name="nationalite" id="nationalite" class="form-control" formControlName="nationalite" required placeholder="nationalite ">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-6">
+                           <div class="form-group">
+                               <input type="text" name="numeroP" id="numeroP" class="form-control" formControlName="numeroP" required placeholder="Téléphone 1 ">
+                           </div>
+                       </div>
+                       <div class="col-lg-6 col-sm-6">
+                        <div class="form-group">
+                            <input type="text" name="numeroS" id="numeroS" class="form-control" formControlName="numeroS" required placeholder="Téléphone 2 ">
+                        </div>
+                    </div>
+                         <div class="col-lg-12 col-md-12">
+                             <div class="form-group float-right">
+                                 <button class="btn btn-danger mr-2" (click)="cancel(false)">Annuler</button>
+                                 <button class="btn btn-warning px-4" (click)="save()">OK</button>
+                             </div>
+                         </div>
+                     </div>
+                 </form>
+             </div>
+         </div>
+     </div>
+ </div>
+ 
+ <!-- Apply Area End -->
