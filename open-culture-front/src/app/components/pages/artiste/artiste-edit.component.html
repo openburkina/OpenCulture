@@ -1,6 +1,6 @@
  <!-- Apply Area -->
- <div class="card-header text-center bg" style="background-color: darkorange;" *ngIf="art === undefined">Enregistrer un artiste</div>
- <div class="card-header text-center bg" style="background-color: darkorange;" *ngIf="art !== null && art !== undefined">Modifier une artiste</div>
+ <div class="card-header text-center bg-warning-1" *ngIf="art === undefined">Enregistrer un artiste</div>
+ <div class="card-header text-center bg-warning-1" *ngIf="art !== null && art !== undefined">Modifier un artiste</div>
  <div class="apply-area pt-5 modal-body">
      <div class="container">
          <div class="apply-form">
@@ -48,7 +48,7 @@
                                <input type="text" name="numeroP" id="numeroP" class="form-control" formControlName="numeroP" required placeholder="Téléphone 1 ">
                            </div>
                        </div>
-                       <div class="col-lg-6 col-sm-6">
+                       <div class="col-lg-6 col-sm-6 mx-auto">
                         <div class="form-group">
                             <input type="text" name="numeroS" id="numeroS" class="form-control" formControlName="numeroS" required placeholder="Téléphone 2 ">
                         </div>
@@ -65,5 +65,5 @@
          </div>
      </div>
  </div>
- 
+
  <!-- Apply Area End -->

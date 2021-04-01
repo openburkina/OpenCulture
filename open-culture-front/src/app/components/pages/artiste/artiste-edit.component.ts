@@ -46,12 +46,12 @@ dateNaissance: Date;
     this.activatedRoute.data.subscribe(({ art }) => {
       if (this.art !== undefined && this.art !== null) {
         this.update(this.art);
-      }       
+      }
     });
   }
 
   public updateSelectedDate(date: NgbDate) {
-    // Use this method to set any other date format you want 
+    // Use this method to set any other date format you want
     this.dateNaissance = new Date(date.year, date.month, date.day);
 }
 
@@ -65,7 +65,7 @@ dateNaissance: Date;
     infos.numeroP = this.artForm.get(['numeroP']).value;
     infos.numeroS = this.artForm.get(['numeroS']).value;
     infos.lieuNaissance = this.artForm.get(['lieuNaissance']).value;
-    infos.dateNaissance = this.artForm.get(['id']).value != null ? 
+    infos.dateNaissance = this.artForm.get(['dateNaissance']).value != null ?
                                             moment(this.artForm.get(['dateNaissance']).value, DATE_TIME_FORMAT) : undefined;
 
     art.informationCivilDTO = infos;
@@ -99,28 +99,28 @@ dateNaissance: Date;
         this.saveState(this.artService.create(art));
       }
     } else {
-      this.showNotification("enartistrement échoué","error");
+      this.showNotification("enregistrement échoué","error");
     }
   }
-  
+
   saveState(result: Observable<EntityArt>){
     result.subscribe(
       () => {
-        this.showNotification("artiste enartistré","success");
+        this.showNotification("artiste enregistré","success");
         //window.history.
         this.cancel(true);
       },
       () => {
-        this.showNotification("enartistrement échoué","error");
+        this.showNotification("enregistrement échoué","error");
       }
     );
   }
 
   showNotification(text: string, type: string): void {
     this.notify.notify(type,text);
-  } 
+  }
 
-  cancel(boolean: boolean): void{  
+  cancel(boolean: boolean): void{
     this.ngModal.close(boolean);
   }
 }
