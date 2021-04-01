@@ -15,7 +15,7 @@ export class OeuvreDTO {
         public typeOeuvreDTO?: TypeOeuvreDTO,
         public dateSortie?: Moment,
         public regroupementDTO?: RegroupementDTO,
-        public artisteDTO?: ArtisteDTO,
+        public artistes?: ArtisteDTO[],
         public typeOeuvreId?: number,
         public regroupementId?: number,
         public artisteId?: number

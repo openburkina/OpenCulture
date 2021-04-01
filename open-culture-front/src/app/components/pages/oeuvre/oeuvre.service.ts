@@ -8,7 +8,7 @@ import * as moment from 'moment';
 import { map } from 'rxjs/operators';
 
 type EntityOeuvre = HttpResponse<OeuvreDTO>;
-type EntityArrayOeuvre = HttpResponse<OeuvreDTO[]>; 
+type EntityArrayOeuvre = HttpResponse<OeuvreDTO[]>;
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,8 @@ export class OeuvreService {
   }
 
   findComplet(): Observable<EntityArrayOeuvre> {
-    return this.httpClient.get<OeuvreDTO[]>(this.resourceUrl,{observe: 'response'})
+      let url = this.resourceUrl+'-for-gestionnaire';
+    return this.httpClient.get<OeuvreDTO[]>(url,{observe: 'response'})
     .pipe(map((data: EntityArrayOeuvre) => (this.convertDateInArrayOeuvreToClient(data))));
 }
 
@@ -51,16 +52,16 @@ export class OeuvreService {
   convertDateInArrayOeuvreToClient(data: EntityArrayOeuvre): EntityArrayOeuvre {
     if (data.body) {
        data.body.forEach((oeuvre: OeuvreDTO) => {
-        oeuvre.dateSortie = oeuvre.dateSortie !== null ? moment(oeuvre.dateSortie) : null;
+        oeuvre.dateSortie = oeuvre.dateSortie != null ? moment(oeuvre.dateSortie) : null;
        })
-    } 
+    }
     return data;
   }
 
   convertDateOeuvreToClient(data: EntityOeuvre): EntityOeuvre {
     if (data.body) {
-       data.body.dateSortie = data.body.dateSortie !== null ? moment(data.body.dateSortie) : null;
-    } 
+       data.body.dateSortie = data.body.dateSortie != null ? moment(data.body.dateSortie) : null;
+    }
     return data;
   }
 
@@ -68,7 +69,7 @@ export class OeuvreService {
     const oeuvre = Object.assign(
       {},
       data,
-      { 
+      {
         dateSortie: data.dateSortie !== null && data.dateSortie.isValid() ? data.dateSortie.toJSON() : null
       }
     );
