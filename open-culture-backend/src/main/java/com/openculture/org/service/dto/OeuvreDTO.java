@@ -7,6 +7,7 @@ import com.openculture.org.domain.enumeration.TypeFichier;
 import java.time.Instant;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * A DTO for the {@link com.openculture.org.domain.Oeuvre} entity.
@@ -28,6 +29,8 @@ public class OeuvreDTO implements Serializable {
     private RegroupementDTO regroupementDTO;
 
     private Long artisteId;
+
+    private List<ArtisteDTO> artistes;
 
     private ArtisteDTO artisteDTO;
 
@@ -172,6 +175,14 @@ public class OeuvreDTO implements Serializable {
 
     public void setPathFile(String pathFile) {
         this.pathFile = pathFile;
+    }
+
+    public List<ArtisteDTO> getArtistes() {
+        return artistes;
+    }
+
+    public void setArtistes(List<ArtisteDTO> artistes) {
+        this.artistes = artistes;
     }
 
     @Override

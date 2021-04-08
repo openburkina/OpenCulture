@@ -33,9 +33,14 @@ import { TypeOeuvreComponent } from './components/pages/type-oeuvre/type-oeuvre.
 import { OeuvreAfficheComponent } from './components/pages/oeuvre/oeuvre-affiche.component';
 
 const routes: Routes = [
-    {path: '', component: ArtisteComponent},
-    {path: 'home-three', component: TypeOeuvreComponent},
-    {path: 'home-two', component: OeuvreAfficheComponent},
+    {path: '', component: TestimonialsComponent},
+    {path: 'type-oeuvres', component: TypeOeuvreComponent},
+    {path: 'oeuvres', component: OeuvreAfficheComponent},
+    {path: 'oeuvres-client', component: OeuvreComponent},
+    {path: 'regroupements', component: RegroupementComponent},
+    {path: 'artistes', component: ArtisteComponent},
+    {path: 'home-three', component: HomeThreeComponent},
+    {path: 'home-two', component: HomeTwoComponent},
     {path: 'about', component: AboutComponent},
     {path: 'team', component: TeamComponent},
     {path: 'apply-now', component: AppleNowComponent},

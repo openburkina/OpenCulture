@@ -1,5 +1,6 @@
- <!-- Apply Area -->
-<div class="card-header text-center bg" style="background-color: darkorange;">Enregistrer une oeuvre</div>
+<!-- Apply Area -->
+<div class="card-header text-center bg-warning-1" *ngIf="oeuvre === undefined">Enregistrer une oeuvre</div>
+<div class="card-header text-center bg-warning-1" *ngIf="oeuvre !== null && oeuvre !== undefined">Enregistrer une oeuvre</div>
 <div class="apply-area pt-5 modal-body">
     <div class="container">
         <div class="apply-form">
@@ -11,13 +12,25 @@
                                 <input type="text" name="titre" id="first_name" class="form-control" formControlName="titre" required placeholder="Titre ">
                             </div>
                         </div>
+<!--                        <div class="col-lg-6 col-sm-6">-->
+<!--                            &lt;!&ndash; *ngIf="oeuvre.id === undefined || oeuvre.id === null" &ndash;&gt;-->
+<!--                            <div class="form-group">-->
+<!--                                <select class="form-control" id="field_artiste" for="field_artiste" name="artiste" formControlName="artisteId">-->
+<!--                                    <option [ngValue]="null" [disabled]="true">Artiste</option>-->
+<!--                                    <option [ngValue]="artisteOption.id" *ngFor="let artisteOption of artiste; trackBy: trackArtisteById">{{artisteOption.nom}}</option>-->
+<!--                                </select>-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <div class="col-lg-6 col-sm-6">
-                            <!-- *ngIf="oeuvre.id === undefined || oeuvre.id === null" -->
                             <div class="form-group">
-                                <select class="form-control" id="field_artiste" for="field_artiste" name="artiste" formControlName="artisteId">
-                                    <option [ngValue]="null" [disabled]="true">Artiste</option>
-                                    <option [ngValue]="artisteOption.id" *ngFor="let artisteOption of artiste; trackBy: trackArtisteById">{{artisteOption.nom}}</option>
-                                </select>
+                                <ng-multiselect-dropdown class="form-control"
+                                                         [placeholder]="'custom placeholder'"
+                                                         [settings]="dropdownSettings"
+                                                         [data]="artiste"
+                                                         name="artisteSelected"
+                                                         formControlName="artisteSelected">
+
+                                </ng-multiselect-dropdown>
                             </div>
                         </div>
                         <!-- <div class="col-lg-6 col-sm-6" *ngIf="oeuvre.id !== undefined || oeuvre.id !== null">
@@ -41,9 +54,9 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-sm-6">
+                        <div class="col-lg-6 col-sm-6 mx-auto">
                             <div class="form-group">
-                                    <input id="field_dateSortie" type="date" placeholder="Date de sortie"  class="form-control" name="dateSortie" formControlName="dateSortie"/>
+                                    <input id="field_dateSortie" type="datetime-local" placeholder="Date de sortie"  class="form-control" name="dateSortie" formControlName="dateSortie"/>
                             </div>
                         </div>
 
@@ -51,7 +64,7 @@
                             <div class="form-group">
                                     <img hidden [src]="'data:' +  oeuvreForm.get('fileExtension').value + ';base64,' +  oeuvreForm.get('fileContent').value" *ngIf=" oeuvreForm.get('fileContent').value" alt="oeuvre"/>
                                     <div *ngIf=" oeuvreFor m.get('fileContent').value" class="form-text text-danger clearfix">
-                                    </div> 
+                                    </div>
                                     <input type="file" id="fileContent"  class="form-control" (change)="setFileData($event, 'fileContent', true)" accept="image/*">
                                 <input type="hidden" class="form-control" name="fileContent" id="field_fileContent"
                                        formControlName="fileContent"/>

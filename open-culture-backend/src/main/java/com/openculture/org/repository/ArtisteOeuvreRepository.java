@@ -1,8 +1,7 @@
 package com.openculture.org.repository;
 
 import com.openculture.org.domain.ArtisteOeuvre;
-
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,4 +14,6 @@ import java.util.List;
 public interface ArtisteOeuvreRepository extends JpaRepository<ArtisteOeuvre, Long> {
 
     List<ArtisteOeuvre> findByArtisteId(Long id);
+
+    List<ArtisteOeuvre> findAllByOeuvreId(Long id);
 }

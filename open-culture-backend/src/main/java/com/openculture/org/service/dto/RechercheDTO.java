@@ -1,30 +1,41 @@
 package com.openculture.org.service.dto;
 
+import com.openculture.org.domain.Artiste;
+import com.openculture.org.domain.Oeuvre;
+
 public class RechercheDTO {
-    private ArtisteDTO artisteDTO;
-    private OeuvreDTO oeuvreDTO;
+    private Artiste artiste;
+    private Oeuvre oeuvre;
 
-    public ArtisteDTO getArtisteDTO() {
-        return artisteDTO;
+    public RechercheDTO(Artiste artiste, Oeuvre oeuvre) {
+        this.artiste = artiste;
+        this.oeuvre = oeuvre;
     }
 
-    public void setArtisteDTO(ArtisteDTO artisteDTO) {
-        this.artisteDTO = artisteDTO;
+    public RechercheDTO() {
     }
 
-    public OeuvreDTO getOeuvreDTO() {
-        return oeuvreDTO;
+    public Artiste getArtiste() {
+        return artiste;
     }
 
-    public void setOeuvreDTO(OeuvreDTO oeuvreDTO) {
-        this.oeuvreDTO = oeuvreDTO;
+    public void setArtiste(Artiste artiste) {
+        this.artiste = artiste;
+    }
+
+    public Oeuvre getOeuvre() {
+        return oeuvre;
+    }
+
+    public void setOeuvre(Oeuvre oeuvre) {
+        this.oeuvre = oeuvre;
     }
 
     @Override
     public String toString() {
         return "RechercheDTO{" +
-            "artisteDTO=" + artisteDTO +
-            ", oeuvreDTO=" + oeuvreDTO +
+            "artiste=" + artiste +
+            ", oeuvre=" + oeuvre +
             '}';
     }
 }

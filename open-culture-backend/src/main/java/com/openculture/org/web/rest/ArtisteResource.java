@@ -126,7 +126,7 @@ public class ArtisteResource {
     }
 
     @GetMapping("/artistes/search/{search}")
-    public List<RechercheDTO> onSearch(@PathVariable String search) {
+    public RechercheDTO onSearch(@PathVariable String search) {
         log.debug("REST request to get a page of Artistes");
         return artisteService.onSearch(search);
     }

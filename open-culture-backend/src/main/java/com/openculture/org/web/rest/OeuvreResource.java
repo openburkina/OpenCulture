@@ -2,35 +2,23 @@ package com.openculture.org.web.rest;
 
 import com.openculture.org.domain.enumeration.TypeFichier;
 import com.openculture.org.service.OeuvreService;
-import com.openculture.org.web.rest.errors.BadRequestAlertException;
 import com.openculture.org.service.dto.OeuvreDTO;
-
+import com.openculture.org.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
-import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * REST controller for managing {@link com.openculture.org.domain.Oeuvre}.
@@ -101,7 +89,7 @@ public class OeuvreResource {
     @GetMapping("/oeuvres/filter/{typeFichier}")
     public ResponseEntity<List<OeuvreDTO>> getAllOeuvres(@PathVariable TypeFichier typeFichier,Pageable pageable) {
         log.debug("REST request to get a page of Oeuvres");
-        Page<OeuvreDTO> page = oeuvreService.findAll(typeFichier,pageable);
+        Page<OeuvreDTO> page = oeuvreService.findAllByTypeFichier(typeFichier,pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -110,6 +98,14 @@ public class OeuvreResource {
     public ResponseEntity<List<OeuvreDTO>> getAllOeuvres(Pageable pageable) {
         log.debug("REST request to get a page of Oeuvres");
         Page<OeuvreDTO> page = oeuvreService.findComplet(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/oeuvres-for-gestionnaire")
+    public ResponseEntity<List<OeuvreDTO>> findAllOeuvres(Pageable pageable) {
+        log.debug("REST request to get a page of Oeuvres");
+        Page<OeuvreDTO> page = oeuvreService.findCompletForAdmin(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

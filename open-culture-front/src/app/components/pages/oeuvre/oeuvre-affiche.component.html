@@ -1,8 +1,8 @@
 <div class="text-justify-content">
     <div class="col-lg-8 col-sm-6 mx-auto">
         <div class="table-responsive" *ngIf="oeuvres?.length > 0">
-            <table class="table table-striped mt-4" aria-describedby="page-heading">
-                <thead class="bg-warning">
+            <table class="table table-hover mt-4" aria-describedby="page-heading">
+                <thead class="bg-warning-1">
                 <tr >
                 <th ><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                 <th ><span>Titre</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -15,14 +15,14 @@
                 <tbody>
                 <tr *ngFor="let oeuvre of oeuvres ;trackBy: trackId">
                     <td>{{oeuvre.id}}</td>
-                    <td>{{oeuvre.titre}}</td>
-                    <td>{{oeuvre.nomArtiste}}</td>
-                    <td>{{oeuvre.typeOeuvreDTO.intitule}}</td>
-                    <td>{{oeuvre.regroupementDTO.intitule}}</td>
+                    <td>{{(oeuvre.titre | slice:0:12)+'...'}}</td>
+                    <td>{{(oeuvre.nomArtiste | slice: 0: 12)+'...'}}</td>
+                    <td>{{(oeuvre.typeOeuvreDTO.intitule | slice:0:12) +'...'}}</td>
+                    <td>{{(oeuvre.regroupementDTO.intitule | slice:0:12)+'...'}}</td>
                     <td class="text-right">
                         <div class="btn-group">
-                            <button class="btn btn-primary px-4" (click)="editer(oeuvre)">New</button>
-                            <button class="btn btn-danger px-4" (click)="delete(oeuvre)">New</button>
+                            <button class="btn btn-warning" (click)="editer(oeuvre)"><i class="bx bxs-edit-alt"></i></button>
+                            <button class="btn btn-danger" (click)="delete(oeuvre)"><i class="bx bxs-eraser"></i></button>
                             <!-- <button class="btn btn-warning px-4" (click)="create()">New</button> -->
                         </div>
                     </td>

@@ -2,7 +2,7 @@
     <div class="col-lg-8 col-sm-6 mx-auto">
         <div class="table-responsive" *ngIf="typeOeuvres?.length > 0">
             <table class="table table-striped mt-4" aria-describedby="page-heading">
-                <thead class="bg-warning">
+                <thead class="bg-warning-1">
                 <tr >
                 <th ><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                 <th ><span>Intitule</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -15,8 +15,8 @@
                     <td>{{reg.intitule}}</td>
                     <td class="text-right">
                         <div class="btn-group">
-                            <button class="btn btn-primary px-4" (click)="editer(reg)">New</button>
-                            <button class="btn btn-danger px-4" (click)="delete(reg)">New</button>
+                            <button class="btn btn-warning" (click)="editer(reg)"><i class="bx bxs-edit-alt"></i></button>
+                            <button class="btn btn-danger" (click)="delete(reg)"><i class="bx bxs-eraser"></i></button>
                             <!-- <button class="btn btn-warning px-4" (click)="create()">New</button> -->
                         </div>
                     </td>

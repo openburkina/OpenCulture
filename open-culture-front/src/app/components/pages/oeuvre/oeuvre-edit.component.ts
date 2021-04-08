@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import {Component, OnInit, ElementRef, ViewEncapsulation} from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, Validators, RequiredValidator } from '@angular/forms';
 import { OeuvreDTO } from '../../models/oeuvre.model';
@@ -15,13 +15,16 @@ import { ArtisteService } from "../artiste/artiste.service";
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from "../../common/constant/constant";
 import { ActivatedRoute } from '@angular/router';
+import {IDropdownSettings} from 'ng-multiselect-dropdown';
+
 type EntityOeuvre = HttpResponse<OeuvreDTO>;
 type EntityArrayOeuvre = HttpResponse<OeuvreDTO[]>;
 
 @Component({
   selector: 'app-oeuvre-edit',
   templateUrl: './oeuvre-edit.component.html',
-  styleUrls: ['./oeuvre-edit.component.scss']
+  styleUrls: ['./oeuvre-edit.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class OeuvreEditComponent implements OnInit {
   oeuvre: OeuvreDTO;
@@ -35,14 +38,17 @@ export class OeuvreEditComponent implements OnInit {
     fileContent: [],
     fileExtension: [],
     filePath: [],
-    artisteId: [],
+    artisteSelected: [],
+  //  artisteId: [],
     nomArtiste: []
-    
+
   });
 
   artiste: ArtisteDTO[];
   regroupement: RegroupementDTO[];
   typeOeuvre: TypeOeuvreDTO[];
+  artisteSelected : ArtisteDTO[];
+  dropdownSettings : IDropdownSettings;
 
   constructor(
     private ngModal: NgbActiveModal,
@@ -59,7 +65,12 @@ export class OeuvreEditComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ oeuvre }) => {
       this.updateOeuvre(this.oeuvre);
-    })
+    });
+    this.artisteSelected = this.oeuvre.artistes;
+    this.oeuvreForm.patchValue(
+        {artisteSelected: this.artisteSelected}
+    )
+    console.log(this.artisteSelected);
     this.regService.findAll("album").subscribe(
       resp => {
           this.regroupement = resp.body;
@@ -75,13 +86,23 @@ export class OeuvreEditComponent implements OnInit {
         this.artiste = resp.body;
       }
     );
+     this.dropdownSettings = {
+          singleSelection: false,
+          idField: 'id',
+          textField: 'nom',
+          enableCheckAll: false,
+          selectAllText: 'Select All',
+          unSelectAllText: 'UnSelect All',
+          itemsShowLimit: 3,
+          allowSearchFilter: true
+      };
   }
 
   createOeuvre(): OeuvreDTO {
     let oeuvre = new OeuvreDTO();
 
     oeuvre.id = this.oeuvreForm.get(['id']).value;
-    oeuvre.dateSortie = this.oeuvreForm.get(['dateSortie']).value != null ? 
+    oeuvre.dateSortie = this.oeuvreForm.get(['dateSortie']).value != null ?
                               moment(this.oeuvreForm.get(['dateSortie']).value, DATE_TIME_FORMAT) : undefined;
     oeuvre.fileExtension = this.oeuvreForm.get(['fileExtension']).value;
     oeuvre.fileContent = this.oeuvreForm.get(['fileContent']).value;
@@ -89,10 +110,10 @@ export class OeuvreEditComponent implements OnInit {
     oeuvre.titre = this.oeuvreForm.get(['titre']).value;
     oeuvre.typeOeuvreId = this.oeuvreForm.get(['typeOeuvreId']).value;
     oeuvre.regroupementId = this.oeuvreForm.get(['regroupementId']).value;
-    oeuvre.artisteId = this.oeuvreForm.get(['artisteId']).value;
-    // oeuvre.nomArtiste = this.oeuvreForm.get(['artiste']).value;
+    oeuvre.artistes = this.artisteSelected;
+ //   oeuvre.artisteId = this.oeuvreForm.get(['artisteId']).value;
 
-    return oeuvre;    
+    return oeuvre;
   }
 
   updateOeuvre(oeuvre: OeuvreDTO): void{
@@ -104,9 +125,8 @@ export class OeuvreEditComponent implements OnInit {
       typeOeuvreId: oeuvre.typeOeuvreDTO.id,
       fileContent: oeuvre.fileContent,
       fileExtension: oeuvre.fileExtension,
-      dateSortie: oeuvre.dateSortie ? oeuvre.dateSortie.format(DATE_TIME_FORMAT) : undefined,
-      artisteId: oeuvre.artisteId,
-    //  nomArtiste: oeuvre.nomArtiste
+      dateSortie: oeuvre.dateSortie != null ? oeuvre.dateSortie.format(DATE_TIME_FORMAT) : null,
+   //   artisteId: oeuvre.artisteId,
     })
   }
 
@@ -136,17 +156,17 @@ export class OeuvreEditComponent implements OnInit {
     console.log(oeuvre.regroupementId);
     console.log(oeuvre.dateSortie);
     // console.log(oeuvre.fileContent);
-    console.log(oeuvre.fileExtension);
+    // console.log(oeuvre.fileExtension);
     if(oeuvre.titre != null &&
      //  oeuvre.fileContent != null &&
      //  oeuvre.fileExtension != null &&
-       oeuvre.artisteId != null &&
-       oeuvre.regroupementId != null && 
+       oeuvre.artistes != null &&
+       oeuvre.regroupementId != null &&
        oeuvre.typeOeuvreId != null &&
        oeuvre.dateSortie != null)
       return true;
     else
-      return false;  
+      return false;
   }
 
   setFileData(event, field: string, isImage) {
@@ -163,7 +183,7 @@ export class OeuvreEditComponent implements OnInit {
           this.oeuvreForm.patchValue({
             [field]: base64Data,
             [filedContentType]: file.type
-            
+
           });
         });
       }
@@ -265,7 +285,7 @@ private paddingSize(value: string): number {
     );
   }
 
-  cancel(boolean: boolean): void{  
+  cancel(boolean: boolean): void{
       this.ngModal.close(boolean);
   }
 
@@ -274,7 +294,7 @@ private paddingSize(value: string): number {
   }
   showNotification(text: string, type: string): void {
     this.notify.notify(type,text);
-  } 
+  }
 
   trackArtisteById(index: number, item: ArtisteDTO) {
     return item.id;

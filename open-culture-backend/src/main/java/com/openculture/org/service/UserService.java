@@ -159,6 +159,7 @@ public class UserService {
         user.setResetKey(RandomUtil.generateResetKey());
         user.setResetDate(Instant.now());
         user.setActivated(true);
+        user.setActivitedByMail(false);
         if (userDTO.getAuthorities() != null) {
             Set<Authority> authorities = userDTO.getAuthorities().stream()
                 .map(authorityRepository::findById)
@@ -168,12 +169,9 @@ public class UserService {
             user.setAuthorities(authorities);
         } else {
             Set<Authority> authoritie = new HashSet<>();
-            System.out.println("====AUTORITY1=====");
             authority = authorityRepository.getOne(AuthoritiesConstants.USER);
-            System.out.println("====AUTORITY2=====");
             authoritie.add(authority);
             user.setAuthorities(authoritie);
-            System.out.println("====AUTORITY3=====");
         }
         userRepository.save(user);
         this.clearUserCaches(user);
@@ -202,6 +200,7 @@ public class UserService {
                 }
                 user.setImageUrl(userDTO.getImageUrl());
                 user.setActivated(userDTO.isActivated());
+                user.setActivitedByMail(userDTO.isActivitedByMail());
                 user.setLangKey(userDTO.getLangKey());
                 Set<Authority> managedAuthorities = user.getAuthorities();
                 managedAuthorities.clear();

@@ -55,6 +55,7 @@ import { TypeOeuvreEditComponent } from "./components/pages/type-oeuvre/type-oeu
 import { ArtisteEditComponent } from "./components/pages/artiste/artiste-edit.component";
 import { ArtisteDeleteComponent } from "./components/pages/artiste/artiste-delete.component";
 import { OeuvreAfficheComponent } from "./components/pages/oeuvre/oeuvre-affiche.component";
+import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
 const notifierDefaultOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -144,18 +145,19 @@ const notifierDefaultOptions: NotifierOptions = {
     ArtisteDeleteComponent,
     OeuvreAfficheComponent
   ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
-    NgxWebstorageModule.forRoot(),
-    FormsModule,
-    ReactiveFormsModule,
-    NotifierModule.withConfig(notifierDefaultOptions),
-    BrowserAnimationsModule,
-    NgbDatepickerModule,
-    NgxSpinnerModule
-  ],    
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        AppRoutingModule,
+        NgxWebstorageModule.forRoot(),
+        FormsModule,
+        ReactiveFormsModule,
+        NotifierModule.withConfig(notifierDefaultOptions),
+        BrowserAnimationsModule,
+        NgbDatepickerModule,
+        NgxSpinnerModule,
+        NgMultiSelectDropDownModule.forRoot()
+    ],
   providers: [
       {
           provide: HTTP_INTERCEPTORS,
