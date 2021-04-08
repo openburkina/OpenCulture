@@ -155,7 +155,7 @@
                     <div class="row">
                         <div class="col-lg-6 col-sm-6">
                             <div class="form-group">
-                                <input type="text" name="firstName" autocomplete="firstName" id="firstName" formControlName="firstName" class="form-control" required placeholder="votre Nom">
+                                <input type="text" name="firstName" autocomplete="firstName" id="firstName" formControlName="firstName" class="form-control" required placeholder="votre Nom" pattern="[a-zA-Z]*">
                             </div>
                             <div *ngIf="formAccount.get('firstName').invalid && (formAccount.get('firstName').touched || formAccount.get('firstName').dirty)">
                                 <small class="text-danger font-italic" *ngIf="formAccount.get('firstName').errors.required">
@@ -166,7 +166,7 @@
 
                         <div class="col-lg-6 col-sm-6">
                             <div class="form-group">
-                                <input type="text" name="lastName" autocomplete="lastName" id="lastName" formControlName="lastName" class="form-control" required placeholder="votre Prenom">
+                                <input type="text" name="lastName" autocomplete="lastName" id="lastName" formControlName="lastName" class="form-control" required placeholder="votre Prenom" pattern="[a-zA-Z]*">
                             </div>
                             <div *ngIf="formAccount.get('lastName').invalid && (formAccount.get('lastName').touched || formAccount.get('lastName').dirty)">
                                 <small class="text-danger font-italic" *ngIf="formAccount.get('lastName').errors.required">

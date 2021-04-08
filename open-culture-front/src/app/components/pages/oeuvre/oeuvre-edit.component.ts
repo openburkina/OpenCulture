@@ -64,7 +64,7 @@ export class OeuvreEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ oeuvre }) => {
-      this.updateOeuvre(this.oeuvre);
+      this.updateOeuvre(oeuvre);
     });
     this.artisteSelected = this.oeuvre.artistes;
     this.oeuvreForm.patchValue(
