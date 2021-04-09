@@ -1,6 +1,8 @@
 package com.openculture.org.service;
 
 import com.openculture.org.domain.Artiste;
+import com.openculture.org.domain.ArtisteOeuvre;
+import com.openculture.org.repository.ArtisteOeuvreRepository;
 import com.openculture.org.repository.ArtisteRepository;
 import com.openculture.org.service.dto.ArtisteDTO;
 import com.openculture.org.service.dto.InformationCivilDTO;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -30,8 +33,11 @@ public class ArtisteService {
 
     private final InformationCivilService informationCivilService;
 
-    public ArtisteService(ArtisteRepository artisteRepository, ArtisteMapper artisteMapper, InformationCivilService informationCivilService) {
+    private final ArtisteOeuvreRepository artisteOeuvreRepository;
+
+    public ArtisteService(ArtisteOeuvreRepository artisteOeuvreRepository, ArtisteRepository artisteRepository, ArtisteMapper artisteMapper, InformationCivilService informationCivilService) {
         this.artisteRepository = artisteRepository;
+        this.artisteOeuvreRepository = artisteOeuvreRepository;
         this.artisteMapper = artisteMapper;
         this.informationCivilService = informationCivilService;
     }
@@ -99,9 +105,17 @@ public class ArtisteService {
      * Delete the artiste by id.
      *
      * @param id the id of the entity.
+     * @throws Exception
      */
     public void delete(Long id) {
         log.debug("Request to delete Artiste : {}", id);
-        artisteRepository.deleteById(id);
+        List<ArtisteOeuvre> artOeuvres = artisteOeuvreRepository.findAllByArtisteId(id);
+        if (artOeuvres.isEmpty()) {
+            informationCivilService.delete(this.findOne(id).get().getInformationCivilDTO().getId());
+            artisteRepository.deleteById(id);
+        } else {
+            throw new EntityUsedInAnotherException();
+        }
+        
     }
 }

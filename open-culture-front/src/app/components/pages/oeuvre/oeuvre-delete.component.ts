@@ -3,6 +3,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { OeuvreDTO } from '../../models/oeuvre.model';
 import { OeuvreService } from './oeuvre.service';
 import { HttpResponse } from '@angular/common/http';
+import { NotifierService } from 'angular-notifier';
 type EntityOeuvre = HttpResponse<OeuvreDTO>;
 type EntityArrayOeuvre = HttpResponse<OeuvreDTO[]>;
 
@@ -17,6 +18,7 @@ oeuvre: OeuvreDTO;
 
   constructor(
     private regService: OeuvreService,
+    private notify: NotifierService,
     private activeModal: NgbActiveModal) {
    }
 
@@ -27,10 +29,20 @@ oeuvre: OeuvreDTO;
     this.activeModal.dismiss('cancel');
   }
 
+  showNotification(text: string, type: string): void {
+    this.notify.notify(type,text);
+  }
+
   confirmDelete(id: number) {
-    this.regService.delete(id).subscribe(() => {
-      this.activeModal.dismiss(true);
-    });
+    this.regService.delete(id).subscribe(
+      () => {
+        this.activeModal.dismiss(true);
+        this.showNotification("Suppression réussie","success")
+      },
+      () => {
+        this.showNotification("Erreur lors de la suppression","error")
+      }  
+    );
   }
 
 }

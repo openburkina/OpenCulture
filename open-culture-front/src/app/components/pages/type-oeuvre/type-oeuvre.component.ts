@@ -33,11 +33,25 @@ export class TypeOeuvreComponent implements OnInit {
   editer(reg: TypeOeuvreDTO): void{
     const modal = this.modalService.open(TypeOeuvreEditComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
     modal.componentInstance.typeOeuvre = reg;
+    modal.result.then(
+      response => {
+        if (response === true) {
+          this.loadAll();
+        }
+      }
+    )
   }
 
   delete(reg: TypeOeuvreDTO): void{
     const modal = this.modalService.open(TypeOeuvreDeleteComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
     modal.componentInstance.typeOeuvre = reg;
+    modal.result.then(
+      response => {
+        if (response === true) {
+          this.loadAll();
+        }
+      }
+    )
   }
 
 }

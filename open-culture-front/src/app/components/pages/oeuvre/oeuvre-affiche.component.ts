@@ -45,25 +45,44 @@ export class OeuvreAfficheComponent implements OnInit {
     this.oeuvreService.findComplet().subscribe(
       response => {
           this.oeuvres = response.body;
-          console.log(this.oeuvres);
       }
     );
   }
 
   create(): void{
     const modal = this.ngModalService.open(OeuvreEditComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
+    modal.result.then(
+      response => {
+        if (response === true) {
+          this.loadAll();
+        }
+      }
+    )
   }
 
   editer(oeuvreDTO: OeuvreDTO): void{
-    console.log(oeuvreDTO);
+    console.log('OUEVRE',oeuvreDTO);
     const modal = this.ngModalService.open(OeuvreEditComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
     modal.componentInstance.oeuvre = oeuvreDTO;
+    modal.result.then(
+      response => {
+        if (response === true) {
+          this.loadAll();
+        }
+      }
+    )
     
   }
 
   delete(oeuvreDTO: OeuvreDTO): void{
     const modal = this.ngModalService.open(OeuvreDeleteComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
     modal.componentInstance.oeuvre = oeuvreDTO;
-    console.log(modal.componentInstance.oeuvreDTO);
+    modal.result.then(
+      response => {
+        if (response === true) {
+          this.loadAll();
+        }
+      }
+    )
   }
 }

@@ -93,11 +93,11 @@ public class TypeOeuvreResource {
      */
     @GetMapping("/type-oeuvres")
     public ResponseEntity<List<TypeOeuvreDTO>> getAllTypeOeuvres(Pageable pageable, @RequestParam(required = false) String filter) {
-        if ("oeuvre-is-null".equals(filter)) {
-            log.debug("REST request to get all TypeOeuvres where oeuvre is null");
-            return new ResponseEntity<>(typeOeuvreService.findAllWhereOeuvreIsNull(),
-                    HttpStatus.OK);
-        }
+        // if ("oeuvre-is-null".equals(filter)) {
+        //     log.debug("REST request to get all TypeOeuvres where oeuvre is null");
+        //     return new ResponseEntity<>(typeOeuvreService.findAllWhereOeuvreIsNull(),
+        //             HttpStatus.OK);
+        // }
         log.debug("REST request to get a page of TypeOeuvres");
         Page<TypeOeuvreDTO> page = typeOeuvreService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);

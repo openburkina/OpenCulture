@@ -13,4 +13,6 @@ import java.util.List;
 @Repository
 public interface ArtisteOeuvreRepository extends JpaRepository<ArtisteOeuvre, Long> {
     List<ArtisteOeuvre> findAllByOeuvreId(Long id);
+    List<ArtisteOeuvre> findAllByArtisteId(Long id);
+    void deleteByArtisteId(Long id);
 }

@@ -9,17 +9,17 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Oeuvre} and its DTO {@link OeuvreDTO}.
  */
-@Mapper(componentModel = "spring", uses = {TypeOeuvreMapper.class, RegroupementMapper.class})
+@Mapper(componentModel = "spring", uses = {RegroupementMapper.class, TypeOeuvreMapper.class})
 public interface OeuvreMapper extends EntityMapper<OeuvreDTO, Oeuvre> {
 
-    @Mapping(source = "typeOeuvre", target = "typeOeuvreDTO")
     @Mapping(source = "regroupement", target = "regroupementDTO")
+    @Mapping(source = "typeOeuvre", target = "typeOeuvreDTO")
     OeuvreDTO toDto(Oeuvre oeuvre);
 
-    @Mapping(source = "typeOeuvreDTO", target = "typeOeuvre")
     @Mapping(target = "artisteOeuvres", ignore = true)
     @Mapping(target = "removeArtisteOeuvre", ignore = true)
     @Mapping(source = "regroupementDTO", target = "regroupement")
+    @Mapping(source = "typeOeuvreDTO", target = "typeOeuvre")
     Oeuvre toEntity(OeuvreDTO oeuvreDTO);
 
     default Oeuvre fromId(Long id) {

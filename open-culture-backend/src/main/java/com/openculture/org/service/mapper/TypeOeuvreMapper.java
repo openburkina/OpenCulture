@@ -12,8 +12,8 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {})
 public interface TypeOeuvreMapper extends EntityMapper<TypeOeuvreDTO, TypeOeuvre> {
 
-
-    @Mapping(target = "oeuvre", ignore = true)
+    @Mapping(target = "oeuvres", ignore = true)
+    @Mapping(target = "removeOeuvre", ignore = true)
     TypeOeuvre toEntity(TypeOeuvreDTO typeOeuvreDTO);
 
     default TypeOeuvre fromId(Long id) {

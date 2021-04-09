@@ -64,13 +64,17 @@ export class OeuvreEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ oeuvre }) => {
-      this.updateOeuvre(this.oeuvre);
-    });
-    this.artisteSelected = this.oeuvre.artistes;
-    this.oeuvreForm.patchValue(
-        {artisteSelected: this.artisteSelected}
+      if (this.oeuvre !== null && this.oeuvre !== undefined) {
+        console.log("this.artisteSelected");
+        this.updateOeuvre(this.oeuvre);
+        this.artisteSelected = this.oeuvre.artistes;
+        this.oeuvreForm.patchValue(
+        {
+          artisteSelected: this.artisteSelected
+        }
     )
-    console.log(this.artisteSelected);
+      }
+    });
     this.regService.findAll("album").subscribe(
       resp => {
           this.regroupement = resp.body;
@@ -110,7 +114,9 @@ export class OeuvreEditComponent implements OnInit {
     oeuvre.titre = this.oeuvreForm.get(['titre']).value;
     oeuvre.typeOeuvreId = this.oeuvreForm.get(['typeOeuvreId']).value;
     oeuvre.regroupementId = this.oeuvreForm.get(['regroupementId']).value;
-    oeuvre.artistes = this.artisteSelected;
+    oeuvre.artistes = this.oeuvreForm.get(['artisteSelected']).value;
+
+ //   oeuvre.artistes = this.artisteSelected;
  //   oeuvre.artisteId = this.oeuvreForm.get(['artisteId']).value;
 
     return oeuvre;
@@ -126,21 +132,17 @@ export class OeuvreEditComponent implements OnInit {
       fileContent: oeuvre.fileContent,
       fileExtension: oeuvre.fileExtension,
       dateSortie: oeuvre.dateSortie != null ? oeuvre.dateSortie.format(DATE_TIME_FORMAT) : null,
+      artisteSelected: this.artisteSelected
    //   artisteId: oeuvre.artisteId,
     })
   }
 
   save(){
     const oeuvre = this.createOeuvre();
-
     if (this.validateOeuvre(oeuvre)) {
       if(oeuvre.id !== undefined && oeuvre.id !== null){
-        console.log("update");
-        console.log(oeuvre);
         this.saveState(this.oeuvreService.update(oeuvre));
       } else {
-        console.log("create");
-        console.log(oeuvre);
         this.saveState(this.oeuvreService.create(oeuvre));
 
       }
@@ -151,13 +153,9 @@ export class OeuvreEditComponent implements OnInit {
   }
 
   validateOeuvre(oeuvre: OeuvreDTO): Boolean{
-    console.log(oeuvre.titre);
-    console.log(oeuvre.artisteId);
-    console.log(oeuvre.regroupementId);
-    console.log(oeuvre.dateSortie);
     // console.log(oeuvre.fileContent);
     // console.log(oeuvre.fileExtension);
-    if(oeuvre.titre != null &&
+    if(oeuvre.titre.length > 0 &&
      //  oeuvre.fileContent != null &&
      //  oeuvre.fileExtension != null &&
        oeuvre.artistes != null &&
@@ -277,7 +275,6 @@ private paddingSize(value: string): number {
       () => {
         this.showNotification("oeuvre enregistree","success");
         this.cancel(true);
-      //  window.history.back();
       },
       () => {
         this.showNotification("enregistrement echoue","error");

@@ -24,6 +24,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import liquibase.pro.packaged.id;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -57,11 +59,15 @@ public class OeuvreService {
 
     private final InformationCivilService informationCivilService;
 
+    private final RegroupementService regroupementService;
+
+    private final TypeOeuvreService typeOeuvreService;
+
     private final ArtisteService artisteService;
 
     private final ArtisteOeuvreService artisteOeuvreService;
 
-    public OeuvreService(OeuvreMapper oeuvreMapper, OeuvreRepository oeuvreRepository, ArtisteMapper artisteMapper, ArtisteOeuvreRepository artisteOeuvreRepository, InformationCivilService informationCivilService, ArtisteService artisteService, ArtisteOeuvreService artisteOeuvreService) {
+    public OeuvreService(OeuvreMapper oeuvreMapper, TypeOeuvreService typeOeuvreService, RegroupementService regroupementService, OeuvreRepository oeuvreRepository, ArtisteMapper artisteMapper, ArtisteOeuvreRepository artisteOeuvreRepository, InformationCivilService informationCivilService, ArtisteService artisteService, ArtisteOeuvreService artisteOeuvreService) {
         this.oeuvreRepository = oeuvreRepository;
         this.artisteMapper = artisteMapper;
         this.artisteOeuvreRepository = artisteOeuvreRepository;
@@ -69,6 +75,8 @@ public class OeuvreService {
         this.artisteService = artisteService;
         this.artisteOeuvreService = artisteOeuvreService;
         this.oeuvreMapper = oeuvreMapper;
+        this.regroupementService = regroupementService;
+        this.typeOeuvreService = typeOeuvreService;
     }
 
     /**
@@ -82,7 +90,10 @@ public class OeuvreService {
         log.debug("Request to save Oeuvre : {}", oeuvreDTO);
 
         List<ArtisteOeuvreDTO> artisteOeuvres = new ArrayList<>();
-        ArtisteOeuvre a =new ArtisteOeuvre();
+        ArtisteOeuvre a = new ArtisteOeuvre();
+
+        oeuvreDTO.setRegroupementDTO(regroupementService.findOne(oeuvreDTO.getRegroupementId()).get());
+        oeuvreDTO.setTypeOeuvreDTO(typeOeuvreService.findOne(oeuvreDTO.getTypeOeuvreId()).get());
 
         if (validedOeuvre(oeuvreDTO)) {
             if (oeuvreDTO.getArtistes() != null) {
@@ -107,20 +118,35 @@ public class OeuvreService {
             // oeuvreDTO.setFileName(s[0]);
             // oeuvreDTO.setFileExtension(s[1]);
 
-            // log.debug("\ntaille avant: {}",oeuvreDTO.getFileContent().length);
-
+            log.debug("\n\nRegroupement : {}",oeuvreDTO.getRegroupementDTO());
             // oeuvreDTO.setFileContent(compressData(oeuvreDTO.getFileContent()));
-
-            // log.debug("\ntaille apres: {}",oeuvreDTO.getFileContent().length);
-
+            log.debug("Type Oeuvre: {}"+"\n\n",oeuvreDTO.getTypeOeuvreDTO());
+            // oeuvreDTO.setRegroupementId(oeuvreDTO.getRegroupementId());
+            // oeuvreDTO.setTypeOeuvreId(oeuvreDTO.getTypeOeuvreId());
+            
             Oeuvre oeuvre = oeuvreMapper.toEntity(oeuvreDTO);
             oeuvre = oeuvreRepository.save(oeuvre);
+
+            List<Long> artsId = oeuvreDTO.getArtistes()
+                                .stream().map(ArtisteDTO::getId).collect(Collectors.toList());
+
+            List<Long> artOeuvres = artisteOeuvreRepository.findAllByOeuvreId(oeuvre.getId())
+                                .stream().map(ArtisteOeuvre::getArtiste)
+                                .map(Artiste::getId).collect(Collectors.toList());
+
+            for (Long long1 : artOeuvres) {
+                if (!artsId.contains(long1)) {
+                    artisteOeuvreRepository.deleteByArtisteId(long1);
+                }
+            }                  
 
             Oeuvre finalOeuvre = oeuvre;
             artisteOeuvres.forEach(
                 artisteOeuvreDTO -> {
                     artisteOeuvreDTO.setOeuvreId(finalOeuvre.getId());
-                    artisteOeuvreService.save(artisteOeuvreDTO);
+                    if (!artOeuvres.contains(artisteOeuvreDTO.getArtisteId())) {
+                        artisteOeuvreService.save(artisteOeuvreDTO);
+                    } 
             });
             return oeuvreMapper.toDto(oeuvre);
         }
@@ -135,11 +161,11 @@ public class OeuvreService {
     }
 
     public boolean validedOeuvre(OeuvreDTO oeuvreDTO){
-        if (oeuvreDTO.getTitre() != null
+        if (oeuvreDTO.getTitre().length() > 0
             && oeuvreDTO.getTypeOeuvreId() != null
             && oeuvreDTO.getRegroupementId() != null
-           // && oeuvreDTO.getDateSortie()!=null)
-            // && oeuvreDTO.getPathFile() != null
+            && oeuvreDTO.getDateSortie()!=null
+            && oeuvreDTO.getArtistes() != null
             )
             return true;
         return false;
@@ -329,6 +355,8 @@ public class OeuvreService {
      */
     public void delete(Long id) {
         log.debug("Request to delete Oeuvre : {}", id);
+        List<ArtisteOeuvre> artOeuvres = artisteOeuvreRepository.findAllByOeuvreId(id);
+        artisteOeuvreRepository.deleteInBatch(artOeuvres);
         oeuvreRepository.deleteById(id);
     }
 
