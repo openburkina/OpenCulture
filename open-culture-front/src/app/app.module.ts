@@ -38,8 +38,10 @@ import {InterceptorService} from './components/services/interceptor/interceptor.
 import {NgxWebstorageModule} from 'ngx-webstorage';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { OeuvreComponent } from './components/pages/oeuvre/oeuvre.component';
+import { ChangePasswordComponent } from './components/pages/change-password/change-password.component';
+import { AbonnementComponent } from './components/pages/abonnement/abonnement.component';
 import { OeuvreEditComponent } from './components/pages/oeuvre/oeuvre-edit.component';
-import { NotifierModule, NotifierOptions } from 'angular-notifier';
+import { NotifierModule, NotifierOptions } from "angular-notifier";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { RegroupementComponent } from './components/pages/regroupement/regroupement.component';
@@ -128,6 +130,8 @@ const notifierDefaultOptions: NotifierOptions = {
     AccountComponent,
     SpinnerComponent,
     OeuvreComponent,
+    ChangePasswordComponent,
+    AbonnementComponent,
     OeuvreEditComponent,
     RegroupementComponent,
     TypeOeuvreComponent,

@@ -9,6 +9,8 @@ import com.openculture.org.security.AuthoritiesConstants;
 import com.openculture.org.security.SecurityUtils;
 import com.openculture.org.service.dto.UserDTO;
 
+import com.openculture.org.web.rest.AccountResource;
+import com.openculture.org.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.security.RandomUtil;
 
 import org.slf4j.Logger;
@@ -157,6 +159,7 @@ public class UserService {
         user.setResetKey(RandomUtil.generateResetKey());
         user.setResetDate(Instant.now());
         user.setActivated(true);
+        user.setActivitedByMail(false);
         if (userDTO.getAuthorities() != null) {
             Set<Authority> authorities = userDTO.getAuthorities().stream()
                 .map(authorityRepository::findById)
@@ -166,12 +169,9 @@ public class UserService {
             user.setAuthorities(authorities);
         } else {
             Set<Authority> authoritie = new HashSet<>();
-            System.out.println("====AUTORITY1=====");
             authority = authorityRepository.getOne(AuthoritiesConstants.USER);
-            System.out.println("====AUTORITY2=====");
             authoritie.add(authority);
             user.setAuthorities(authoritie);
-            System.out.println("====AUTORITY3=====");
         }
         userRepository.save(user);
         this.clearUserCaches(user);
@@ -200,6 +200,7 @@ public class UserService {
                 }
                 user.setImageUrl(userDTO.getImageUrl());
                 user.setActivated(userDTO.isActivated());
+                user.setActivitedByMail(userDTO.isActivitedByMail());
                 user.setLangKey(userDTO.getLangKey());
                 Set<Authority> managedAuthorities = user.getAuthorities();
                 managedAuthorities.clear();
@@ -263,6 +264,22 @@ public class UserService {
                 this.clearUserCaches(user);
                 log.debug("Changed password for User: {}", user);
             });
+    }
+
+    @Transactional
+    public User changeUserPassword(String login, String newPassword) {
+
+        Optional<User> user = userRepository.findOneByLogin(login);
+        if (!user.isPresent()){
+            throw new BadRequestAlertException("Votre Email est incorrect","","");
+        }
+        if (user.isPresent()){
+            String encryptedPassword = passwordEncoder.encode(newPassword);
+            user.get().setPassword(encryptedPassword);
+            this.clearUserCaches(user.get());
+        }
+        log.debug("Changed password for User: {}", user);
+        return userRepository.save(user.get());
     }
 
     @Transactional(readOnly = true)

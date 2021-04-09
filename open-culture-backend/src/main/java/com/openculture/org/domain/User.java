@@ -1,5 +1,6 @@
 package com.openculture.org.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.openculture.org.config.Constants;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -60,6 +61,9 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(nullable = false)
     private boolean activated = false;
 
+    @Column(name = "activited_by_mail")
+    private boolean activitedByMail = false;
+
     @Size(min = 2, max = 10)
     @Column(name = "lang_key", length = 10)
     private String langKey;
@@ -92,6 +96,10 @@ public class User extends AbstractAuditingEntity implements Serializable {
         inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
+
+    @ManyToOne
+    @JsonIgnoreProperties("Users")
+    private Abonnement abonnement;
 
 
     public Long getId() {
@@ -207,6 +215,22 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.telephone = telephone;
     }
 
+    public Abonnement getAbonnement() {
+        return abonnement;
+    }
+
+    public void setAbonnement(Abonnement abonnement) {
+        this.abonnement = abonnement;
+    }
+
+    public boolean isActivitedByMail() {
+        return activitedByMail;
+    }
+
+    public void setActivitedByMail(boolean activitedByMail) {
+        this.activitedByMail = activitedByMail;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -233,6 +257,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
             ", lastName='" + lastName + '\'' +
             ", email='" + email + '\'' +
             ", activated=" + activated +
+            ", activitedByMail=" + activitedByMail +
             ", langKey='" + langKey + '\'' +
             ", imageUrl='" + imageUrl + '\'' +
             ", activationKey='" + activationKey + '\'' +
@@ -240,6 +265,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
             ", resetDate=" + resetDate +
             ", telephone='" + telephone + '\'' +
             ", authorities=" + authorities +
+            ", abonnement=" + abonnement +
             '}';
     }
 }

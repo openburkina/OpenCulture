@@ -3,9 +3,13 @@ package com.openculture.org.service;
 import com.openculture.org.domain.Artiste;
 import com.openculture.org.domain.ArtisteOeuvre;
 import com.openculture.org.repository.ArtisteOeuvreRepository;
+import com.openculture.org.domain.Oeuvre;
 import com.openculture.org.repository.ArtisteRepository;
+import com.openculture.org.repository.OeuvreRepository;
 import com.openculture.org.service.dto.ArtisteDTO;
 import com.openculture.org.service.dto.InformationCivilDTO;
+import com.openculture.org.service.dto.OeuvreDTO;
+import com.openculture.org.service.dto.RechercheDTO;
 import com.openculture.org.service.mapper.ArtisteMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,15 +35,26 @@ public class ArtisteService {
 
     private final ArtisteMapper artisteMapper;
 
+    private final ArtisteOeuvreService artisteOeuvreService;
+
+    private final OeuvreRepository oeuvreRepository;
+
     private final InformationCivilService informationCivilService;
+   private List<Artiste> artistes;
+   private List<ArtisteOeuvre> artisteOeuvres ;
+    Optional<Oeuvre> oeuvres ;
+    RechercheDTO rechercheDTOS;
 
     private final ArtisteOeuvreRepository artisteOeuvreRepository;
 
-    public ArtisteService(ArtisteOeuvreRepository artisteOeuvreRepository, ArtisteRepository artisteRepository, ArtisteMapper artisteMapper, InformationCivilService informationCivilService) {
+    public ArtisteService(ArtisteOeuvreRepository artisteOeuvreRepository,ArtisteRepository artisteRepository, ArtisteMapper artisteMapper, InformationCivilService informationCivilService, ArtisteOeuvreService artisteOeuvreService, OeuvreRepository oeuvreRepository) {
+
         this.artisteRepository = artisteRepository;
         this.artisteOeuvreRepository = artisteOeuvreRepository;
         this.artisteMapper = artisteMapper;
         this.informationCivilService = informationCivilService;
+        this.artisteOeuvreService = artisteOeuvreService;
+        this.oeuvreRepository = oeuvreRepository;
     }
 
     /**
@@ -85,6 +100,28 @@ public class ArtisteService {
         log.debug("Request to get all Artistes");
         return artisteRepository.findAll(pageable)
             .map(artisteMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public RechercheDTO onSearch(String search) {
+        log.debug("Request to get all Artistes");
+        artistes = artisteRepository.findArtisteByCritaria(search);
+        if (artistes.size()>0) {
+          artistes.forEach(artiste ->{
+              this.rechercheDTOS = new RechercheDTO();
+              this.rechercheDTOS.setArtiste(artiste);
+              artisteOeuvres = artisteOeuvreService.findByArtisteId(artiste.getId());
+          });
+         if (artisteOeuvres.size()>0){
+             artisteOeuvres.forEach(artisteOeuvre -> {
+                 System.out.println("====ID==== "+artisteOeuvre.getArtiste().getId());
+                 this.rechercheDTOS = new RechercheDTO();
+                this.oeuvres = oeuvreRepository.findById(artisteOeuvre.getOeuvre().getId());
+                 this.rechercheDTOS.setOeuvre(this.oeuvres.get());
+             });
+         }
+        }
+        return this.rechercheDTOS;
     }
 
 

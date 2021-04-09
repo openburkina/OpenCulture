@@ -12,6 +12,9 @@ import java.util.List;
 @SuppressWarnings("unused")
 @Repository
 public interface ArtisteOeuvreRepository extends JpaRepository<ArtisteOeuvre, Long> {
+
+    List<ArtisteOeuvre> findByArtisteId(Long id);
+
     List<ArtisteOeuvre> findAllByOeuvreId(Long id);
     List<ArtisteOeuvre> findAllByArtisteId(Long id);
     void deleteByArtisteId(Long id);

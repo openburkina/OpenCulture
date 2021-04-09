@@ -13,6 +13,7 @@ import com.openculture.org.service.dto.OeuvreDTO;
 import com.openculture.org.service.mapper.ArtisteMapper;
 import com.openculture.org.service.mapper.OeuvreMapper;
 import com.openculture.org.web.rest.OeuvreResource;
+import io.undertow.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.InputStreamResource;
@@ -28,6 +29,7 @@ import liquibase.pro.packaged.id;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -67,12 +69,12 @@ public class OeuvreService {
 
     private final ArtisteOeuvreService artisteOeuvreService;
 
-    public OeuvreService(OeuvreMapper oeuvreMapper, TypeOeuvreService typeOeuvreService, RegroupementService regroupementService, OeuvreRepository oeuvreRepository, ArtisteMapper artisteMapper, ArtisteOeuvreRepository artisteOeuvreRepository, InformationCivilService informationCivilService, ArtisteService artisteService, ArtisteOeuvreService artisteOeuvreService) {
+    public OeuvreService(OeuvreMapper oeuvreMapper, InformationCivilService informationCivilService,TypeOeuvreService typeOeuvreService, RegroupementService regroupementService, OeuvreRepository oeuvreRepository, ArtisteMapper artisteMapper, ArtisteOeuvreRepository artisteOeuvreRepository, InformationCivilService informationCivilService, ArtisteService artisteService, ArtisteOeuvreService artisteOeuvreService) {
+
         this.oeuvreRepository = oeuvreRepository;
         this.artisteMapper = artisteMapper;
         this.artisteOeuvreRepository = artisteOeuvreRepository;
         this.informationCivilService = informationCivilService;
-        this.artisteService = artisteService;
         this.artisteOeuvreService = artisteOeuvreService;
         this.oeuvreMapper = oeuvreMapper;
         this.regroupementService = regroupementService;
@@ -111,6 +113,12 @@ public class OeuvreService {
             } else {
                 artisteOeuvre.setArtisteId(artisteService.save(oeuvreDTO.getArtisteDTO()).getId());
             }*/
+
+            File media = new File(oeuvreDTO.getPathFile());
+           // oeuvreDTO.setFileContent(FileUtils.readFileToByteArray(media));
+            String s[] = media.getName().split("\\.");
+            oeuvreDTO.setFileName(s[0]);
+            oeuvreDTO.setFileExtension(s[1]);
 
             // File media = new File(oeuvreDTO.getPathFile());
             // oeuvreDTO.setFileContent(FileUtils.readFileToByteArray(media));

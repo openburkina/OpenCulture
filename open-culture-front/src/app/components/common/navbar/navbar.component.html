@@ -148,10 +148,13 @@
 
                         <li class="nav-item"><a routerLink="/contact" class="nav-link" routerLinkActive="active"[routerLinkActiveOptions]="{exact: true}">Contact</a></li>
 
-                      <!--  <li class="nav-item"><a class="btn btn-brand btn-rounded btn-sm" routerLink="/account" class="nav-link" routerLinkActive="active"[routerLinkActiveOptions]="{exact: true}">S'incrire</a></li>-->
-                        <li class="nav-item"><a class="btn btn-brand btn-rounded btn-sm" (click)="openSignin()">Se connecter</a></li>
-                        <li class="nav-item"><a class="btn btn-brand btn-rounded btn-sm" (click)="openAccount()">S'incrire</a></li>
+                        <!--<li class="nav-item"><a class="default-btn" (click)="openSignin()">Se connecter</a></li>-->
+                        <!--<li class="default-btn" (click)="openSignin()">Se connecter</li>
+                        <li class="nav-item"><a class="btn btn-brand btn-rounded btn-sm" (click)="openAccount()">S'incrire</a></li>-->
+                        <li class="nav-item"><a class="btn btn-brand default-btn" (click)="openSignin()">Se connecter</a></li>
+                        <li class="nav-item"><a class="btn btn-brand default-btn" (click)="openAccount()">S'incrire</a></li>
                     </ul>
+
 
                     <div class="others-options d-flex align-items-center">
                         <div class="option-item">
@@ -159,8 +162,8 @@
                             <i class='close-btn bx bx-x'></i>
                             <div class="search-overlay search-popup">
                                 <div class='search-box'>
-                                    <form class="search-form">
-                                        <input class="search-input" name="search" placeholder="Search" type="text">
+                                    <form class="search-form" [formGroup]="formSearch" (ngSubmit)="onSearch()">
+                                        <input class="search-input" name="search" placeholder="Search" formControlName="search" class="form-control" type="text" required>
                                         <button class="search-button" type="submit"><i class="bx bx-search"></i></button>
                                     </form>
                                 </div>

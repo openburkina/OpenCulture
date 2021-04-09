@@ -52,7 +52,7 @@ export class AuthJWTService {
 
     login(credentials: LoginVM): Observable<void> {
         return this.http
-            .post<JwtToken>(environment.SERVER_URL + '/authenticate', credentials)
+            .post<JwtToken>(environment.apiUrl + 'authenticate', credentials)
             .pipe(map((response: JwtToken) => {
                     this.authenticateSuccess(response, credentials.rememberMe);
                 }),

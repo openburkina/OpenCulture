@@ -19,12 +19,12 @@ export class AccountComponent implements OnInit {
     errorMessage = null;
     loginVM: LoginVM;
     formAccount = this.fb.group({
-        firstName: [null, Validators.required],
-        lastName: [null, Validators.required],
+        firstName: [null, [Validators.required,Validators.minLength(2)]],
+        lastName: [null, [Validators.required,Validators.minLength(2)]],
         email: [null, [Validators.required, Validators.email]],
-        password: [null, Validators.required],
-        telephone: [null, Validators.required],
-        confirmPassword: [null, Validators.required],
+        password: [null, [Validators.required,Validators.minLength(6)]],
+        telephone: [null, [Validators.required]],
+        confirmPassword: [null, [Validators.required,Validators.minLength(8)]],
     });
 
   constructor(

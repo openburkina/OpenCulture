@@ -1,7 +1,10 @@
 package com.openculture.org.service;
 
 import com.openculture.org.domain.Abonnement;
+import com.openculture.org.domain.User;
 import com.openculture.org.repository.AbonnementRepository;
+import com.openculture.org.repository.UserRepository;
+import com.openculture.org.security.SecurityUtils;
 import com.openculture.org.service.dto.AbonnementDTO;
 import com.openculture.org.service.mapper.AbonnementMapper;
 import org.slf4j.Logger;
@@ -12,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.Optional;
 
 /**
@@ -27,9 +31,12 @@ public class AbonnementService {
 
     private final AbonnementMapper abonnementMapper;
 
-    public AbonnementService(AbonnementRepository abonnementRepository, AbonnementMapper abonnementMapper) {
+    private final UserRepository userRepository;
+
+    public AbonnementService(AbonnementRepository abonnementRepository, AbonnementMapper abonnementMapper, UserRepository userRepository) {
         this.abonnementRepository = abonnementRepository;
         this.abonnementMapper = abonnementMapper;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -40,6 +47,9 @@ public class AbonnementService {
      */
     public AbonnementDTO save(AbonnementDTO abonnementDTO) {
         log.debug("Request to save Abonnement : {}", abonnementDTO);
+      Optional<User>  user = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByLogin);
+        abonnementDTO.setDateAbonnement(Instant.now());
+        abonnementDTO.setUser(user.get());
         Abonnement abonnement = abonnementMapper.toEntity(abonnementDTO);
         abonnement = abonnementRepository.save(abonnement);
         return abonnementMapper.toDto(abonnement);
