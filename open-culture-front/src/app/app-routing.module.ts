@@ -63,6 +63,7 @@ const routes: Routes = [
     {path: 'blog-details', component: BlogDetailsComponent},
     {path: 'contact', component: ContactComponent},
     {path: 'account', component: AccountComponent},
+    {path: 'account:key', component: AccountComponent},
 
 
     {path: '**', component: ErrorComponent} // This line will remain down from the whole component list
