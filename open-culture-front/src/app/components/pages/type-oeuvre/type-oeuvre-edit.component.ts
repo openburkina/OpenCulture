@@ -72,7 +72,6 @@ export class TypeOeuvreEditComponent implements OnInit {
       () => {
         this.showNotification("Type oeuvre enregistree","success");
         this.cancel(true);
-        window.history.back();
       },
       () => {
         this.showNotification("Type oeuvre echoue","error");

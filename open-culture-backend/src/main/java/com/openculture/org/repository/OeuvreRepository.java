@@ -1,5 +1,7 @@
 package com.openculture.org.repository;
 
+import java.util.List;
+
 import com.openculture.org.domain.Oeuvre;
 import com.openculture.org.domain.enumeration.TypeFichier;
 
@@ -15,4 +17,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OeuvreRepository extends JpaRepository<Oeuvre, Long> {
     Page<Oeuvre> findAllByTypeFichier(Pageable pageable,TypeFichier typeFichier);
+    List<Oeuvre> findAllByRegroupementId(Long id);
+    List<Oeuvre> findAllByTypeOeuvre(Long id);
 }

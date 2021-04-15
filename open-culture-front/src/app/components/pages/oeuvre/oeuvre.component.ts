@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OeuvreEditComponent } from "./oeuvre-edit.component";
 import { Router } from '@angular/router';
 import { OeuvreDeleteComponent } from './oeuvre-delete.component';
+import { locale } from 'moment';
 
 @Component({
   selector: 'app-oeuvre',
@@ -33,7 +34,7 @@ export class OeuvreComponent implements OnInit {
   ];
   constructor(
     protected oeuvreService: OeuvreService,
-    protected ngModalService: NgbModal,
+    private ngModalService: NgbModal,
     protected route: Router
     ) { this.typeFichier = TypeFichier.VIDEO }
 
@@ -73,9 +74,24 @@ export class OeuvreComponent implements OnInit {
     }  
   }
 
-  editer(oeuvre: OeuvreDTO): void{
+  editer(oeuvre: OeuvreDTO) {
+    console.log('OUEVRE', oeuvre);
     const modal = this.ngModalService.open(OeuvreEditComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
     modal.componentInstance.oeuvre = oeuvre;
+    modal.result.then(
+      response => {
+        console.log("modal result");
+        console.log(response);
+        if (response === true) {
+          this.loadAll();
+        }
+      }
+    ).catch(
+      data => {
+        console.log(data);
+      }
+    );
+
   }
 
   delete(oeuvre: OeuvreDTO): void{

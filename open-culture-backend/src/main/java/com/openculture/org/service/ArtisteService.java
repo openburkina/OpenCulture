@@ -2,6 +2,7 @@ package com.openculture.org.service;
 
 import com.openculture.org.domain.Artiste;
 import com.openculture.org.domain.ArtisteOeuvre;
+import com.openculture.org.repository.ArtisteOeuvreRepository;
 import com.openculture.org.domain.Oeuvre;
 import com.openculture.org.repository.ArtisteRepository;
 import com.openculture.org.repository.OeuvreRepository;
@@ -44,8 +45,12 @@ public class ArtisteService {
     Optional<Oeuvre> oeuvres ;
     RechercheDTO rechercheDTOS;
 
-    public ArtisteService(ArtisteRepository artisteRepository, ArtisteMapper artisteMapper, InformationCivilService informationCivilService, ArtisteOeuvreService artisteOeuvreService, OeuvreRepository oeuvreRepository) {
+    private final ArtisteOeuvreRepository artisteOeuvreRepository;
+
+    public ArtisteService(ArtisteOeuvreRepository artisteOeuvreRepository,ArtisteRepository artisteRepository, ArtisteMapper artisteMapper, InformationCivilService informationCivilService, ArtisteOeuvreService artisteOeuvreService, OeuvreRepository oeuvreRepository) {
+
         this.artisteRepository = artisteRepository;
+        this.artisteOeuvreRepository = artisteOeuvreRepository;
         this.artisteMapper = artisteMapper;
         this.informationCivilService = informationCivilService;
         this.artisteOeuvreService = artisteOeuvreService;
@@ -137,9 +142,17 @@ public class ArtisteService {
      * Delete the artiste by id.
      *
      * @param id the id of the entity.
+     * @throws Exception
      */
     public void delete(Long id) {
         log.debug("Request to delete Artiste : {}", id);
-        artisteRepository.deleteById(id);
+        List<ArtisteOeuvre> artOeuvres = artisteOeuvreRepository.findAllByArtisteId(id);
+        if (artOeuvres.isEmpty()) {
+            informationCivilService.delete(this.findOne(id).get().getInformationCivilDTO().getId());
+            artisteRepository.deleteById(id);
+        } else {
+            throw new EntityUsedInAnotherException();
+        }
+        
     }
 }

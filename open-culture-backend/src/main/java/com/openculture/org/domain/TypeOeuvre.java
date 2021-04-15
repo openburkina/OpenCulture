@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A TypeOeuvre.
@@ -23,9 +25,8 @@ public class TypeOeuvre implements Serializable {
     @Column(name = "intitule")
     private String intitule;
 
-    @OneToOne(mappedBy = "typeOeuvre")
-    @JsonIgnore
-    private Oeuvre oeuvre;
+    @OneToMany(mappedBy = "regroupement")
+    private Set<Oeuvre> oeuvres = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -49,18 +50,32 @@ public class TypeOeuvre implements Serializable {
         this.intitule = intitule;
     }
 
-    public Oeuvre getOeuvre() {
-        return oeuvre;
+
+    public Set<Oeuvre> getOeuvres() {
+        return oeuvres;
     }
 
-    public TypeOeuvre oeuvre(Oeuvre oeuvre) {
-        this.oeuvre = oeuvre;
+    public TypeOeuvre oeuvres(Set<Oeuvre> oeuvres) {
+        this.oeuvres = oeuvres;
         return this;
     }
 
-    public void setOeuvre(Oeuvre oeuvre) {
-        this.oeuvre = oeuvre;
+    public TypeOeuvre addOeuvre(Oeuvre oeuvre) {
+        this.oeuvres.add(oeuvre);
+        oeuvre.setTypeOeuvre(this);
+        return this;
     }
+
+    public TypeOeuvre removeOeuvre(Oeuvre oeuvre) {
+        this.oeuvres.remove(oeuvre);
+        oeuvre.setRegroupement(null);
+        return this;
+    }
+
+    public void setOeuvres(Set<Oeuvre> oeuvres) {
+        this.oeuvres = oeuvres;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override

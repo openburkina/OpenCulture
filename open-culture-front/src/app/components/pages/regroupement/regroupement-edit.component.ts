@@ -73,7 +73,6 @@ reg: RegroupementDTO;
     result.subscribe(
       () => {
         this.showNotification("regroupement enregistree","success");
-        //window.history.
         this.cancel(true);
       },
       () => {

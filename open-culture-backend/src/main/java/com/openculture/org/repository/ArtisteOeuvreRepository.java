@@ -16,4 +16,6 @@ public interface ArtisteOeuvreRepository extends JpaRepository<ArtisteOeuvre, Lo
     List<ArtisteOeuvre> findByArtisteId(Long id);
 
     List<ArtisteOeuvre> findAllByOeuvreId(Long id);
+    List<ArtisteOeuvre> findAllByArtisteId(Long id);
+    void deleteByArtisteId(Long id);
 }

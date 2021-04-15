@@ -38,14 +38,26 @@ export class ArtisteComponent implements OnInit {
   editer(artiste: ArtisteDTO): void{
     console.log(artiste);
     const modal = this.modalService.open(ArtisteEditComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
-    console.log(artiste);
     modal.componentInstance.art = artiste;
-    console.log(artiste);
+    modal.result.then(
+      response => {
+        if (response === true) {
+          this.loadAll();
+        }
+      }
+    )
   }
 
   delete(artiste: ArtisteDTO): void{
     const modal = this.modalService.open(ArtisteDeleteComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
     modal.componentInstance.art = artiste;
+    modal.result.then(
+      response => {
+        if (response === true) {
+          this.loadAll();
+        }
+      }
+    )
   }
 
 }

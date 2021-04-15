@@ -8,17 +8,17 @@
     -->
     <changeSet id="20210314183129-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="type_oeuvre_id"
-                                 baseTableName="oeuvre"
-                                 constraintName="fk_oeuvre_type_oeuvre_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="type_oeuvre"/>
-
         <addForeignKeyConstraint baseColumnNames="regroupement_id"
                                  baseTableName="oeuvre"
                                  constraintName="fk_oeuvre_regroupement_id"
                                  referencedColumnNames="id"
                                  referencedTableName="regroupement"/>
+
+        <addForeignKeyConstraint baseColumnNames="type_oeuvre_id"
+                                 baseTableName="oeuvre"
+                                 constraintName="fk_oeuvre_type_oeuvre_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="type_oeuvre"/>
 
     </changeSet>
 </databaseChangeLog>

@@ -12,14 +12,6 @@
   ],
   "relationships": [
     {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "typeOeuvre",
-      "otherEntityRelationshipName": "oeuvre",
-      "relationshipName": "typeOeuvre",
-      "otherEntityField": "id",
-      "ownerSide": true
-    },
-    {
       "relationshipType": "one-to-many",
       "otherEntityName": "artisteOeuvre",
       "otherEntityRelationshipName": "oeuvre",
@@ -31,6 +23,13 @@
       "otherEntityRelationshipName": "oeuvre",
       "relationshipName": "regroupement",
       "otherEntityField": "id"
+    },
+    {
+      "relationshipName": "typeOeuvre",
+      "otherEntityName": "typeOeuvre",
+      "relationshipType": "many-to-one",
+      "otherEntityField": "id",
+      "otherEntityRelationshipName": "oeuvre"
     }
   ],
   "changelogDate": "20210314183129",
@@ -43,5 +42,7 @@
   "readOnly": false,
   "embedded": false,
   "clientRootFolder": "",
-  "applications": "*"
+  "applications": "*",
+  "searchEngine": false,
+  "databaseType": "sql"
 }
