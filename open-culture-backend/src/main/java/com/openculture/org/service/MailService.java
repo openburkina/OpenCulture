@@ -83,7 +83,30 @@ public class MailService {
         context.setVariable(BASE_URL, jHipsterProperties.getMail().getBaseUrl());
         String content = templateEngine.process(templateName, context);
         String subject = messageSource.getMessage(titleKey, null, locale);
-        sendEmail(user.getEmail(), subject, content, false, true);
+        sendEmail(user.getEmail(), subject,
+             " <!DOCTYPE html>\n" +
+                 "<html lang=\"en\">\n" +
+                 "    <head>\n" +
+                 "        <title>activation du compte sur  openculture</title>\n" +
+                 "        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n" +
+                 "        <link rel=\"icon\" href=\"http://127.0.0.1:4200/favicon.ico\" />\n" +
+                 "    </head>\n" +
+                 "    <body>\n" +
+                 "        <p>Cher narcissee1998@gmail.com</p>\n" +
+                 "        <p>Votre compte sur openculture a été créé, veuillez cliquer sur le lien ci-dessous pour l'activer:</p>\n" +
+                 "        <p>\n" +
+                 "            <a href=\"http://127.0.0.1:4200/account?key=" +user.getActivationKey()+
+                 "\">http://127.0.0.1:4200/account?key=" +user.getActivationKey()+
+                 "</a>\n" +
+                 "        </p>\n" +
+                 "        <p>\n" +
+                 "            <span>Regards,</span>\n" +
+                 "            <br/>\n" +
+                 "            <em>openculture Team.</em>\n" +
+                 "        </p>\n" +
+                 "    </body>\n" +
+                 "</html>"
+            , false, true);
     }
 
     @Async

@@ -61,9 +61,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(nullable = false)
     private boolean activated = false;
 
-    @Column(name = "activited_by_mail")
-    private boolean activitedByMail = false;
-
     @Size(min = 2, max = 10)
     @Column(name = "lang_key", length = 10)
     private String langKey;
@@ -223,14 +220,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.abonnement = abonnement;
     }
 
-    public boolean isActivitedByMail() {
-        return activitedByMail;
-    }
-
-    public void setActivitedByMail(boolean activitedByMail) {
-        this.activitedByMail = activitedByMail;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -257,7 +246,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
             ", lastName='" + lastName + '\'' +
             ", email='" + email + '\'' +
             ", activated=" + activated +
-            ", activitedByMail=" + activitedByMail +
             ", langKey='" + langKey + '\'' +
             ", imageUrl='" + imageUrl + '\'' +
             ", activationKey='" + activationKey + '\'' +
