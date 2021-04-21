@@ -59,22 +59,25 @@ public class OeuvreService {
 
     private final ArtisteOeuvreRepository artisteOeuvreRepository;
 
-    private final InformationCivilService informationCivilService;
-
     private final RegroupementService regroupementService;
 
     private final TypeOeuvreService typeOeuvreService;
 
-    private final ArtisteService artisteService;
-
     private final ArtisteOeuvreService artisteOeuvreService;
 
-    public OeuvreService(OeuvreMapper oeuvreMapper, InformationCivilService informationCivilService,TypeOeuvreService typeOeuvreService, RegroupementService regroupementService, OeuvreRepository oeuvreRepository, ArtisteMapper artisteMapper, ArtisteOeuvreRepository artisteOeuvreRepository, InformationCivilService informationCivilService, ArtisteService artisteService, ArtisteOeuvreService artisteOeuvreService) {
+    public OeuvreService(
+        OeuvreMapper oeuvreMapper,
+         InformationCivilService informationCivilService,
+         TypeOeuvreService typeOeuvreService,
+          RegroupementService regroupementService,
+           OeuvreRepository oeuvreRepository,
+            ArtisteMapper artisteMapper,
+             ArtisteOeuvreRepository artisteOeuvreRepository,
+               ArtisteOeuvreService artisteOeuvreService) {
 
         this.oeuvreRepository = oeuvreRepository;
         this.artisteMapper = artisteMapper;
         this.artisteOeuvreRepository = artisteOeuvreRepository;
-        this.informationCivilService = informationCivilService;
         this.artisteOeuvreService = artisteOeuvreService;
         this.oeuvreMapper = oeuvreMapper;
         this.regroupementService = regroupementService;
@@ -114,11 +117,11 @@ public class OeuvreService {
                 artisteOeuvre.setArtisteId(artisteService.save(oeuvreDTO.getArtisteDTO()).getId());
             }*/
 
-            File media = new File(oeuvreDTO.getPathFile());
+            // File media = new File(oeuvreDTO.getPathFile());
            // oeuvreDTO.setFileContent(FileUtils.readFileToByteArray(media));
-            String s[] = media.getName().split("\\.");
-            oeuvreDTO.setFileName(s[0]);
-            oeuvreDTO.setFileExtension(s[1]);
+            // String s[] = media.getName().split("\\.");
+            // oeuvreDTO.setFileName(s[0]);
+            // oeuvreDTO.setFileExtension(s[1]);
 
             // File media = new File(oeuvreDTO.getPathFile());
             // oeuvreDTO.setFileContent(FileUtils.readFileToByteArray(media));
