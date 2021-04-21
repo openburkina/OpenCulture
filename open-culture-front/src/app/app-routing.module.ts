@@ -64,8 +64,7 @@ const routes: Routes = [
     {path: 'contact', component: ContactComponent},
     {path: 'account', component: AccountComponent},
     {path: 'signin', component: SignInComponent},
-
-
+    {path: 'account:key', component: AccountComponent},
     {path: '**', component: ErrorComponent} // This line will remain down from the whole component list
 ];
 

@@ -142,7 +142,7 @@ jhipster:
   #     max-age: 1800
   mail:
 #    from: openculture@localhost
-    from: narcissee1998@gmail.com
+    from: d8d18072acc9aa
   swagger:
     default-include-pattern: /api/.*
     title: openculture API

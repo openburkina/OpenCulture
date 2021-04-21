@@ -39,8 +39,6 @@ public class UserDTO {
 
     private boolean activated = false;
 
-    private boolean activitedByMail = false;
-
     private String telephone;
 
     @Size(min = 2, max = 10)
@@ -67,7 +65,6 @@ public class UserDTO {
         this.lastName = user.getLastName();
         this.email = user.getEmail();
         this.activated = user.getActivated();
-        this.activitedByMail = user.isActivitedByMail();
         this.imageUrl = user.getImageUrl();
         this.langKey = user.getLangKey();
         this.createdBy = user.getCreatedBy();
@@ -197,13 +194,6 @@ public class UserDTO {
         return telephone;
     }
 
-    public boolean isActivitedByMail() {
-        return activitedByMail;
-    }
-
-    public void setActivitedByMail(boolean activitedByMail) {
-        this.activitedByMail = activitedByMail;
-    }
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
@@ -221,7 +211,6 @@ public class UserDTO {
             ", email='" + email + '\'' +
             ", imageUrl='" + imageUrl + '\'' +
             ", activated=" + activated +
-            ", activitedByMail=" + activitedByMail +
             ", telephone='" + telephone + '\'' +
             ", langKey='" + langKey + '\'' +
             ", createdBy='" + createdBy + '\'' +

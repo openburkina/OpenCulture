@@ -15,7 +15,12 @@ export class ApiService {
     ) { }
 
     doInscriptionUser(user: User): Observable<HttpResponse<User>> {
-        return this.http.post<User>(`${environment.apiUrl}users`, user, {observe: 'response'});
+        return this.http.post<User>(`${environment.apiUrl}register`, user, {observe: 'response'});
+    }
+
+
+    activateAccount(key : string): Observable<HttpResponse<User>> {
+        return this.http.get<User>(`${environment.apiUrl}activate?key=${key}`,{observe: 'response'});
     }
     changePassword(loginVM: LoginVM): Observable<HttpResponse<User>> {
         return this.http.post<LoginVM>(`${environment.apiUrl}account/change-user-password`, loginVM, {observe: 'response'});

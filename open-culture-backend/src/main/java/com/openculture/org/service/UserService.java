@@ -9,7 +9,6 @@ import com.openculture.org.security.AuthoritiesConstants;
 import com.openculture.org.security.SecurityUtils;
 import com.openculture.org.service.dto.UserDTO;
 
-import com.openculture.org.web.rest.AccountResource;
 import com.openculture.org.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.security.RandomUtil;
 
@@ -45,11 +44,14 @@ public class UserService {
 
     private final CacheManager cacheManager;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager) {
+    private final MailService mailService;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager, MailService mailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.mailService = mailService;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -113,7 +115,9 @@ public class UserService {
             newUser.setEmail(userDTO.getEmail().toLowerCase());
         }
         newUser.setImageUrl(userDTO.getImageUrl());
-        newUser.setLangKey(userDTO.getLangKey());
+       // newUser.setLangKey(userDTO.getLangKey());
+        newUser.setLangKey(Constants.DEFAULT_LANGUAGE);
+        newUser.setTelephone(userDTO.getTelephone());
         // new user is not active
         newUser.setActivated(false);
         // new user gets registration key
@@ -121,10 +125,10 @@ public class UserService {
         Set<Authority> authorities = new HashSet<>();
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
-        userRepository.save(newUser);
+        User saveUser = userRepository.save(newUser);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
-        return newUser;
+        return saveUser;
     }
 
     private boolean removeNonActivatedUser(User existingUser) {
@@ -159,7 +163,6 @@ public class UserService {
         user.setResetKey(RandomUtil.generateResetKey());
         user.setResetDate(Instant.now());
         user.setActivated(true);
-        user.setActivitedByMail(false);
         if (userDTO.getAuthorities() != null) {
             Set<Authority> authorities = userDTO.getAuthorities().stream()
                 .map(authorityRepository::findById)
@@ -200,7 +203,6 @@ public class UserService {
                 }
                 user.setImageUrl(userDTO.getImageUrl());
                 user.setActivated(userDTO.isActivated());
-                user.setActivitedByMail(userDTO.isActivitedByMail());
                 user.setLangKey(userDTO.getLangKey());
                 Set<Authority> managedAuthorities = user.getAuthorities();
                 managedAuthorities.clear();
@@ -276,6 +278,8 @@ public class UserService {
         if (user.isPresent()){
             String encryptedPassword = passwordEncoder.encode(newPassword);
             user.get().setPassword(encryptedPassword);
+            user.get().setActivated(false);
+            user.get().setActivationKey(RandomUtil.generateActivationKey());
             this.clearUserCaches(user.get());
         }
         log.debug("Changed password for User: {}", user);

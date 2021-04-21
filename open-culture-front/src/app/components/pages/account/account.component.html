@@ -144,92 +144,134 @@
 </div>
 <div class="apply-area ">
     <div class="container">
-        <div class="section-title text-center">
-            <p>Veuillez renseigner les informations suivantes pour vous inscrire. <br>
-                Les champs marqués (<i class="text-danger">*</i>) sont obligatoires</p>
-        </div>
+        <div *ngIf="keyActivedAccount === null || keyActivedAccount === undefined">
+            <div class="section-title text-center">
+                <p>Veuillez renseigner les informations suivantes pour vous inscrire. <br>
+                    Les champs marqués (<i class="text-danger">*</i>) sont obligatoires. <br>
+                    A la fin de l'inscription un Email vous sera envoyé pour active votre compte donc veuillez renseigner un bon adresse Email.
+                </p>
+            </div>
 
-        <div class="apply-form pt-45">
-            <div class="contact-form">
-                <form id="contactForm" [formGroup]="formAccount" (ngSubmit)="onAccount()">
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-6">
-                            <div class="form-group">
-                                <input type="text" name="firstName" autocomplete="firstName" id="firstName" formControlName="firstName" class="form-control" required placeholder="votre Nom" pattern="[a-zA-Z]*">
+            <div class="apply-form pt-45">
+                <div class="contact-form">
+                    <form id="contactForm" [formGroup]="formAccount" (ngSubmit)="onAccount()">
+                        <div class="row">
+                            <div class="col-lg-12 col-sm-6">
+                                <div class="alert alert-danger text-center font-italic font-weight-bold text-danger"
+                                     *ngIf="errorMessage !== null">
+                                    {{ errorMessage }}
+                                </div>
+                                <div class="alert alert-success text-center font-italic font-weight-bold text-success"
+                                     *ngIf="successMessage !== null">
+                                    {{ successMessage }}
+                                </div>
                             </div>
-                            <div *ngIf="formAccount.get('firstName').invalid && (formAccount.get('firstName').touched || formAccount.get('firstName').dirty)">
-                                <small class="text-danger font-italic" *ngIf="formAccount.get('firstName').errors.required">
-                                    Votre nom est obligatoire
-                                </small>
+
+                            <div class="col-lg-6 col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" name="firstName" autocomplete="firstName" id="firstName" formControlName="firstName" class="form-control" required placeholder="votre Nom" pattern="[a-zA-Z]*">
+                                </div>
+                                <div *ngIf="formAccount.get('firstName').invalid && (formAccount.get('firstName').touched || formAccount.get('firstName').dirty)">
+                                    <small class="text-danger font-italic" *ngIf="formAccount.get('firstName').errors.required">
+                                        Votre nom est obligatoire
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" name="lastName" autocomplete="lastName" id="lastName" formControlName="lastName" class="form-control" required placeholder="votre Prenom" pattern="[a-zA-Z]*">
+                                </div>
+                                <div *ngIf="formAccount.get('lastName').invalid && (formAccount.get('lastName').touched || formAccount.get('lastName').dirty)">
+                                    <small class="text-danger font-italic" *ngIf="formAccount.get('lastName').errors.required">
+                                        Votre prénom est obligatoire
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-sm-6">
+                                <div class="form-group">
+                                    <input type="email" name="email" autocomplete="email" id="email" formControlName="email" class="form-control" required placeholder="votre Email">
+                                </div>
+                                <div *ngIf="formAccount.get('email').invalid && (formAccount.get('email').touched || formAccount.get('email').dirty)">
+                                    <small class="text-danger font-italic" *ngIf="formAccount.get('email').errors.required">
+                                        Votre email est obligatoire
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-sm-6">
+                                <div class="form-group">
+                                    <input type="tel" name="telephone" autocomplete="telephone" id="telephone" formControlName="telephone" class="form-control" required placeholder="Numero telephone">
+                                </div>
+                                <div *ngIf="formAccount.get('telephone').invalid && (formAccount.get('telephone').touched || formAccount.get('telephone').dirty)">
+                                    <small class="text-danger font-italic" *ngIf="formAccount.get('telephone').errors.required">
+                                        Votre numéro de téléphone est obligatoire
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-sm-6">
+                                <div class="form-group">
+                                    <input type="password" name="password" autocomplete="password" id="password" formControlName="password" class="form-control" required placeholder="Votre mot de passe">
+                                </div>
+                                <div *ngIf="formAccount.get('password').invalid && (formAccount.get('password').touched || formAccount.get('password').dirty)">
+                                    <small class="text-danger font-italic" *ngIf="formAccount.get('password').errors.required">
+                                        Le mot de passe est obligatoire
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-sm-6">
+                                <div class="form-group">
+                                    <input type="password" name="confirmPassword"  autocomplete="confirmPassword" id="confirmPassword" formControlName="confirmPassword" class="form-control" required placeholder="Confirmer votre mot de passe">
+                                </div>
+                                <div *ngIf="formAccount.get('confirmPassword').invalid && (formAccount.get('confirmPassword').touched || formAccount.get('confirmPassword').dirty)">
+                                    <small class="text-danger font-italic" *ngIf="formAccount.get('confirmPassword').errors.required">
+                                        La confirmation du mot de passe est obligatoire
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 mt-5 mb-5 text-center">
+<!--                                <button class="btn btn-danger mr-2" (click)="onDismiss(false)">-->
+<!--                                    <i class="fa fa-chevron-left"></i> Annuler-->
+<!--                                </button>-->
+                                <button type="submit" [disabled]="formAccount.invalid || isSaving" class="btn btn-warning px-4">
+                                    S'inscrire <i class="fa fa-sign-in-alt"></i>
+                                </button>
                             </div>
                         </div>
-
-                        <div class="col-lg-6 col-sm-6">
-                            <div class="form-group">
-                                <input type="text" name="lastName" autocomplete="lastName" id="lastName" formControlName="lastName" class="form-control" required placeholder="votre Prenom" pattern="[a-zA-Z]*">
-                            </div>
-                            <div *ngIf="formAccount.get('lastName').invalid && (formAccount.get('lastName').touched || formAccount.get('lastName').dirty)">
-                                <small class="text-danger font-italic" *ngIf="formAccount.get('lastName').errors.required">
-                                    Votre prénom est obligatoire
-                                </small>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6 col-sm-6">
-                            <div class="form-group">
-                                <input type="email" name="email" autocomplete="email" id="email" formControlName="email" class="form-control" required placeholder="votre Email">
-                            </div>
-                            <div *ngIf="formAccount.get('email').invalid && (formAccount.get('email').touched || formAccount.get('email').dirty)">
-                                <small class="text-danger font-italic" *ngIf="formAccount.get('email').errors.required">
-                                    Votre email est obligatoire
-                                </small>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6 col-sm-6">
-                            <div class="form-group">
-                                <input type="tel" name="telephone" autocomplete="telephone" id="telephone" formControlName="telephone" class="form-control" required placeholder="Numero telephone">
-                            </div>
-                            <div *ngIf="formAccount.get('telephone').invalid && (formAccount.get('telephone').touched || formAccount.get('telephone').dirty)">
-                                <small class="text-danger font-italic" *ngIf="formAccount.get('telephone').errors.required">
-                                    Votre numéro de téléphone est obligatoire
-                                </small>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6 col-sm-6">
-                            <div class="form-group">
-                                <input type="password" name="password" autocomplete="password" id="password" formControlName="password" class="form-control" required placeholder="Votre mot de passe">
-                            </div>
-                            <div *ngIf="formAccount.get('password').invalid && (formAccount.get('password').touched || formAccount.get('password').dirty)">
-                                <small class="text-danger font-italic" *ngIf="formAccount.get('password').errors.required">
-                                    Le mot de passe est obligatoire
-                                </small>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6 col-sm-6">
-                            <div class="form-group">
-                                <input type="password" name="confirmPassword"  autocomplete="confirmPassword" id="confirmPassword" formControlName="confirmPassword" class="form-control" required placeholder="Confirmer votre mot de passe">
-                            </div>
-                            <div *ngIf="formAccount.get('confirmPassword').invalid && (formAccount.get('confirmPassword').touched || formAccount.get('confirmPassword').dirty)">
-                                <small class="text-danger font-italic" *ngIf="formAccount.get('confirmPassword').errors.required">
-                                    La confirmation du mot de passe est obligatoire
-                                </small>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-12 col-md-12 mt-5 mb-5 text-center">
-                            <button class="btn btn-danger mr-2" (click)="onDismiss(false)">
-                                <i class="fa fa-chevron-left"></i> Annuler
-                            </button>
-                            <button type="submit" [disabled]="formAccount.invalid" class="btn btn-warning px-4">
-                                S'inscrire <i class="fa fa-sign-in-alt"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
+
+
+        <div *ngIf="keyActivedAccount !== null && keyActivedAccount !== undefined">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 mt-5 mb-5 text-center">
+                    <div class="alert alert-danger text-center font-italic font-weight-bold text-danger"
+                         *ngIf="errorMessage !== null">
+                        {{ errorMessage }}
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-md-12 mt-5 mb-5 text-center">
+                    <div class="alert alert-success text-center font-italic font-weight-bold text-success"
+                         *ngIf="successMessage !== null">
+                        {{ successMessage }}
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 mt-5 mb-5 text-center">
+                    <button  class="btn btn-warning px-4" (click)="activetAccount(keyActivedAccount)">
+                        Activer votre compte
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+
     </div>
 </div>

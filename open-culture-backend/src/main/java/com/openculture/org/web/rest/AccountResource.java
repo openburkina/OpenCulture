@@ -60,12 +60,13 @@ public class AccountResource {
      */
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public void registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
+    public User registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
         if (!checkPasswordLength(managedUserVM.getPassword())) {
             throw new InvalidPasswordException();
         }
         User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
         mailService.sendActivationEmail(user);
+        return  user;
     }
 
     /**
@@ -75,11 +76,12 @@ public class AccountResource {
      * @throws RuntimeException {@code 500 (Internal Server Error)} if the user couldn't be activated.
      */
     @GetMapping("/activate")
-    public void activateAccount(@RequestParam(value = "key") String key) {
+    public User activateAccount(@RequestParam(value = "key") String key) {
         Optional<User> user = userService.activateRegistration(key);
         if (!user.isPresent()) {
             throw new AccountResourceException("No user was found for this activation key");
         }
+        return user.get();
     }
 
     /**
@@ -149,7 +151,30 @@ public class AccountResource {
         if (!checkPasswordLength(loginVM.getPassword())) {
             throw new InvalidPasswordException();
         }
-        return  userService.changeUserPassword(loginVM.getUsername(), loginVM.getPassword());
+         User user = userService.changeUserPassword(loginVM.getUsername(), loginVM.getPassword());
+         mailService.sendEmail(user.getLogin(),"Votre mot de passe a ete change"," <!DOCTYPE html>\n" +
+            "<html lang=\"en\">\n" +
+            "    <head>\n" +
+            "        <title>activation du compte sur  openculture</title>\n" +
+            "        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n" +
+            "        <link rel=\"icon\" href=\"http://127.0.0.1:4200/favicon.ico\" />\n" +
+            "    </head>\n" +
+            "    <body>\n" +
+            "        <p>Cher narcissee1998@gmail.com</p>\n" +
+            "        <p>Votre mot de passe sur openculture a été change, veuillez cliquer sur le lien ci-dessous pour l'activer:</p>\n" +
+            "        <p>\n" +
+            "            <a href=\"http://127.0.0.1:4200/account?key=" +user.getActivationKey()+
+            "\">http://127.0.0.1:4200/account?key=" +user.getActivationKey()+
+            "</a>\n" +
+            "        </p>\n" +
+            "        <p>\n" +
+            "            <span>Regards,</span>\n" +
+            "            <br/>\n" +
+            "            <em>openculture Team.</em>\n" +
+            "        </p>\n" +
+            "    </body>\n" +
+            "</html>",false,true);
+         return user;
     }
 
     /**

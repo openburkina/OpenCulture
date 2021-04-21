@@ -20,6 +20,7 @@ export class ChangePasswordComponent implements OnInit {
     });
      errorMessage: string = null;
     private loginVM: LoginVM;
+    successMessage= null;
 
   constructor(
       private fb: FormBuilder,
@@ -42,14 +43,17 @@ export class ChangePasswordComponent implements OnInit {
             this.loginVM.username = this.formChangePassword.get('username').value;
             this.loginVM.password = this.formChangePassword.get('password').value;
            this.loginVM.rememberMe = false;
-            console.info('LOGINVM ',this.loginVM);
             this.apiService.changePassword(this.loginVM).subscribe(
                 response => {
                     this.spinner.close();
                     if (response.body === null) {
                         this.errorMessage = 'Erreur lors de l\'inscription. Veuillez réessayer !';
                     } else {
-                        this.onLogin();
+                        this.successMessage = 'Votre mot de passe a ete changer, un mail vous es ete envoye pour active votre compte';
+                        this.formChangePassword.get('username').setValue(null);
+                        this.formChangePassword.get('password').setValue(null);
+                        this.formChangePassword.get('confirmPassword').setValue(null);
+                       // this.onLogin();
                     }
                 },
                 error => {
