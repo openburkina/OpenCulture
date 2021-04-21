@@ -13,6 +13,7 @@ import com.openculture.org.service.dto.OeuvreDTO;
 import com.openculture.org.service.mapper.ArtisteMapper;
 import com.openculture.org.service.mapper.OeuvreMapper;
 import com.openculture.org.web.rest.OeuvreResource;
+import io.undertow.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.InputStreamResource;
@@ -23,6 +24,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import liquibase.pro.packaged.id;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -66,13 +69,12 @@ public class OeuvreService {
 
     private final ArtisteOeuvreService artisteOeuvreService;
 
-    public OeuvreService(OeuvreMapper oeuvreMapper, InformationCivilService informationCivilService, TypeOeuvreService typeOeuvreService, RegroupementService regroupementService, OeuvreRepository oeuvreRepository, ArtisteMapper artisteMapper, ArtisteOeuvreRepository artisteOeuvreRepository, ArtisteService artisteService, ArtisteService artisteService1, ArtisteOeuvreService artisteOeuvreService) {
+    public OeuvreService(OeuvreMapper oeuvreMapper, InformationCivilService informationCivilService,TypeOeuvreService typeOeuvreService, RegroupementService regroupementService, OeuvreRepository oeuvreRepository, ArtisteMapper artisteMapper, ArtisteOeuvreRepository artisteOeuvreRepository, InformationCivilService informationCivilService, ArtisteService artisteService, ArtisteOeuvreService artisteOeuvreService) {
 
         this.oeuvreRepository = oeuvreRepository;
         this.artisteMapper = artisteMapper;
         this.artisteOeuvreRepository = artisteOeuvreRepository;
         this.informationCivilService = informationCivilService;
-        this.artisteService = artisteService1;
         this.artisteOeuvreService = artisteOeuvreService;
         this.oeuvreMapper = oeuvreMapper;
         this.regroupementService = regroupementService;

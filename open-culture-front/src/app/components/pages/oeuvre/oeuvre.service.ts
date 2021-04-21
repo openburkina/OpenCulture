@@ -6,6 +6,7 @@ import { OeuvreDTO } from "../../models/oeuvre.model";
 import {TypeFichier} from '../../models/enumeration/type-fichier.enum';
 import * as moment from 'moment';
 import { map } from 'rxjs/operators';
+import { Images } from "../../constant/constant";
 
 type EntityOeuvre = HttpResponse<OeuvreDTO>;
 type EntityArrayOeuvre = HttpResponse<OeuvreDTO[]>;
@@ -74,5 +75,23 @@ export class OeuvreService {
       }
     );
     return oeuvre;
+  }
+
+    forRowView(tab: OeuvreDTO[],typeFichier: TypeFichier,oeuvres: OeuvreDTO[], oeuvresVideo: Array<any>, oeuvresAudio: Array<any>): void{
+    if(oeuvres.length === 0)
+      oeuvresVideo = oeuvresAudio = [];
+    else {
+      const k = 5;
+      for (let i = 0; i < tab.length ;i++){
+          tab[i].pathFile = Images[i];
+      }
+      for (let i = 0; i < tab.length; i += k ){
+            if(typeFichier == TypeFichier.VIDEO)
+               oeuvresVideo.push({items: oeuvres.slice(i,i+k)});
+
+            else if (typeFichier == TypeFichier.AUDIO)
+                oeuvresAudio.push({items: oeuvres.slice(i,i+k)});
+      }
+    }  
   }
 }

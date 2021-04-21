@@ -34,7 +34,7 @@ import { OeuvreAfficheComponent } from './components/pages/oeuvre/oeuvre-affiche
 import {ChangePasswordComponent} from "./components/pages/change-password/change-password.component";
 
 const routes: Routes = [
-    {path: '', component: TestimonialsComponent},
+    {path: '', component: HomeOneComponent},
     {path: 'type-oeuvres', component: TypeOeuvreComponent},
     {path: 'oeuvres', component: OeuvreAfficheComponent},
     {path: 'oeuvres-client', component: OeuvreComponent},
@@ -65,13 +65,17 @@ const routes: Routes = [
     {path: 'blog-details', component: BlogDetailsComponent},
     {path: 'contact', component: ContactComponent},
     {path: 'account', component: AccountComponent},
+    {path: 'signin', component: SignInComponent},
     {path: 'account:key', component: AccountComponent},
+<<<<<<< HEAD
     {path: 'password', component: ChangePasswordComponent},
 
     {path: 'password:passwordkey', component: ChangePasswordComponent},
 
 
 
+=======
+>>>>>>> d432514db0f71884b42ae1d5b9856618b78158f4
     {path: '**', component: ErrorComponent} // This line will remain down from the whole component list
 ];
 
