@@ -85,6 +85,7 @@ public class UserService {
             .filter(User::getActivated)
             .map(user -> {
                 user.setResetKey(RandomUtil.generateResetKey());
+                user.setActivationKey(RandomUtil.generateActivationKey());
                 user.setResetDate(Instant.now());
                 this.clearUserCaches(user);
                 return user;
@@ -269,21 +270,89 @@ public class UserService {
     }
 
     @Transactional
-    public User changeUserPassword(String login, String newPassword) {
+    public User changeUserPassword(String key, String newPassword) {
 
-        Optional<User> user = userRepository.findOneByLogin(login);
+        Optional<User> user = userRepository.findOneByActivationKey(key);
         if (!user.isPresent()){
             throw new BadRequestAlertException("Votre Email est incorrect","","");
         }
         if (user.isPresent()){
             String encryptedPassword = passwordEncoder.encode(newPassword);
             user.get().setPassword(encryptedPassword);
-            user.get().setActivated(false);
-            user.get().setActivationKey(RandomUtil.generateActivationKey());
+            //user.get().setActivated(false);
+            user.get().setActivationKey(null);
             this.clearUserCaches(user.get());
         }
         log.debug("Changed password for User: {}", user);
         return userRepository.save(user.get());
+    }
+
+    @Transactional
+    public User sendEmail(String login) {
+        Optional<User> user = userRepository.findOneByLogin(login);
+        if (!user.isPresent()){
+            throw new BadRequestAlertException("Votre Email est incorrect","","");
+        }
+        if (user.isPresent()){
+            mailService.sendEmail(user.get().getLogin(),"Creation de compte sur OpenBurkina"," <!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "    <head>\n" +
+                "        <title>activation du compte sur  openculture</title>\n" +
+                "        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n" +
+                "        <link rel=\"icon\" href=\"http://127.0.0.1:4200/favicon.ico\" />\n" +
+                "    </head>\n" +
+                "    <body>\n" +
+                "        <p>Cher "+user.get().getLogin() +" </p>\n" +
+                "        <p>Votre compte sur openculture a été créé, veuillez cliquer sur le lien ci-dessous pour l'activer:</p>\n" +
+                "        <p>\n" +
+                "            <a href=\"http://127.0.0.1:4200/account?key=" +user.get().getActivationKey()+
+                "\">http://127.0.0.1:4200/account?key=" +user.get().getActivationKey()+
+                "</a>\n" +
+                "        </p>\n" +
+                "        <p>\n" +
+                "            <span>Regards,</span>\n" +
+                "            <br/>\n" +
+                "            <em>openculture.</em>\n" +
+                "        </p>\n" +
+                "    </body>\n" +
+                "</html>",false,true);
+        }
+        log.debug("Changed password for User: {}", user);
+        return user.get();
+    }
+
+    @Transactional
+    public User sendPasswordEmail(String login) {
+        Optional<User> user = userRepository.findOneByLogin(login);
+        if (!user.isPresent()){
+            throw new BadRequestAlertException("Votre Email est incorrect","","");
+        }
+        if (user.isPresent()){
+            mailService.sendEmail(user.get().getLogin(),"Changer votre mot de passe"," <!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "    <head>\n" +
+                "        <title>Changer votre mot de passe sur  openculture</title>\n" +
+                "        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n" +
+                "        <link rel=\"icon\" href=\"http://127.0.0.1:4200/favicon.ico\" />\n" +
+                "    </head>\n" +
+                "    <body>\n" +
+                "        <p>Cher "+user.get().getLogin() +" </p>\n" +
+                "        <p>veuillez cliquer sur le lien ci-dessous pour changer votre mot de passe:</p>\n" +
+                "        <p>\n" +
+                "            <a href=\"http://127.0.0.1:4200/password?passwordkey=" +user.get().getActivationKey()+
+                "\">http://127.0.0.1:4200/password?passwordkey=" +user.get().getActivationKey()+
+                "</a>\n" +
+                "        </p>\n" +
+                "        <p>\n" +
+                "            <span>Regards,</span>\n" +
+                "            <br/>\n" +
+                "            <em>openculture.</em>\n" +
+                "        </p>\n" +
+                "    </body>\n" +
+                "</html>",false,true);
+        }
+        log.debug("Changed password for User: {}", user);
+        return user.get();
     }
 
     @Transactional(readOnly = true)

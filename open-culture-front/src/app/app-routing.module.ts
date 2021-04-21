@@ -31,6 +31,7 @@ import { OeuvreEditComponent } from './components/pages/oeuvre/oeuvre-edit.compo
 import { RegroupementComponent } from './components/pages/regroupement/regroupement.component';
 import { TypeOeuvreComponent } from './components/pages/type-oeuvre/type-oeuvre.component';
 import { OeuvreAfficheComponent } from './components/pages/oeuvre/oeuvre-affiche.component';
+import {ChangePasswordComponent} from "./components/pages/change-password/change-password.component";
 
 const routes: Routes = [
     {path: '', component: TestimonialsComponent},
@@ -41,6 +42,7 @@ const routes: Routes = [
     {path: 'artistes', component: ArtisteComponent},
     {path: 'home-three', component: HomeThreeComponent},
     {path: 'home-two', component: HomeTwoComponent},
+    {path: 'dashboard', component: HomeTwoComponent},
     {path: 'about', component: AboutComponent},
     {path: 'team', component: TeamComponent},
     {path: 'apply-now', component: AppleNowComponent},
@@ -64,6 +66,10 @@ const routes: Routes = [
     {path: 'contact', component: ContactComponent},
     {path: 'account', component: AccountComponent},
     {path: 'account:key', component: AccountComponent},
+    {path: 'password', component: ChangePasswordComponent},
+
+    {path: 'password:passwordkey', component: ChangePasswordComponent},
+
 
 
     {path: '**', component: ErrorComponent} // This line will remain down from the whole component list

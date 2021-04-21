@@ -22,8 +22,17 @@ export class ApiService {
     activateAccount(key : string): Observable<HttpResponse<User>> {
         return this.http.get<User>(`${environment.apiUrl}activate?key=${key}`,{observe: 'response'});
     }
+
     changePassword(loginVM: LoginVM): Observable<HttpResponse<User>> {
         return this.http.post<LoginVM>(`${environment.apiUrl}account/change-user-password`, loginVM, {observe: 'response'});
+    }
+
+    findByLogin(login: string): Observable<HttpResponse<User>> {
+        return this.http.post<LoginVM>(`${environment.apiUrl}account/reset-password/init`,login, {observe: 'response'});
+    }
+
+    sendEmail(login: string): Observable<HttpResponse<User>> {
+        return this.http.post<LoginVM>(`${environment.apiUrl}account/send-email`,login, {observe: 'response'});
     }
 
     onSearch(search: String): Observable<HttpResponse<any>> {
