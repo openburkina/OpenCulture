@@ -10,6 +10,7 @@ import com.openculture.org.repository.OeuvreRepository;
 import com.openculture.org.service.dto.ArtisteDTO;
 import com.openculture.org.service.dto.ArtisteOeuvreDTO;
 import com.openculture.org.service.dto.OeuvreDTO;
+import com.openculture.org.service.dto.TypeOeuvreDTO;
 import com.openculture.org.service.mapper.ArtisteMapper;
 import com.openculture.org.service.mapper.OeuvreMapper;
 import com.openculture.org.web.rest.OeuvreResource;
@@ -65,6 +66,8 @@ public class OeuvreService {
 
     private final ArtisteOeuvreService artisteOeuvreService;
 
+    private final UserService userService;
+
     public OeuvreService(
         OeuvreMapper oeuvreMapper,
          InformationCivilService informationCivilService,
@@ -73,7 +76,8 @@ public class OeuvreService {
            OeuvreRepository oeuvreRepository,
             ArtisteMapper artisteMapper,
              ArtisteOeuvreRepository artisteOeuvreRepository,
-               ArtisteOeuvreService artisteOeuvreService) {
+               ArtisteOeuvreService artisteOeuvreService,
+               UserService userService) {
 
         this.oeuvreRepository = oeuvreRepository;
         this.artisteMapper = artisteMapper;
@@ -82,6 +86,7 @@ public class OeuvreService {
         this.oeuvreMapper = oeuvreMapper;
         this.regroupementService = regroupementService;
         this.typeOeuvreService = typeOeuvreService;
+        this.userService = userService;
     }
 
     /**
@@ -95,10 +100,15 @@ public class OeuvreService {
         log.debug("Request to save Oeuvre : {}", oeuvreDTO);
 
         List<ArtisteOeuvreDTO> artisteOeuvres = new ArrayList<>();
-        ArtisteOeuvre a = new ArtisteOeuvre();
+        // ArtisteOeuvre a = new ArtisteOeuvre();
 
-        oeuvreDTO.setRegroupementDTO(regroupementService.findOne(oeuvreDTO.getRegroupementId()).get());
-        oeuvreDTO.setTypeOeuvreDTO(typeOeuvreService.findOne(oeuvreDTO.getTypeOeuvreId()).get());
+        if(oeuvreDTO.getId() == null){
+            oeuvreDTO.setRegroupementDTO(regroupementService.findOne(oeuvreDTO.getRegroupementId()).get());
+            TypeOeuvreDTO typeOeuvreDTO = typeOeuvreService.findOne(oeuvreDTO.getTypeOeuvreId()).get();
+            typeOeuvreDTO.setNbOeuvre(typeOeuvreDTO.getNbOeuvre()+1);
+            oeuvreDTO.setTypeOeuvreDTO(typeOeuvreService.save(typeOeuvreDTO));
+        }
+        
 
         if (validedOeuvre(oeuvreDTO)) {
             if (oeuvreDTO.getArtistes() != null) {
@@ -226,6 +236,26 @@ public class OeuvreService {
         //    .map(oeuvreMapper::toDto);
         return getOeuvreWithArtiste(oeuvreRepository.findAll(pageable).getContent(), pageable);
     }
+
+
+    @Transactional(readOnly = true)
+    public Page<OeuvreDTO> findRecentsPostsOeuvreByUser(String categorie, Pageable pageable) {
+        log.debug("Request to get all Oeuvres");
+    //    return oeuvreRepository.findAll(pageable)
+        //    .map(oeuvreMapper::toDto);
+        String user = this.userService.getUserWithAuthorities().get().getLogin();
+        return getOeuvreWithArtiste(oeuvreRepository.findTop5ByTypeOeuvreIntituleAndCreatedByOrderByCreatedDateDesc(categorie,user),pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<OeuvreDTO> findRecentsPostsOeuvre(String categorie, Pageable pageable) {
+        log.debug("Request to get all Oeuvres");
+    //    return oeuvreRepository.findAll(pageable)
+        //    .map(oeuvreMapper::toDto);
+        return getOeuvreWithArtiste(oeuvreRepository.findTop5ByTypeOeuvreIntituleOrderByCreatedDateDesc(categorie),pageable);
+    }
+
+
 
     @Transactional(readOnly = true)
     public Page<OeuvreDTO> findCompletForAdmin(Pageable pageable) {
@@ -368,6 +398,11 @@ public class OeuvreService {
         log.debug("Request to delete Oeuvre : {}", id);
         List<ArtisteOeuvre> artOeuvres = artisteOeuvreRepository.findAllByOeuvreId(id);
         artisteOeuvreRepository.deleteInBatch(artOeuvres);
+
+        TypeOeuvreDTO typeOeuvreDTO = findOne(id).getTypeOeuvreDTO();
+        typeOeuvreDTO.setNbOeuvre(typeOeuvreDTO.getNbOeuvre()-1);
+        typeOeuvreService.save(typeOeuvreDTO);
+
         oeuvreRepository.deleteById(id);
     }
 

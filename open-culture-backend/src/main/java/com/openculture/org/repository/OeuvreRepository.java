@@ -18,5 +18,8 @@ import org.springframework.stereotype.Repository;
 public interface OeuvreRepository extends JpaRepository<Oeuvre, Long> {
     Page<Oeuvre> findAllByTypeFichier(Pageable pageable,TypeFichier typeFichier);
     List<Oeuvre> findAllByRegroupementId(Long id);
-    List<Oeuvre> findAllByTypeOeuvre(Long id);
+    List<Oeuvre> findAllByTypeOeuvreId(Long id);
+    List<Oeuvre> findTop5ByTypeOeuvreIntituleAndCreatedByOrderByCreatedDateDesc(String categorie, String user);
+    List<Oeuvre> findTop5ByTypeOeuvreIntituleOrderByCreatedDateDesc(String categorie);
+    
 }

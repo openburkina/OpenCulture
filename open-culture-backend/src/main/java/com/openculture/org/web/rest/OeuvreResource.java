@@ -1,8 +1,12 @@
 package com.openculture.org.web.rest;
 
+import com.openculture.org.domain.TypeOeuvre;
 import com.openculture.org.domain.enumeration.TypeFichier;
+import com.openculture.org.repository.TypeOeuvreRepository;
 import com.openculture.org.service.OeuvreService;
+import com.openculture.org.service.dto.FiltreDTO;
 import com.openculture.org.service.dto.OeuvreDTO;
+import com.openculture.org.service.dto.TypeOeuvreDTO;
 import com.openculture.org.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -19,6 +23,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing {@link com.openculture.org.domain.Oeuvre}.
@@ -36,8 +41,11 @@ public class OeuvreResource {
 
     private final OeuvreService oeuvreService;
 
-    public OeuvreResource(OeuvreService oeuvreService) {
+    private final TypeOeuvreRepository typeOeuvreRepository;
+
+    public OeuvreResource(OeuvreService oeuvreService,TypeOeuvreRepository typeOeuvreRepository) {
         this.oeuvreService = oeuvreService;
+        this.typeOeuvreRepository = typeOeuvreRepository;
     }
 
     /**
@@ -142,6 +150,41 @@ public class OeuvreResource {
     @GetMapping("/test/{id}")
     public ResponseEntity<Object> getVideo(@PathVariable Long id) {
         return oeuvreService.readMedia(id);
+    }
+
+    @GetMapping("oeuvres/my-recent-post-oeuvres")
+    public ResponseEntity<List<OeuvreDTO>> getAllMyRecentPostsOeuvres(@RequestParam("categorie") String categorie, Pageable pageable) {
+        log.debug("REST request to get a page of Oeuvres");
+
+        // @RequestBody FiltreDTO filtreDTO,Pageable pageable
+        // FiltreDTO filtreDTO = new FiltreDTO();
+        // filtreDTO.setId((long) 1);
+        // filtreDTO.setString("admin");
+        // Pageable pageable;
+
+        Page<OeuvreDTO> page = oeuvreService.findRecentsPostsOeuvreByUser(categorie,pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("oeuvres/recent-post-oeuvres")
+    public ResponseEntity<List<OeuvreDTO>> getAllRecentPostsOeuvres(@RequestParam("categorie") String categorie, Pageable pageable) {
+        log.debug("REST request to get a page of Oeuvres");
+
+        // @RequestBody FiltreDTO filtreDTO,Pageable pageable
+        // FiltreDTO filtreDTO = new FiltreDTO();
+        // filtreDTO.setId((long) 1);
+        // Pageable pageable;
+        Page<OeuvreDTO> page;
+            
+        if(typeOeuvreRepository.findAll().stream().map(TypeOeuvre::getIntitule).collect(Collectors.toList()).contains(categorie)){
+            page = oeuvreService.findRecentsPostsOeuvre(categorie,pageable);
+        } else {
+            page = oeuvreService.findCompletForAdmin(pageable);
+        }
+        
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
 
