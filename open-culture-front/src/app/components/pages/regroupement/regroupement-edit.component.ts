@@ -16,7 +16,7 @@ type EntityReg = HttpResponse<RegroupementDTO>;
  // styleUrls: ['./regroupement.component.scss']
 })
 export class RegroupementEditComponent implements OnInit {
-reg: RegroupementDTO;
+reg = new RegroupementDTO();
   regForm = this.formBuilder.group({
     id: [],
     type: [],
@@ -34,7 +34,9 @@ reg: RegroupementDTO;
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ reg }) => {
-      this.update(this.reg);
+      if (this.reg.id !== null && this.reg.id !== undefined) {
+        this.update(this.reg);
+      }
     });
   }
 
