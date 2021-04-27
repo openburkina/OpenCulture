@@ -25,27 +25,6 @@
 
             <div class="col-lg-5 col-md-12">
                 <div class="header-right row">
-                    <!-- <div class="top-social-link">
-                        <ul>
-                            <li><a href="#" target="_blank"><i class='bx bxl-facebook'></i>cool</a></li>
-                            <li><a href="#" target="_blank"><i class='bx bxl-twitter'></i></a></li>
-                            <li><a href="#" target="_blank"><i class='bx bxl-instagram'></i></a></li>
-                            <li><a href="#" target="_blank"><i class='bx bxl-google-plus'></i></a></li>
-                        </ul>
-                    </div> -->
-
-                    <!-- <div class="language">
-                        <ul>
-                            <li>
-                                <a href="javascript:void(0)"><i class='bx bx-world language-icon'></i> ENG <i class='bx bx-chevron-down'></i></a>
-                                <ul>
-                                    <li><a href="#">ENG</a></li>
-                                    <li><a href="#">DE</a></li>
-                                    <li><a href="#">UAE</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div> -->
                     <div>
                         <ul class="row pt-3 ">
                             <li ><button class="btn default-btn mr-2" (click)="openSignin()">Se connecter</button></li>
@@ -65,7 +44,7 @@
 
 <!-- Start Navbar Area -->
 
-<!-- <div class="navbar-area">
+<div class="navbar-area">
     <div class="mobile-nav">
         <a routerLink="/" class="logo"><img src="assets/img/logo.png" alt="Logo"></a>
     </div>
@@ -74,167 +53,15 @@
         <div class="container">
             <nav class="navbar navbar-expand-md navbar-light ">
                 <a class="navbar-brand" routerLink="/"><img src="assets/img/logo.png" alt="Logo"></a>
-
-                <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
-                    <ul class="navbar-nav m-auto">
-                        <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link">Home <i class='bx bx-chevron-down'></i></a>
-
-                            <ul class="dropdown-menu">
-                                <li class="nav-item"><a routerLink="/" class="nav-link" routerLinkActive="active"
-                                        [routerLinkActiveOptions]="{exact: true}">Home One</a></li>
-
-                                <li class="nav-item"><a routerLink="/home-two" class="nav-link"
-                                        routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home Two</a>
-                                </li>
-
-                                <li class="nav-item"><a routerLink="/home-three" class="nav-link"
-                                        routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home
-                                        Three</a></li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item"><a routerLink="/about" class="nav-link" routerLinkActive="active"
-                                [routerLinkActiveOptions]="{exact: true}">About Us</a></li>
-
-                        <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link">Pages <i class='bx bx-chevron-down'></i></a>
-
-                            <ul class="dropdown-menu">
-                                <li class="nav-item"><a routerLink="/team" class="nav-link" routerLinkActive="active"
-                                        [routerLinkActiveOptions]="{exact: true}">Team</a></li>
-
-                                <li class="nav-item"><a routerLink="/apply-now" class="nav-link"
-                                        routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Apply
-                                        Now</a></li>
-
-                                <li class="nav-item">
-                                    <a href="javascript:void(0)" class="nav-link">Projects <i
-                                            class='bx bx-chevron-down'></i></a>
-
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item"><a routerLink="/projects" class="nav-link"
-                                                routerLinkActive="active"
-                                                [routerLinkActiveOptions]="{exact: true}">Projects</a></li>
-
-                                        <li class="nav-item"><a routerLink="/projects-details" class="nav-link"
-                                                routerLinkActive="active"
-                                                [routerLinkActiveOptions]="{exact: true}">Projects Details</a></li>
-                                    </ul>
-                                </li>
-
-                                <li class="nav-item"><a routerLink="/case-study" class="nav-link"
-                                        routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Case
-                                        Study</a></li>
-
-                                <li class="nav-item"><a routerLink="/faq" class="nav-link" routerLinkActive="active"
-                                        [routerLinkActiveOptions]="{exact: true}">FAQ</a></li>
-
-                                <li class="nav-item"><a routerLink="/testimonials" class="nav-link"
-                                        routerLinkActive="active"
-                                        [routerLinkActiveOptions]="{exact: true}">Testimonials</a></li>
-
-                                <li class="nav-item"><a routerLink="/error" class="nav-link" routerLinkActive="active"
-                                        [routerLinkActiveOptions]="{exact: true}">404 Error</a></li>
-
-                                <li class="nav-item"><a routerLink="/sign-in" class="nav-link" routerLinkActive="active"
-                                        [routerLinkActiveOptions]="{exact: true}">Sign In</a></li>
-
-                                <li class="nav-item"><a routerLink="/sign-up" class="nav-link" routerLinkActive="active"
-                                        [routerLinkActiveOptions]="{exact: true}">Sign Up</a></li>
-
-                                <li class="nav-item"><a routerLink="/terms-conditions" class="nav-link"
-                                        routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Terms &
-                                        Conditions</a></li>
-
-                                <li class="nav-item"><a routerLink="/privacy-policy" class="nav-link"
-                                        routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Privacy
-                                        Policy</a></li>
-
-                                <li class="nav-item"><a routerLink="/coming-soon" class="nav-link"
-                                        routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Coming
-                                        Soon</a></li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link">Services <i
-                                    class='bx bx-chevron-down'></i></a>
-
-                            <ul class="dropdown-menu">
-                                <li class="nav-item"><a routerLink="/artistes" class="nav-link"
-                                        routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Artiste</a>
-                                </li>
-
-                                <li class="nav-item"><a routerLink="/oeuvres" class="nav-link" routerLinkActive="active"
-                                        [routerLinkActiveOptions]="{exact: true}">Oeuvre</a></li>
-
-                                <li class="nav-item"><a routerLink="/regroupements" class="nav-link"
-                                        routerLinkActive="active"
-                                        [routerLinkActiveOptions]="{exact: true}">Regroupement</a></li>
-
-                                <li class="nav-item"><a routerLink="/type-oeuvres" class="nav-link"
-                                        routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Type oeuvre
-                                    </a></li>
-
-                                <li class="nav-item"><a routerLink="/oeuvres-client" class="nav-link"
-                                        routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Oeuvre
-                                        client </a></li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link">Blog <i class='bx bx-chevron-down'></i></a>
-
-                            <ul class="dropdown-menu">
-                                <li class="nav-item"><a routerLink="/blog-1" class="nav-link" routerLinkActive="active"
-                                        [routerLinkActiveOptions]="{exact: true}">Blog Style One</a></li>
-
-                                <li class="nav-item"><a routerLink="/blog-2" class="nav-link" routerLinkActive="active"
-                                        [routerLinkActiveOptions]="{exact: true}">Blog Style Two</a></li>
-
-                                <li class="nav-item"><a routerLink="/blog-details" class="nav-link"
-                                        routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Blog
-                                        Details</a></li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item"><a routerLink="/contact" class="nav-link" routerLinkActive="active"
-                                [routerLinkActiveOptions]="{exact: true}">Contact</a></li>
-                        <li class="nav-item"><a class="btn btn-brand default-btn" (click)="openSignin()">Se
-                                connecter</a></li>
-                        <li class="nav-item"><a class="btn btn-brand default-btn" (click)="openAccount()">S'incrire</a>
-                        </li>
-                    </ul>
-
-
-                    <div class="others-options d-flex align-items-center">
-                        <div class="option-item">
-                            <i class='search-btn bx bx-search'></i>
-                            <i class='close-btn bx bx-x'></i>
-                            <div class="search-overlay search-popup">
-                                <div class='search-box'>
-                                    <form class="search-form" [formGroup]="formSearch" (ngSubmit)="onSearch()">
-                                        <input class="search-input" name="search" placeholder="Search"
-                                            formControlName="search" class="form-control" type="text" required>
-                                        <button class="search-button" type="submit"><i
-                                                class="bx bx-search"></i></button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="option-item">
-                            <div class="menu-icon d-in-line">
-                                <span class="burger-menu menu-icon-two"><i class='flaticon-menu'></i></span>
-                            </div>
-                        </div>
+                <div class="col-lg-12 col-md-12">
+                    <div class="header-right">
+                        <button class="btn default-btn mr-2" (click)="openSignin()">Se déconnecter</button>
                     </div>
                 </div>
             </nav>
         </div>
     </div>
-</div> -->
+</div>
 
 <!-- End Navbar Area -->
 
