@@ -19,16 +19,15 @@ export class AccountComponent implements OnInit {
     errorMessage = null;
     isSaving: boolean;
     successMessage = null;
-    isopt: boolean;
     keyActivedAccount = null;
     loginVM: LoginVM;
     formAccount = this.fb.group({
         firstName: [null, [Validators.required,Validators.minLength(2)]],
         lastName: [null, [Validators.required,Validators.minLength(2)]],
         email: [null, [Validators.required, Validators.email]],
-        password: [null, [Validators.required,Validators.minLength(6)]],
+        password: [null, [Validators.required,Validators.pattern]],
         telephone: [null, [Validators.required]],
-        confirmPassword: [null, [Validators.required,Validators.minLength(6)]],
+        confirmPassword: [null, [Validators.required,Validators.pattern]],
     });
 
   constructor(
@@ -50,7 +49,6 @@ export class AccountComponent implements OnInit {
       this.isSaving = false;
       this.user = new User();
       this.loginVM = new LoginVM();
-      this.isopt = false;
   }
 
     onDismiss(b: boolean): void {
@@ -76,7 +74,6 @@ export class AccountComponent implements OnInit {
                     if (response.body === null) {
                         this.errorMessage = 'Erreur lors de l\'inscription. Veuillez réessayer !';
                     } else {
-                        this.isopt = true;
                         this.isSaving = true;
                         // this.onLogin();
                         this.successMessage = 'Votre compte a été créé veuillez l\'activer a partir de votre Email !';
@@ -127,6 +124,22 @@ export class AccountComponent implements OnInit {
                 this.errorMessage = error.error.title;
             },
         );
+
+    }
+
+    sendEmail() {
+      this.apiService.sendEmail(this.loginVM.username).subscribe(res => {
+          if (res.body === null) {
+              this.errorMessage ='Erreur lors du renvoi du l\'Email, Veuillez réessayer'
+          } else {
+              this.successMessage = 'Mail renvoye avec succes'
+          }
+      },
+       error => {
+          this.errorMessage = error.error.title;
+
+       }
+      )
 
     }
 }

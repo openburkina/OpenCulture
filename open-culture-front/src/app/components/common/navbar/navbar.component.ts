@@ -4,6 +4,8 @@ import {AccountComponent} from '../../pages/account/account.component';
 import {SignInComponent} from "../../pages/sign-in/sign-in.component";
 import {FormBuilder, Validators} from "@angular/forms";
 import {ApiService} from "../../services/api/api.service";
+import {Account} from '../../models/account';
+import {AccountService} from "../../services/auth/account.service";
 
 @Component({
   selector: 'app-navbar',
@@ -12,11 +14,13 @@ import {ApiService} from "../../services/api/api.service";
 })
 export class NavbarComponent implements OnInit {
     search :string;
+    private account: Account;
 
   constructor(
       private modal: NgbModal,
       private fb: FormBuilder,
       private apiService: ApiService,
+      private accountService: AccountService,
   ) { }
 
     formSearch = this.fb.group({

@@ -146,34 +146,23 @@ public class AccountResource {
     }
 
 
+    @PostMapping(path ="/account/send-email")
+    public User sendEmail(@RequestBody String login) {
+        return userService.sendEmail(login);
+    }
+
+    @PostMapping(path ="/account/send-password-email")
+    public User sendPasswordEmail(@RequestBody String login) {
+        return userService.sendPasswordEmail(login);
+    }
+
+
     @PostMapping(path = "/account/change-user-password")
     public User changeUserPassword(@RequestBody LoginVM loginVM) {
         if (!checkPasswordLength(loginVM.getPassword())) {
             throw new InvalidPasswordException();
         }
          User user = userService.changeUserPassword(loginVM.getUsername(), loginVM.getPassword());
-         mailService.sendEmail(user.getLogin(),"Votre mot de passe a ete change"," <!DOCTYPE html>\n" +
-            "<html lang=\"en\">\n" +
-            "    <head>\n" +
-            "        <title>activation du compte sur  openculture</title>\n" +
-            "        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n" +
-            "        <link rel=\"icon\" href=\"http://127.0.0.1:4200/favicon.ico\" />\n" +
-            "    </head>\n" +
-            "    <body>\n" +
-            "        <p>Cher narcissee1998@gmail.com</p>\n" +
-            "        <p>Votre mot de passe sur openculture a été change, veuillez cliquer sur le lien ci-dessous pour l'activer:</p>\n" +
-            "        <p>\n" +
-            "            <a href=\"http://127.0.0.1:4200/account?key=" +user.getActivationKey()+
-            "\">http://127.0.0.1:4200/account?key=" +user.getActivationKey()+
-            "</a>\n" +
-            "        </p>\n" +
-            "        <p>\n" +
-            "            <span>Regards,</span>\n" +
-            "            <br/>\n" +
-            "            <em>openculture Team.</em>\n" +
-            "        </p>\n" +
-            "    </body>\n" +
-            "</html>",false,true);
          return user;
     }
 
@@ -183,14 +172,39 @@ public class AccountResource {
      * @param mail the mail of the user.
      */
     @PostMapping(path = "/account/reset-password/init")
-    public void requestPasswordReset(@RequestBody String mail) {
+    public User requestPasswordReset(@RequestBody String mail) {
         Optional<User> user = userService.requestPasswordReset(mail);
         if (user.isPresent()) {
-            mailService.sendPasswordResetMail(user.get());
+          //  mailService.sendPasswordResetMail(user.get());
+             mailService.sendEmail(user.get().getLogin(),"Changer votre mot de passe"," <!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "    <head>\n" +
+                "        <title>Changer votre mot de passe sur  openculture</title>\n" +
+                "        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n" +
+                "        <link rel=\"icon\" href=\"http://127.0.0.1:4200/favicon.ico\" />\n" +
+                "    </head>\n" +
+                "    <body>\n" +
+                "        <p>Cher "+user.get().getLogin() +" </p>\n" +
+                "        <p>veuillez cliquer sur le lien ci-dessous pour changer votre mot de passe:</p>\n" +
+                "        <p>\n" +
+                "            <a href=\"http://127.0.0.1:4200/password?passwordkey=" +user.get().getActivationKey()+
+                "\">http://127.0.0.1:4200/password?passwordkey=" +user.get().getActivationKey()+
+                "</a>\n" +
+                "        </p>\n" +
+                "        <p>\n" +
+                "            <span>Regards,</span>\n" +
+                "            <br/>\n" +
+                "            <em>openculture.</em>\n" +
+                "        </p>\n" +
+                "    </body>\n" +
+                "</html>",false,true);
+
+            return user.get();
         } else {
             // Pretend the request has been successful to prevent checking which emails really exist
             // but log that an invalid attempt has been made
             log.warn("Password reset requested for non existing mail");
+            return null;
         }
     }
 

@@ -60,33 +60,40 @@ public class OeuvreService {
 
     private final ArtisteOeuvreRepository artisteOeuvreRepository;
 
+    private final InformationCivilService informationCivilService;
+
     private final RegroupementService regroupementService;
 
     private final TypeOeuvreService typeOeuvreService;
 
+    private final ArtisteService artisteService;
+
     private final ArtisteOeuvreService artisteOeuvreService;
 
+<<<<<<< HEAD
     private final UserService userService;
 
     public OeuvreService(
         OeuvreMapper oeuvreMapper,
-         InformationCivilService informationCivilService,
-         TypeOeuvreService typeOeuvreService,
-          RegroupementService regroupementService,
-           OeuvreRepository oeuvreRepository,
-            ArtisteMapper artisteMapper,
-             ArtisteOeuvreRepository artisteOeuvreRepository,
-               ArtisteOeuvreService artisteOeuvreService,
-               UserService userService) {
-
-        this.oeuvreRepository = oeuvreRepository;
-        this.artisteMapper = artisteMapper;
-        this.artisteOeuvreRepository = artisteOeuvreRepository;
-        this.artisteOeuvreService = artisteOeuvreService;
-        this.oeuvreMapper = oeuvreMapper;
-        this.regroupementService = regroupementService;
-        this.typeOeuvreService = typeOeuvreService;
-        this.userService = userService;
+        InformationCivilService informationCivilService,
+        TypeOeuvreService typeOeuvreService,
+        RegroupementService regroupementService,
+        OeuvreRepository oeuvreRepository,
+        ArtisteMapper artisteMapper,
+        ArtisteOeuvreRepository artisteOeuvreRepository,
+        ArtisteOeuvreService artisteOeuvreService,
+        UserService userService,
+        ArtisteService artisteService) {
+                this.oeuvreRepository = oeuvreRepository;
+                this.artisteMapper = artisteMapper;
+                this.artisteOeuvreRepository = artisteOeuvreRepository;
+                this.informationCivilService = informationCivilService;
+                this.artisteOeuvreService = artisteOeuvreService;
+                this.oeuvreMapper = oeuvreMapper;
+                this.regroupementService = regroupementService;
+                this.typeOeuvreService = typeOeuvreService;
+                this.userService = userService;
+                this.artisteService = artisteService;
     }
 
     /**
@@ -108,7 +115,7 @@ public class OeuvreService {
             typeOeuvreDTO.setNbOeuvre(typeOeuvreDTO.getNbOeuvre()+1);
             oeuvreDTO.setTypeOeuvreDTO(typeOeuvreService.save(typeOeuvreDTO));
         }
-        
+
 
         if (validedOeuvre(oeuvreDTO)) {
             if (oeuvreDTO.getArtistes() != null) {
@@ -127,11 +134,11 @@ public class OeuvreService {
                 artisteOeuvre.setArtisteId(artisteService.save(oeuvreDTO.getArtisteDTO()).getId());
             }*/
 
-            // File media = new File(oeuvreDTO.getPathFile());
+            File media = new File(oeuvreDTO.getPathFile());
            // oeuvreDTO.setFileContent(FileUtils.readFileToByteArray(media));
-            // String s[] = media.getName().split("\\.");
-            // oeuvreDTO.setFileName(s[0]);
-            // oeuvreDTO.setFileExtension(s[1]);
+            String s[] = media.getName().split("\\.");
+            oeuvreDTO.setFileName(s[0]);
+            oeuvreDTO.setFileExtension(s[1]);
 
             // File media = new File(oeuvreDTO.getPathFile());
             // oeuvreDTO.setFileContent(FileUtils.readFileToByteArray(media));
@@ -144,7 +151,7 @@ public class OeuvreService {
             log.debug("Type Oeuvre: {}"+"\n\n",oeuvreDTO.getTypeOeuvreDTO());
             // oeuvreDTO.setRegroupementId(oeuvreDTO.getRegroupementId());
             // oeuvreDTO.setTypeOeuvreId(oeuvreDTO.getTypeOeuvreId());
-            
+
             Oeuvre oeuvre = oeuvreMapper.toEntity(oeuvreDTO);
             oeuvre = oeuvreRepository.save(oeuvre);
 
@@ -159,7 +166,7 @@ public class OeuvreService {
                 if (!artsId.contains(long1)) {
                     artisteOeuvreRepository.deleteByArtisteId(long1);
                 }
-            }                  
+            }
 
             Oeuvre finalOeuvre = oeuvre;
             artisteOeuvres.forEach(
@@ -167,7 +174,7 @@ public class OeuvreService {
                     artisteOeuvreDTO.setOeuvreId(finalOeuvre.getId());
                     if (!artOeuvres.contains(artisteOeuvreDTO.getArtisteId())) {
                         artisteOeuvreService.save(artisteOeuvreDTO);
-                    } 
+                    }
             });
             return oeuvreMapper.toDto(oeuvre);
         }

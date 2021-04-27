@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {SpinnerService} from "../../services/spinner/spinner.service";
 import {LoginService} from "../../services/auth/login.service";
 import {ChangePasswordComponent} from "../change-password/change-password.component";
+import {AccountService} from "../../services/auth/account.service";
 
 @Component({
   selector: 'app-sign-in',
@@ -23,6 +24,7 @@ export class SignInComponent implements OnInit {
 
   constructor(
       private loginService: LoginService,
+      private accountService: AccountService,
       private spinner: SpinnerService,
       private fb: FormBuilder,
       private router: Router,
@@ -48,7 +50,7 @@ export class SignInComponent implements OnInit {
                 if (response === null) {
                     this.errorMessage = 'Erreur lors de la connexion !';
                 } else {
-                    this.router.navigate(['/']);
+                    this.router.navigate(['/dashboard']);
                     this.onDismiss(true);
                 }
             },
