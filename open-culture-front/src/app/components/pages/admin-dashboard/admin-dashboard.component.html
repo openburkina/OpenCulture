@@ -1,0 +1,89 @@
+<!-- Services Details -->
+<div class="services-details pt-100 pb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+                <div class="services-details-content">
+                    <img src="assets/img/services/services-details.jpg" alt="Images">
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-12">
+                <div class="services-side-bar">
+                    <div class="services-bar-widget">
+                        <h3 class="title">Menu</h3>
+                        <div class="services-bar-categories">
+                            <ul>
+                                <li>
+                                    <i class="flaticon-sort"></i>
+                                    <a href="/entity-blog">Entités </a>
+                                </li>
+                                <li>
+                                    <i class="flaticon-balance"></i>
+                                    <a href="#">Comptes visiteurs</a>
+                                </li>
+                                <li>
+                                    <i class="flaticon-analytics"></i>
+                                    <a href="#">Comptes Managements</a>
+                                </li>
+                                <li>
+                                    <i class="flaticon-people"></i>
+                                    <a href="#">Mon profile </a>
+                                </li>
+                                <li>
+                                    <i class="flaticon-briefcase-1"></i>
+                                    <a href="#">Mot de passe </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="side-bar-widget col-md-5 mr-5">
+                <h3 class="title">Mes récents postes</h3>
+
+                <div class="widget-popular-post" *ngFor="let oeuvre of oeuvres">
+                    <article class="item">
+                        <a routerLink="/entity-blog-details" class="thumb">
+                            <!-- <span class="full-image cover bg1" role="img"></span> -->
+                            <img [src]="oeuvre.pathFile" class="full-image cover" role="img" alt="Images">
+                        </a>
+                        <div class="info">
+                            <h4 class="title-text"><a routerLink="/entity-blog-details">Success Depends on Strategy and Plan</a></h4>
+                            <p>March 20, 2020</p>
+                        </div>
+                    </article>
+                    <!-- <article class="item">
+                        <a routerLink="/entity-blog-details" class="thumb"><span class="full-image cover bg2" role="img"></span></a>
+                        <div class="info">
+                            <h4 class="title-text"><a routerLink="/entity-blog-details">Reaching the Goal With Best Consulting</a></h4>
+                            <p>June 11, 2020</p>
+                        </div>
+                    </article>
+                    <article class="item">
+                        <a routerLink="/entity-blog-details" class="thumb"><span class="full-image cover bg3" role="img"></span></a>
+                        <div class="info">
+                            <h4 class="title-text"><a routerLink="/entity-blog-details">Aim is to Reach My Goal With Best Plan</a> </h4>
+                            <p>August 10, 2020</p>
+                        </div>
+                    </article> -->
+                </div>
+            </div>
+            <div class="side-bar-widget col-md-5">
+                <h3 class="title">Catégories</h3>
+
+                <div class="side-bar-categories">
+                    <ul *ngFor="let categorie of categories">
+                        <li>
+                            <a class="btn" (click)="filtreByCategorie(categorie)">{{categorie.intitule}}</a>
+                            <span>{{categorie.nbOeuvre}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Services Details End -->
