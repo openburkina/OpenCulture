@@ -3549,7 +3549,8 @@ Blog Area
                     position: relative;
                     background-color: $paragraph-color;
                     &.bg1 {
-                        background-image: url(assets/img/blog/blog-img1.jpg);
+                        // background-image: url(assets/img/blog/blog-img1.jpg);
+                        // background-image: url(assets/img/openculture/image-1.jpg);
                     }
                     &.bg2 {
                         background-image: url(assets/img/blog/blog-img2.jpg);
@@ -4752,6 +4753,32 @@ Back To Top Button
     display: none;
     z-index: 99;
 }
+#toCreate {
+	position: fixed;
+	top: 20%;
+	left: 100px;
+	// cursor: pointer;
+    // display: none;
+    // z-index: 100;
+}
+.top-btn-create {
+    background-color: $main-color;
+    color: $color-white;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    box-shadow: 0 0 15px $main-color;
+    font-size: 20px;
+    display: inline-block;
+    text-align: center;
+    line-height: 45px;
+    transition: .9s;
+    &:hover{
+       background-color: $paragraph-color;
+        box-shadow: 0 0 15px #08104d;
+        color: #fff;
+    }
+}
 .top-btn {
     background-color: $main-color;
     color: $color-white;
@@ -4929,3 +4956,4 @@ Animation CSS End
     color: #212529;
     background-color: darkorange;
 }
+

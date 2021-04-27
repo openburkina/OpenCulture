@@ -31,8 +31,14 @@ import { OeuvreEditComponent } from './components/pages/oeuvre/oeuvre-edit.compo
 import { RegroupementComponent } from './components/pages/regroupement/regroupement.component';
 import { TypeOeuvreComponent } from './components/pages/type-oeuvre/type-oeuvre.component';
 import { OeuvreAfficheComponent } from './components/pages/oeuvre/oeuvre-affiche.component';
+import { EntityBlogComponent } from './components/pages/entity-blog/entity-blog.component';
+import { AdminDashboardComponent } from './components/pages/admin-dashboard/admin-dashboard.component';
+import { EntityBlogDetailsComponent } from './components/pages/entity-blog-details/entity-blog-details.component';
 
 const routes: Routes = [
+    {path: 'entity-blog', component: EntityBlogComponent},
+    {path: 'entity-blog-details', component: EntityBlogDetailsComponent},
+    {path: 'admin-dashboard', component: AdminDashboardComponent},
     {path: '', component: HomeOneComponent},
     {path: 'type-oeuvres', component: TypeOeuvreComponent},
     {path: 'oeuvres', component: OeuvreAfficheComponent},
@@ -65,7 +71,7 @@ const routes: Routes = [
     {path: 'account', component: AccountComponent},
     {path: 'signin', component: SignInComponent},
     {path: 'account:key', component: AccountComponent},
-    {path: '**', component: ErrorComponent} // This line will remain down from the whole component list
+    {path: '**', component: ErrorComponent},// This line will remain down from the whole component list
 ];
 
 @NgModule({

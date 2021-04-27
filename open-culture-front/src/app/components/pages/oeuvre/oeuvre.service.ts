@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { OeuvreDTO } from "../../models/oeuvre.model";
 import {TypeFichier} from '../../models/enumeration/type-fichier.enum';
@@ -28,7 +28,7 @@ export class OeuvreService {
       let url = this.resourceUrl+'-for-gestionnaire';
     return this.httpClient.get<OeuvreDTO[]>(url,{observe: 'response'})
     .pipe(map((data: EntityArrayOeuvre) => (this.convertDateInArrayOeuvreToClient(data))));
-}
+  }
 
   findOne(id: number): Observable<EntityOeuvre> {
     return this.httpClient.get<OeuvreDTO>(`${this.resourceUrl}/${id}`, { observe: 'response' })
@@ -93,5 +93,21 @@ export class OeuvreService {
                 oeuvresAudio.push({items: oeuvres.slice(i,i+k)});
       }
     }  
+  }
+
+  findMyRecentPosts(categorie: string): Observable<EntityArrayOeuvre> {
+    let url = this.resourceUrl+'/my-recent-post-oeuvres';
+    let params = new HttpParams();
+    params = params.append("categorie",categorie);
+  return this.httpClient.get<OeuvreDTO[]>(url,{ params: params, observe: 'response'})
+  .pipe(map((data: EntityArrayOeuvre) => (this.convertDateInArrayOeuvreToClient(data))));
+  }
+
+  findRecentPosts(categorie: string): Observable<EntityArrayOeuvre> {
+    let url = this.resourceUrl+'/recent-post-oeuvres';
+    let params = new HttpParams();
+    params = params.append("categorie",categorie);
+  return this.httpClient.get<OeuvreDTO[]>(url,{  params: params, observe: 'response'})
+  .pipe(map((data: EntityArrayOeuvre) => (this.convertDateInArrayOeuvreToClient(data))));
   }
 }

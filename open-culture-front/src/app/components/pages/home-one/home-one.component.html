@@ -436,7 +436,7 @@
             <div class="special-area" *ngIf="oeuvresVideo?.length>0">
                 <div class="container">
                     <div class="row" *ngFor="let oeuvre of oeuvresVideo">
-                        <div *ngFor="let item of oeuvre?.items ">
+                        <div *ngFor="let item of oeuvre?.items" class="mx-auto">
                             <div class="special-card mr-2">
                                 <a routerLink="/services-details"><img [src]="item.pathFile" alt="Images"></a>
                                 <!--                    <a routerLink="/services-details"><img [src]="item.pathFile" alt="Images"></a>-->

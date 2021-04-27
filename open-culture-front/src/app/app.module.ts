@@ -56,6 +56,10 @@ import { ArtisteEditComponent } from "./components/pages/artiste/artiste-edit.co
 import { ArtisteDeleteComponent } from "./components/pages/artiste/artiste-delete.component";
 import { OeuvreAfficheComponent } from "./components/pages/oeuvre/oeuvre-affiche.component";
 import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
+import { EntityBlogComponent } from './components/pages/entity-blog/entity-blog.component';
+import { AdminDashboardComponent } from './components/pages/admin-dashboard/admin-dashboard.component';
+import { EntityBlogDetailsComponent } from './components/pages/entity-blog-details/entity-blog-details.component';
+
 const notifierDefaultOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -143,7 +147,10 @@ const notifierDefaultOptions: NotifierOptions = {
     TypeOeuvreEditComponent,
     ArtisteEditComponent,
     ArtisteDeleteComponent,
-    OeuvreAfficheComponent
+    OeuvreAfficheComponent,
+    EntityBlogComponent,
+    AdminDashboardComponent,
+    EntityBlogDetailsComponent
   ],
     imports: [
         BrowserModule,
