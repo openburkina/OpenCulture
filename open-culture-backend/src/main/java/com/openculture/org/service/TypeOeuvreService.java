@@ -48,6 +48,9 @@ public class TypeOeuvreService {
      */
     public TypeOeuvreDTO save(TypeOeuvreDTO typeOeuvreDTO) {
         log.debug("Request to save TypeOeuvre : {}", typeOeuvreDTO);
+        if (typeOeuvreDTO.getId() == null) {
+            typeOeuvreDTO.setNbOeuvre((long) 0);
+        }
         TypeOeuvre typeOeuvre = typeOeuvreMapper.toEntity(typeOeuvreDTO);
         typeOeuvre = typeOeuvreRepository.save(typeOeuvre);
         return typeOeuvreMapper.toDto(typeOeuvre);
@@ -102,7 +105,7 @@ public class TypeOeuvreService {
      */
     public void delete(Long id) {
         log.debug("Request to delete TypeOeuvre : {}", id);
-        if (oeuvreRepository.findAllByTypeOeuvre(id).isEmpty()) {
+        if (oeuvreRepository.findAllByTypeOeuvreId(id).isEmpty()) {
             typeOeuvreRepository.deleteById(id);
         } else {
             throw new EntityUsedInAnotherException();
