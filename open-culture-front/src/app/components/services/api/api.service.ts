@@ -35,7 +35,7 @@ export class ApiService {
         return this.http.post<LoginVM>(`${environment.apiUrl}account/send-email`,login, {observe: 'response'});
     }
 
-    onSearch(search: String): Observable<HttpResponse<any>> {
-        return this.http.get(`${environment.apiUrl}artistes/search/${search}`, {observe: 'response'});
+    onSearch(search: String, typeFile?: string): Observable<HttpResponse<any>> {
+        return this.http.get(`${environment.apiUrl}artiste-oeuvres/search/${search}/${typeFile}`, {observe: 'response'});
     }
 }

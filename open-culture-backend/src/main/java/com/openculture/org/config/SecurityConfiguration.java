@@ -79,6 +79,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/account/send-email").permitAll()
             .antMatchers("/api/account/send-password-email").permitAll()
             .antMatchers("/api/account/change-user-password").permitAll()
+            .antMatchers("/api/artiste-oeuvres/search/{search}/{typeFile}").permitAll()
             .antMatchers("/api/oeuvres").permitAll()
             .antMatchers("/api/oeuvres/**").permitAll()
             .antMatchers("/api/type-oeuvres").permitAll()

@@ -28,6 +28,10 @@ export class AuthJWTService {
             || this.$localStorage.retrieve('authenticationToken')) || '';
     }
 
+    isAuthorities(): string[] {
+        return this.$sessionStorage.retrieve('authorities');
+    }
+
     getTokenExpirationDate(token: string): Date {
         const decoded = jwt_decode.default(token);
 
@@ -54,7 +58,7 @@ export class AuthJWTService {
         return this.http
             .post<JwtToken>(environment.apiUrl + 'authenticate', credentials)
             .pipe(map((response: JwtToken) => {
-                    this.authenticateSuccess(response, credentials.rememberMe);
+                    this.authenticateSuccess(response, credentials.rememberMe,credentials.username);
                 }),
             );
     }
@@ -65,12 +69,13 @@ export class AuthJWTService {
         this.router.navigate(['/']);
     }
 
-    private authenticateSuccess(response: JwtToken, rememberMe: boolean): void {
+    private authenticateSuccess(response: JwtToken, rememberMe: boolean ,login: string): void {
         const jwt = response.id_token;
         if (rememberMe) {
             this.$localStorage.store('authenticationToken', jwt);
         } else {
             this.$sessionStorage.store('authenticationToken', jwt);
+            this.$sessionStorage.store('login',login);
         }
     }
 }

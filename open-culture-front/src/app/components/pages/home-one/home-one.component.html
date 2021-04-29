@@ -1,5 +1,5 @@
 <!-- Banner Area -->
-<div class="banner-area">
+<div class="banner-area mx-4">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6 col-md-12">
@@ -419,19 +419,37 @@
     <div class="container">
             <div class="tab project-tab text-center">
             <ul class="tabs">
-                <li><a href="#">Films</a></li>
-                <li><a href="#">Vidéos</a></li>
+                <input type="radio" id="films"  name="typeFile" value="FILMS" [(ngModel)]="typeFile">
+                <li class="changeCursor" for="films">Films</li>
+
+                <input type="radio" id="video" name="typeFile" value="VIDEO" [(ngModel)]="typeFile">
+                <li class="changeCursor" >Videos</li>
+
+                <input type="radio" id="musique" name="typeFile" value="AUDIO" [(ngModel)]="typeFile">
+                <li class="changeCursor" >Musiques</li>
+
+                <input type="radio" id="Littérature" name="typeFile" value="LITERATURE" [(ngModel)]="typeFile">
+                <li class="changeCursor" >Littérature</li>
+
+                <input type="radio" id="Tableauart" name="typeFile" value="TABLEAUART" [(ngModel)]="typeFile">
+                <li class="changeCursor" >Tableau d'art</li>
+
+                <!--<li><a href="#">Films</a></li>
+                <li ><a href="#">Vidéos</a></li>
                 <li><a href="#">Musiques</a></li>
                 <li><a href="#">Littérature</a></li>
-                <li><a href="#">Tableau d'art</a></li>
+                <li><a href="#">Tableau d'art</a></li>-->
             </ul>
             <div class="search-widget col-md-6 mx-auto">
                 <div class="search-form">
-                    <input name="search" placeholder="Search" class="form-control" type="text" required>
-                    <button class="search-button" type="submit">
+                    <input name="criteria" placeholder="Rechercher des artistes, des titre" class="form-control" type="text" [(ngModel)]="criteria" required>
+                    <button class="search-button" (click)="search()">
                         <i class="bx bx-search"></i>
                     </button>
-                </div>   
+                </div>
+            </div>
+            <div class="tab section-title text-center mb-3">
+                <h5>Découvrez les derniers sortie sur OpenBurkina</h5>
             </div>
             <div class="special-area" *ngIf="oeuvresVideo?.length>0">
                 <div class="container">
@@ -439,15 +457,15 @@
                         <div *ngFor="let item of oeuvre?.items ">
                             <div class="special-card mr-2">
                                 <a routerLink="/services-details"><img [src]="item.pathFile" alt="Images"></a>
-                                <!--                    <a routerLink="/services-details"><img [src]="item.pathFile" alt="Images"></a>-->
                                 <div class="content">
                                     <h5><a routerLink="/services-details">{{(item.titre | slice:0:12)+'...'+' de '}}</a></h5>
                                     <h6>{{item.nomArtiste}}</h6>
-                                    <!--                        <p>{{item.resume}}</p>-->
-                                    <!--                        <a routerLink="/services-details" class="learn-btn text-center">Learn More</a>-->
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="btn banner-btn service-view-btn text-center">
+                        <button class="view-btn" (click)="openAccount()">Créer un compte</button>
                     </div>
                 </div>
             </div>            

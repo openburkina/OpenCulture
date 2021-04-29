@@ -49,9 +49,10 @@ export class AccountService {
                 tap((account: Account | null) => {
                     console.log(account);
                     this.authenticate(account);
-                    console.log(account);
                     if (account) {
-                     //   this.parameter.setLoggerUser(account);
+                        this.$sessionStorage.store('firstName',account.firstName);
+                        this.$sessionStorage.store('lastName',account.lastName);
+                        this.$sessionStorage.store('authorities',account.authorities);
                         this.navigateToStoredUrl();
                     }
                 }),

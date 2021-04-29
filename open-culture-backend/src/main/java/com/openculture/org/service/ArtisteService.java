@@ -102,29 +102,6 @@ public class ArtisteService {
             .map(artisteMapper::toDto);
     }
 
-    @Transactional(readOnly = true)
-    public RechercheDTO onSearch(String search) {
-        log.debug("Request to get all Artistes");
-        artistes = artisteRepository.findArtisteByCritaria(search);
-        if (artistes.size()>0) {
-          artistes.forEach(artiste ->{
-              this.rechercheDTOS = new RechercheDTO();
-              this.rechercheDTOS.setArtiste(artiste);
-              artisteOeuvres = artisteOeuvreService.findByArtisteId(artiste.getId());
-          });
-         if (artisteOeuvres.size()>0){
-             artisteOeuvres.forEach(artisteOeuvre -> {
-                 System.out.println("====ID==== "+artisteOeuvre.getArtiste().getId());
-                 this.rechercheDTOS = new RechercheDTO();
-                this.oeuvres = oeuvreRepository.findById(artisteOeuvre.getOeuvre().getId());
-                 this.rechercheDTOS.setOeuvre(this.oeuvres.get());
-             });
-         }
-        }
-        return this.rechercheDTOS;
-    }
-
-
     /**
      * Get one artiste by id.
      *

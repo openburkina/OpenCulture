@@ -1,29 +1,20 @@
 import { Injectable } from '@angular/core';
-import {
-    CanActivate,
-    Router,
-
-} from '@angular/router';
-import {AccountService} from "../auth/account.service";
+import {CanActivate, Router} from '@angular/router';
 import {AuthJWTService} from "../auth/auth-jwt.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserRouteAccessGuard implements CanActivate{
-
+export class UserRouteAccesGuard implements CanActivate {
     constructor(
-        private accountService: AccountService,
         private authJWT: AuthJWTService,
         private router: Router,
     ) { }
     canActivate(): boolean {
-        console.log('UserRouteAccessService');
         if (!this.authJWT.isTokenExpired()) {
             return true;
         }
-        this.router.navigate(['/login']);
+        this.router.navigate(['/']);
         return false;
     }
-
 }
