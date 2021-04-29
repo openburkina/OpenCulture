@@ -11,9 +11,18 @@ public class TypeOeuvreDTO implements Serializable {
 
     private String intitule;
 
+    private Long nbOeuvre;
     
     public Long getId() {
         return id;
+    }
+
+    public Long getNbOeuvre() {
+        return nbOeuvre;
+    }
+
+    public void setNbOeuvre(Long nbOeuvre) {
+        this.nbOeuvre = nbOeuvre;
     }
 
     public void setId(Long id) {

@@ -13,7 +13,7 @@ import java.time.Instant;
  */
 @Entity
 @Table(name = "abonnement")
-public class Abonnement implements Serializable {
+public class Abonnement extends AbstractAuditingEntity implements Serializable  {
 
     private static final long serialVersionUID = 1L;
 

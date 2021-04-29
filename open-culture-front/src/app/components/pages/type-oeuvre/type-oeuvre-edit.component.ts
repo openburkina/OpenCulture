@@ -17,7 +17,7 @@ type EntityTypeOeuvre = HttpResponse<TypeOeuvreDTO>;
 })
 export class TypeOeuvreEditComponent implements OnInit {
 
-  typeOeuvre: TypeOeuvreDTO;
+  typeOeuvre = new TypeOeuvreDTO();
 
   typeOeuvreForm = this.formBuilder.group({
     id: [],
@@ -35,7 +35,10 @@ export class TypeOeuvreEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ typeOeuvre }) => {
-      this.update(this.typeOeuvre);
+      if (this.typeOeuvre.id !== null && this.typeOeuvre.id !== undefined) {
+        this.update(this.typeOeuvre);
+      }
+      
     });
   }
 

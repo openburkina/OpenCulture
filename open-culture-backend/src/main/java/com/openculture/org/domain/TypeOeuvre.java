@@ -13,7 +13,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "type_oeuvre")
-public class TypeOeuvre implements Serializable {
+public class TypeOeuvre extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,6 +24,9 @@ public class TypeOeuvre implements Serializable {
 
     @Column(name = "intitule")
     private String intitule;
+    
+    @Column(name = "nb_oeuvre")
+    private Long nbOeuvre;
 
     @OneToMany(mappedBy = "regroupement")
     private Set<Oeuvre> oeuvres = new HashSet<>();
@@ -48,6 +51,14 @@ public class TypeOeuvre implements Serializable {
 
     public void setIntitule(String intitule) {
         this.intitule = intitule;
+    }
+
+    public Long getNbOeuvre() {
+        return nbOeuvre;
+    }
+
+    public void setNbOeuvre(Long nbOeuvre) {
+        this.nbOeuvre = nbOeuvre;
     }
 
 

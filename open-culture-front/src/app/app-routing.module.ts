@@ -32,19 +32,22 @@ import { RegroupementComponent } from './components/pages/regroupement/regroupem
 import { TypeOeuvreComponent } from './components/pages/type-oeuvre/type-oeuvre.component';
 import { OeuvreAfficheComponent } from './components/pages/oeuvre/oeuvre-affiche.component';
 import {ChangePasswordComponent} from "./components/pages/change-password/change-password.component";
-import {UserRouteAccessGuard} from "./components/services/routes/user-route-access.guard";
-import {RoleGuard} from "./components/services/routes/role.guard";
+import { EntityBlogComponent } from './components/pages/entity-blog/entity-blog.component';
+import { AdminDashboardComponent } from './components/pages/admin-dashboard/admin-dashboard.component';
+import { EntityBlogDetailsComponent } from './components/pages/entity-blog-details/entity-blog-details.component';
 
 const routes: Routes = [
+    {path: 'entity-blog', component: EntityBlogComponent},
+    {path: 'entity-blog-details', component: EntityBlogDetailsComponent},
+    {path: 'admin-dashboard', component: AdminDashboardComponent},
     {path: '', component: HomeOneComponent},
-    {path: 'type-oeuvres', component: TypeOeuvreComponent,canActivate: [UserRouteAccessGuard]},
-    {path: 'oeuvres', component: OeuvreAfficheComponent,canActivate: [UserRouteAccessGuard]},
+    {path: 'type-oeuvres', component: TypeOeuvreComponent},
+    {path: 'oeuvres', component: OeuvreAfficheComponent},
     {path: 'oeuvres-client', component: OeuvreComponent},
     {path: 'regroupements', component: RegroupementComponent},
     {path: 'artistes', component: ArtisteComponent},
     {path: 'home-three', component: HomeThreeComponent},
     {path: 'home-two', component: HomeTwoComponent},
-    {path: 'dashboard', component: HomeTwoComponent,canActivate: [RoleGuard]},
     {path: 'about', component: AboutComponent},
     {path: 'team', component: TeamComponent},
     {path: 'apply-now', component: AppleNowComponent},
@@ -71,8 +74,7 @@ const routes: Routes = [
     {path: 'account:key', component: AccountComponent},
     {path: 'password', component: ChangePasswordComponent},
     {path: 'password:passwordkey', component: ChangePasswordComponent},
-    {path: '**', component: HomeOneComponent} // This line will remain down from the whole component list
-   // {path: '**', component: ErrorComponent} // This line will remain down from the whole component list
+    {path: '**', component: ErrorComponent},// This line will remain down from the whole component list
 ];
 
 @NgModule({

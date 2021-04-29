@@ -1,6 +1,7 @@
 <!-- Apply Area -->
-<div class="card-header text-center bg-warning-1" *ngIf="oeuvre === undefined">Enregistrer une oeuvre</div>
-<div class="card-header text-center bg-warning-1" *ngIf="oeuvre !== null && oeuvre !== undefined">Enregistrer une oeuvre</div>
+<div class="card-header text-center bg-warning-1" *ngIf="oeuvre.id === undefined">Enregistrer une oeuvre</div>
+<div class="card-header text-center bg-warning-1" *ngIf="oeuvre.id !== null && oeuvre.id !== undefined">Modifier une oeuvre</div>
+
 <div class="apply-area pt-5 modal-body">
     <div class="container">
         <div class="apply-form">

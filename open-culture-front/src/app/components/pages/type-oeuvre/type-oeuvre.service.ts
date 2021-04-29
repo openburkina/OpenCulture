@@ -20,6 +20,10 @@ export class TypeOeuvreService {
       return this.httpClient.get< TypeOeuvreDTO[]>(this.resourceUrl,{observe: 'response'});
   }
 
+  findAllSimple(): Observable<EntityArrayTypeOeuvre> {
+    return this.httpClient.get< TypeOeuvreDTO[]>(this.resourceUrl,{observe: 'response'});
+}
+
   findOne(id: number): Observable<EntityTypeOeuvre> {
     return this.httpClient.get< TypeOeuvreDTO>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }

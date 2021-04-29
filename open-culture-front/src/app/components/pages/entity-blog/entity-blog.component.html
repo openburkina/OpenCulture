@@ -1,0 +1,73 @@
+<!-- Blog Area Two -->
+<div class="blog-area-two pt-100 pb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+                <div class="row" *ngFor="let oeuvre of allOeuvres">
+                    <div class="col-lg-6 col-md-6" *ngFor="let item of oeuvre?.items">
+                        <div class="blog-card">
+                            <a routerLink="/entity-blog-details"><img [src]="item.pathFile" alt="Images"></a>
+                            <div class="content">
+                                <h3><a routerLink="/entity-blog-details">Aim is to Reach My Goal With Best Plan</a></h3>
+                                <ul>
+                                    <li>By <a routerLink="/blog-1">ADMIN </a> /</li>
+                                    <li><span>20</span> COMMENTS /</li>
+                                    <li><span>28</span> VIEWS</li>
+                                </ul>
+                                <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit. </p>
+                                <button class="blog-more" (click)="edit(item)"><i class='flaticon-double-right-arrows-angles'></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-12">
+                <div class="side-bar-wrap">
+                    <div class="search-widget">
+                        <form class="search-form">
+                            <input type="search" class="form-control" placeholder="Search...">
+                            <button type="submit"><i class="bx bx-search"></i></button>
+                        </form>
+                    </div>
+                    <div>
+                        <button id="toCreate" class="top-btn-create btn" (click)="toCreate()">
+                            <i class="bx bx-plus"></i>
+                        </button>
+                    </div>
+
+                    <div class="side-bar-widget">
+                        <h3 class="title">Catégories</h3>
+
+                        <div class="side-bar-categories">
+                            <ul *ngFor="let categorie of categories">
+                                <li>
+                                    <a class="btn" (click)="filtreByCategorie(categorie)">{{categorie.intitule}}</a>
+                                    <span>{{categorie.nbOeuvre}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="side-bar-widget">
+                        <h3 class="title">Récents postes</h3>
+
+                        <div class="widget-popular-post" *ngFor="let oeuvre of oeuvres">
+                            <article class="item">
+                                <a routerLink="/entity-blog-details" class="thumb">
+                                    <!-- <span class="full-image cover bg1" role="img"></span> -->
+                                    <img [src]="oeuvre.pathFile" class="full-image cover" role="img" alt="Images">
+                                </a>
+                                <div class="info">
+                                    <h4 class="title-text"><a routerLink="/entity-blog-details">Success Depends on Strategy and Plan</a></h4>
+                                    <p>March 20, 2020</p>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Blog Area Two End -->

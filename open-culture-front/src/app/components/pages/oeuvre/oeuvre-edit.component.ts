@@ -27,7 +27,7 @@ type EntityArrayOeuvre = HttpResponse<OeuvreDTO[]>;
     encapsulation: ViewEncapsulation.None
 })
 export class OeuvreEditComponent implements OnInit {
-  oeuvre: OeuvreDTO;
+  oeuvre = new OeuvreDTO();
   oeuvreForm = this.formBuilder.group({
     id: [],
     titre: [],
@@ -64,7 +64,7 @@ export class OeuvreEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ oeuvre }) => {
-      if (this.oeuvre !== null && this.oeuvre !== undefined) {
+      if (this.oeuvre.id !== null && this.oeuvre.id !== undefined) {
         console.log("this.artisteSelected");
         this.updateOeuvre(this.oeuvre);
         this.artisteSelected = this.oeuvre.artistes;
@@ -139,6 +139,7 @@ export class OeuvreEditComponent implements OnInit {
 
   save(){
     const oeuvre = this.createOeuvre();
+    console.log(oeuvre);
     if (this.validateOeuvre(oeuvre)) {
       if(oeuvre.id !== undefined && oeuvre.id !== null){
         this.saveState(this.oeuvreService.update(oeuvre));
@@ -273,11 +274,11 @@ private paddingSize(value: string): number {
   saveState(result: Observable<EntityOeuvre>){
     result.subscribe(
       () => {
-        this.showNotification("oeuvre enregistree","success");
+        this.showNotification("oeuvre enregistrée","success");
         this.cancel(true);
       },
       () => {
-        this.showNotification("enregistrement echoue","error");
+        this.showNotification("enregistrement echoué","error");
       }
     );
   }

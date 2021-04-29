@@ -12,7 +12,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "regroupement")
-public class Regroupement implements Serializable {
+public class Regroupement extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
