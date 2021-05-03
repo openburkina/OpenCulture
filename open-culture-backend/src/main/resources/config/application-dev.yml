@@ -37,7 +37,7 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://localhost:5432/open
+    url: jdbc:postgresql://localhost:5432/openculture
     username: postgres
     password: Abdoul
     hikari:
@@ -52,8 +52,8 @@ spring:
   mail:
     host: smtp.mailtrap.io
     port: 2525
-    username: d8d18072acc9aa
-    password: f9573d78f86bed
+    username: feb9e177b8d036
+    password: 54752070d053a0
 #    host: smtp.gmail.com
 #    port: 587
 #    username: narcissee1998@gmail.com

@@ -35,17 +35,20 @@ import {ChangePasswordComponent} from "./components/pages/change-password/change
 import { EntityBlogComponent } from './components/pages/entity-blog/entity-blog.component';
 import { AdminDashboardComponent } from './components/pages/admin-dashboard/admin-dashboard.component';
 import { EntityBlogDetailsComponent } from './components/pages/entity-blog-details/entity-blog-details.component';
+import {UserRouteAccessGuard} from "./components/services/routes/user-route-access.guard";
+import {RoleGuard} from "./components/services/routes/role.guard";
 
 const routes: Routes = [
-    {path: 'entity-blog', component: EntityBlogComponent},
-    {path: 'entity-blog-details', component: EntityBlogDetailsComponent},
-    {path: 'admin-dashboard', component: AdminDashboardComponent},
+    {path: 'entity-blog', component: EntityBlogComponent,canActivate: [UserRouteAccessGuard]},
+    {path: 'entity-blog-details', component: EntityBlogDetailsComponent,canActivate: [UserRouteAccessGuard]},
+    {path: 'admin-dashboard', component: AdminDashboardComponent,canActivate: [RoleGuard]},
     {path: '', component: HomeOneComponent},
     {path: 'type-oeuvres', component: TypeOeuvreComponent},
     {path: 'oeuvres', component: OeuvreAfficheComponent},
     {path: 'oeuvres-client', component: OeuvreComponent},
     {path: 'regroupements', component: RegroupementComponent},
     {path: 'artistes', component: ArtisteComponent},
+    {path: 'dashboard', component: HomeTwoComponent,canActivate: [UserRouteAccessGuard]},
     {path: 'home-three', component: HomeThreeComponent},
     {path: 'home-two', component: HomeTwoComponent},
     {path: 'about', component: AboutComponent},
@@ -74,6 +77,7 @@ const routes: Routes = [
     {path: 'account:key', component: AccountComponent},
     {path: 'password', component: ChangePasswordComponent},
     {path: 'password:passwordkey', component: ChangePasswordComponent},
+    {path: '**', component: HomeOneComponent},
     {path: '**', component: ErrorComponent},// This line will remain down from the whole component list
 ];
 

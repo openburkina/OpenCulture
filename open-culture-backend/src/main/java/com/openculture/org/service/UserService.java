@@ -318,6 +318,9 @@ public class UserService {
                 "</html>",false,true);
         }
         log.debug("Changed password for User: {}", user);
+        log.info("-----------------: {}");
+        log.info(user.get().getActivationKey());
+        log.info("-----------------: {}");
         return user.get();
     }
 

@@ -144,6 +144,16 @@
 </div>
 <div class="apply-area ">
     <div class="container">
+        <div class="col-lg-12 col-sm-6">
+            <div class="alert alert-danger text-center font-italic font-weight-bold text-danger"
+                 *ngIf="errorMessage !== null">
+                {{ errorMessage }}
+            </div>
+            <div class="alert alert-success text-center font-italic font-weight-bold text-success"
+                 *ngIf="successMessage !== null">
+                {{ successMessage }}
+            </div>
+        </div>
         <div *ngIf="keyActivedAccount === null || keyActivedAccount === undefined">
             <div class="section-title text-center">
                 <p>Veuillez renseigner les informations suivantes pour vous inscrire. <br>
@@ -154,9 +164,10 @@
 
             <div class="apply-form pt-45">
                 <div class="contact-form">
-                    <form id="contactForm" [formGroup]="formAccount" (ngSubmit)="onAccount()">
+                    <!-- <form id="contactForm" [formGroup]="formAccount" (ngSubmit)="onAccount()"> -->
+                    <form [formGroup]="formAccount">    
                         <div class="row">
-                            <div class="col-lg-12 col-sm-6">
+                            <!-- <div class="col-lg-12 col-sm-6">
                                 <div class="alert alert-danger text-center font-italic font-weight-bold text-danger"
                                      *ngIf="errorMessage !== null">
                                     {{ errorMessage }}
@@ -165,7 +176,7 @@
                                      *ngIf="successMessage !== null">
                                     {{ successMessage }}
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="col-lg-6 col-sm-6">
                                 <div class="form-group">
@@ -239,13 +250,13 @@
                             </div>
 
                             <div *ngIf="isSaving===false" class="col-lg-12 col-md-12  mb-5 text-center">
-                                <button type="submit" [disabled]="formAccount.invalid || isSaving" class="btn btn-warning px-4">
+                                <button [disabled]="formAccount.invalid || isSaving" (click)="onAccount()" class="btn btn-warning px-4">
                                     S'inscrire <i class="fa fa-sign-in-alt"></i>
                                 </button>
                             </div>
                             <div *ngIf="isSaving===true" class="col-lg-12 col-md-12 mt-5 mb-5 text-center">
                                 <button (click)="sendEmail()" class="btn btn-warning px-4">
-                                    Reenvoyer le Email <i class="fa fa-sign-in-alt"></i>
+                                    Réenvoyer le Email <i class="fa fa-sign-in-alt"></i>
                                 </button>
                             </div>
                         </div>
@@ -257,7 +268,7 @@
 
         <div *ngIf="keyActivedAccount !== null && keyActivedAccount !== undefined">
             <div class="row">
-                <div class="col-lg-12 col-md-12 mt-5 mb-5 text-center">
+                <!-- <div class="col-lg-12 col-md-12 mt-5 mb-5 text-center">
                     <div class="alert alert-danger text-center font-italic font-weight-bold text-danger"
                          *ngIf="errorMessage !== null">
                         {{ errorMessage }}
@@ -269,9 +280,9 @@
                          *ngIf="successMessage !== null">
                         {{ successMessage }}
                     </div>
-                </div>
+                </div> -->
                 <div class="col-lg-12 col-md-12 mt-5 mb-5 text-center">
-                    <button  class="btn btn-warning px-4" (click)="activetAccount(keyActivedAccount)">
+                    <button [disabled]="isActived===true" class="btn btn-warning px-4 " (click)="activetAccount(keyActivedAccount)">
                         Activer votre compte
                     </button>
                 </div>

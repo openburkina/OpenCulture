@@ -18,6 +18,7 @@ export class AccountComponent implements OnInit {
     user: User;
     errorMessage = null;
     isSaving: boolean;
+    isActived: boolean;
     successMessage = null;
     keyActivedAccount = null;
     loginVM: LoginVM;
@@ -47,6 +48,7 @@ export class AccountComponent implements OnInit {
           console.info('KEY ',this.keyActivedAccount)
       });
       this.isSaving = false;
+      this.isActived = false;
       this.user = new User();
       this.loginVM = new LoginVM();
   }
@@ -59,7 +61,7 @@ export class AccountComponent implements OnInit {
         if (this.formAccount.get('password').value !== this.formAccount.get('confirmPassword').value) {
             this.errorMessage = 'La confirmation du mot de passe est incorrecte !';
         } else {
-           // this.spinner.loading();
+           this.spinner.loading();
             this.user.firstName = this.formAccount.get('firstName').value;
             this.user.lastName = this.formAccount.get('lastName').value;
             this.user.email = this.formAccount.get('email').value;
@@ -70,7 +72,7 @@ export class AccountComponent implements OnInit {
             this.loginVM.password = this.user.password;
             this.apiService.doInscriptionUser(this.user).subscribe(
                 response => {
-                  //  this.spinner.close();
+                   this.spinner.close();
                     if (response.body === null) {
                         this.errorMessage = 'Erreur lors de l\'inscription. Veuillez réessayer !';
                     } else {
@@ -110,8 +112,11 @@ export class AccountComponent implements OnInit {
     }
 
     activetAccount(keyActivedAccount: string) {
+        this.spinner.loading();
         this.apiService.activateAccount(keyActivedAccount).subscribe(
             response => {
+                this.isActived =true;
+                this.spinner.close();
                 console.info('USER ',response.body);
                 if (response.body === null) {
                     this.errorMessage = 'Erreur lors de l\'activation du compte. Veuillez réessayer !';

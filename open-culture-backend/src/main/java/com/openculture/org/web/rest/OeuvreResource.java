@@ -22,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -147,9 +148,10 @@ public class OeuvreResource {
     }
 
     @CrossOrigin("http://localhost:8080")
-    @GetMapping("/test/{id}")
-    public ResponseEntity<Object> getVideo(@PathVariable Long id) {
-        return oeuvreService.readMedia(id);
+    @GetMapping("/test")
+    public String getVideo() {
+        System.out.println(oeuvreService.formatedDateToString(Instant.now()));
+        return oeuvreService.formatedDateToString(Instant.now());
     }
 
     @GetMapping("oeuvres/my-recent-post-oeuvres")

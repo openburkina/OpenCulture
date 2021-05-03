@@ -88,4 +88,19 @@ public class ArtisteOeuvreService {
         log.debug("Request to get all ArtisteOeuvres");
         return artisteOeuvreRepository.findByArtisteId(id);
     }
+
+    @Transactional(readOnly = true)
+    public List<ArtisteOeuvre> onSearch(String search,String typeFile) {
+        log.debug("Request to get all ArtisteOeuvres");
+       if (search.equals("null")){
+           search = null;
+       } else {
+           search.trim();
+       }
+
+        if (typeFile.equals("null")){
+            typeFile = null;
+        }
+        return artisteOeuvreRepository.findArtisteByCritaria(search,typeFile);
+    }
 }

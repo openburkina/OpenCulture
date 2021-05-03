@@ -48,8 +48,20 @@ public class OeuvreDTO implements Serializable {
 
     private TypeFichier typeFichier;
 
+    private Instant lastModifiedDate;
+
+    private String lastModifiedDateFormatted;
+
     public Long getId() {
         return id;
+    }
+
+    public String getLastModifiedDateFormatted() {
+        return lastModifiedDateFormatted;
+    }
+
+    public void setLastModifiedDateFormatted(String lastModifiedDateFormatted) {
+        this.lastModifiedDateFormatted = lastModifiedDateFormatted;
     }
 
     public void setId(Long id) {
@@ -135,6 +147,14 @@ public class OeuvreDTO implements Serializable {
 
     public void setResume(String resume) {
         this.resume = resume;
+    }
+
+    public Instant getLastModifiedBy() {
+        return lastModifiedDate;
+    }
+
+    public void getLastModifiedBy(Instant lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
     }
 
     public String getFileName() {

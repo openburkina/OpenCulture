@@ -125,9 +125,9 @@ public class ArtisteResource {
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
 
-    @GetMapping("/artistes/search/{search}")
+ /*   @GetMapping("/artistes/search/{search}")
     public RechercheDTO onSearch(@PathVariable String search) {
         log.debug("REST request to get a page of Artistes");
         return artisteService.onSearch(search);
-    }
+    } */
 }

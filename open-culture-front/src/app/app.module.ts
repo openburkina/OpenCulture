@@ -59,7 +59,7 @@ import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
 import { EntityBlogComponent } from './components/pages/entity-blog/entity-blog.component';
 import { AdminDashboardComponent } from './components/pages/admin-dashboard/admin-dashboard.component';
 import { EntityBlogDetailsComponent } from './components/pages/entity-blog-details/entity-blog-details.component';
-
+import { ActivationComponent } from "./components/pages/activation/activation.component";
 const notifierDefaultOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -150,7 +150,8 @@ const notifierDefaultOptions: NotifierOptions = {
     OeuvreAfficheComponent,
     EntityBlogComponent,
     AdminDashboardComponent,
-    EntityBlogDetailsComponent
+    EntityBlogDetailsComponent,
+    ActivationComponent
   ],
     imports: [
         BrowserModule,

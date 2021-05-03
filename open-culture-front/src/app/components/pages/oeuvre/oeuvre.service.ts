@@ -77,11 +77,11 @@ export class OeuvreService {
     return oeuvre;
   }
 
-    forRowView(tab: OeuvreDTO[],typeFichier: TypeFichier,oeuvres: OeuvreDTO[], oeuvresVideo: Array<any>, oeuvresAudio: Array<any>): void{
+    forRowView(kk: number,tab: OeuvreDTO[],typeFichier: TypeFichier,oeuvres: OeuvreDTO[], oeuvresVideo: Array<any>, oeuvresAudio: Array<any>): void{
     if(oeuvres.length === 0)
       oeuvresVideo = oeuvresAudio = [];
     else {
-      const k = 5;
+      const k = kk;
       for (let i = 0; i < tab.length ;i++){
           tab[i].pathFile = Images[i];
       }

@@ -51,6 +51,9 @@ export class AccountService {
                     this.authenticate(account);
                     console.log(account);
                     if (account) {
+                        this.$sessionStorage.store('firstName',account.firstName);
+                        this.$sessionStorage.store('lastName',account.lastName);
+                        this.$sessionStorage.store('authorities',account.authorities);
                      //   this.parameter.setLoggerUser(account);
                         this.navigateToStoredUrl();
                     }

@@ -7,6 +7,7 @@ import {SpinnerService} from "../../services/spinner/spinner.service";
 import {LoginService} from "../../services/auth/login.service";
 import {ChangePasswordComponent} from "../change-password/change-password.component";
 import {AccountService} from "../../services/auth/account.service";
+import {User} from "../../models/User";
 
 @Component({
   selector: 'app-sign-in',
@@ -15,6 +16,7 @@ import {AccountService} from "../../services/auth/account.service";
 })
 export class SignInComponent implements OnInit {
     loginVM: LoginVM;
+    account: User;
     errorMessage = null;
     formLogin = this.fb.group({
         username: [null, [Validators.required]],
@@ -49,6 +51,9 @@ export class SignInComponent implements OnInit {
                 console.log(response);
                 if (response === null) {
                     this.errorMessage = 'Erreur lors de la connexion !';
+                } else if (response.authorities.some(roles => roles ==='ROLE_ADMIN')){
+                    this.router.navigate(['/admin-dashboard']);
+                    this.onDismiss(true);
                 } else {
                     this.router.navigate(['/dashboard']);
                     this.onDismiss(true);
@@ -69,5 +74,9 @@ export class SignInComponent implements OnInit {
     changePassword() {
        this.onDismiss(false);
         const currentModal = this.modal.open(ChangePasswordComponent, {container: 'body', size: 'lg', centered: true});
+    }
+
+    close() {
+
     }
 }

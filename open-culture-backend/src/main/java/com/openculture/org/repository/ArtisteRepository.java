@@ -15,8 +15,8 @@ import java.util.List;
 @Repository
 public interface ArtisteRepository extends JpaRepository<Artiste, Long> {
 
-    @Query("select art from Artiste art where("+
+  /*  @Query("select art from Artiste art where("+
      ":search is null or :search ='' or UPPER(art.nom) like upper('%'||:search||'%')"+
       "or UPPER(art.prenom) like upper('%'||:search||'%'))")
-    List<Artiste> findArtisteByCritaria(@Param("search") String search);
+    List<Artiste> findArtisteByCritaria(@Param("search") String search); */
 }

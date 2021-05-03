@@ -1,3 +1,4 @@
+<app-navbar></app-navbar>
 <!-- Banner Area -->
 <div class="banner-area-two">
     <div class="container-fluid">
@@ -38,15 +39,45 @@
 <!-- Banner Area End -->
 
 <!-- Service Area -->
-<div class="service-area-two pt-100 pb-70">
+<div class="project-area pt-100 pb-70">
     <div class="container">
-        <div class="section-title text-center">
-            <span>Our Services</span>
-            <h2>Our Best Consulting Services Make You To Reach Your Goal</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce rhoncus mauris ac urna finibus pellentesque. Sed pellentesque augue sit amet mauris porta suscipit.</p>
+        <div class="tab project-tab text-center">
+            <ul class="tabs">
+                <input type="radio" id="films"  name="typeFile" value="FILMS" [(ngModel)]="typeFile">
+                <li class="changeCursor" for="films">Films</li>
+
+                <input type="radio" id="video" name="typeFile" value="VIDEO" [(ngModel)]="typeFile">
+                <li class="changeCursor" >Videos</li>
+
+                <input type="radio" id="musique" name="typeFile" value="AUDIO" [(ngModel)]="typeFile">
+                <li class="changeCursor" >Musiques</li>
+
+                <input type="radio" id="Littérature" name="typeFile" value="LITERATURE" [(ngModel)]="typeFile">
+                <li class="changeCursor" >Littérature</li>
+
+                <input type="radio" id="Tableauart" name="typeFile" value="TABLEAUART" [(ngModel)]="typeFile">
+                <li class="changeCursor" >Tableau d'art</li>
+
+                <!--<li><a href="#">Films</a></li>
+                <li ><a href="#">Vidéos</a></li>
+                <li><a href="#">Musiques</a></li>
+                <li><a href="#">Littérature</a></li>
+                <li><a href="#">Tableau d'art</a></li>-->
+            </ul>
+            <div class="search-widget col-md-6 mx-auto">
+                <div class="search-form">
+                    <input name="criteria" placeholder="Search" class="form-control" type="text" [(ngModel)]="criteria" required>
+                    <button class="search-button" (click)="search()">
+                        <i class="bx bx-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="tab section-title text-center">
+                <h2>Vos oeuvres</h2>
+            </div>
         </div>
 
-        <div class="row pt-45 pb-20">
+     <!--   <div class="row pt-45 pb-20">
             <div class="col-lg-4 col-md-6">
                 <div class="service-item">
                     <div class="images">
@@ -130,17 +161,14 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
 
-        <div class="service-view-btn text-center">
-            <a routerLink="/services-1" class="view-btn">View More</a>
-        </div>
     </div>
 </div>
 <!-- Service Area End -->
 
 <!-- Video Area -->
-<div class="video-area-two ptb-100">
+<!--<div class="video-area-two ptb-100">
     <div class="container">
         <div class="video-btn-two">
             <a href="https://www.youtube.com/watch?v=07d2dXHYb94&t=11s" class="play-on-btn popup-btn"><i class="flaticon-play-button"></i></a>
@@ -151,11 +179,11 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
 <!-- Video Area End -->
 
 <!-- About Area -->
-<div class="about-area pt-100 pb-70">
+<!--<div class="about-area pt-100 pb-70">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-12">
@@ -220,19 +248,19 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
 <!-- About Area End -->
 
 <!-- Project Area -->
 <div class="project-area pb-70">
     <div class="container">
-        <div class="project-title-two">
+      <!--  <div class="project-title-two">
             <div class="section-title">
                 <span>Our Projects</span>
                 <h2>Some Of Our Projects Work Where We Helped</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et amet bibendum ante. Vestibulum ante ipsum primis in faucibus orci.</p>
             </div>
-        </div>
+        </div>-->
         
         <div class="tab project-tab text-center">
             <ul class="tabs">
@@ -242,88 +270,36 @@
                 <li><a href="#">Business Planning</a></li>
                 <li><a href="#">Project Management</a></li>
             </ul>
+            <div class="special-area" *ngIf="oeuvresVideo?.length>0">
+                <div class="container">
+                    <div class="row" *ngFor="let oeuvre of oeuvresVideo">
+                        <div *ngFor="let item of oeuvre?.items" >
+                            <div class="special-card mr-2">
+                                <a routerLink="/services-details"><img [src]="item.pathFile" alt="Images"></a>
+                                <!--                    <a routerLink="/services-details"><img [src]="item.pathFile" alt="Images"></a>-->
+                                <div class="content">
+                                    <h5><a routerLink="/services-details">{{(item.titre | slice:0:12)+'...'+' de '}}</a></h5>
+                                    <h6>{{item.nomArtiste}}</h6>
+                                    <!--                        <p>{{item.resume}}</p>-->
+                                    <!--                        <a routerLink="/services-details" class="learn-btn text-center">Learn More</a>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
 
-            <div class="tab_content current active pt-45">
+            <!-- <div class="tab_content current active pt-45">
                 <div class="tabs_item current">
-                    <div class="project-tab-item">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-6">
+                    <div class="project-tab-item" *ngIf="oeuvresVideo?.length>0">
+                        <div class="row" *ngFor="let oeuvre of oeuvresVideo">
+                            <div class="col-lg-4 col-md-6" *ngFor="let item of oeuvre?.items ">
                                 <div class="project-card">
-                                    <a routerLink="/projects-details"><img src="assets/img/project/project-img4.jpg" alt="Images"></a>
+                                    <a routerLink="/projects-details"><img [src]="item.pathFile" alt="Images"></a>
                                     <div class="project-content project-content-bg">
                                         <h3><a routerLink="/projects-details">Business Planning</a></h3>
                                         <div class="content">
-                                            <p>Sed vel risus a sem cursus fermentum. Aliquam a fermentum velit. Sed varius nisl libero, at tempor lectus mollis.</p>
-                                            <a routerLink="/projects-details" class="project-more"><i class='flaticon-double-right-arrows-angles'></i></a>
-                                        </div>
-                                        <div class="project-card-bottom"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6">
-                                <div class="project-card">
-                                    <a routerLink="/projects-details"><img src="assets/img/project/project-img5.jpg" alt="Images"></a>
-                                    <div class="project-content project-content-bg">
-                                        <h3><a routerLink="/projects-details">Strategic Plan</a></h3>
-                                        <div class="content">
-                                            <p>Sed vel risus a sem cursus fermentum. Aliquam a fermentum velit. Sed varius nisl libero, at tempor lectus mollis.</p>
-                                            <a routerLink="/projects-details" class="project-more"><i class='flaticon-double-right-arrows-angles'></i></a>
-                                        </div>
-                                        <div class="project-card-bottom"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6">
-                                <div class="project-card">
-                                    <a routerLink="/projects-details"><img src="assets/img/project/project-img6.jpg" alt="Images"></a>
-                                    <div class="project-content project-content-bg">
-                                        <h3><a routerLink="/projects-details">Aqua Elinath</a></h3>
-                                        <div class="content">
-                                            <p>Sed vel risus a sem cursus fermentum. Aliquam a fermentum velit. Sed varius nisl libero, at tempor lectus mollis.</p>
-                                            <a routerLink="/projects-details" class="project-more"><i class='flaticon-double-right-arrows-angles'></i></a>
-                                        </div>
-                                        <div class="project-card-bottom"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6">
-                                <div class="project-card project-card-bg">
-                                    <a routerLink="/projects-details"><img src="assets/img/project/project-img1.jpg" alt="Images"></a>
-                                    <div class="project-content project-content-bg">
-                                        <h3><a routerLink="/projects-details">Aqua Elinath</a></h3>
-                                        <div class="content">
-                                            <p>Sed vel risus a sem cursus fermentum. Aliquam a fermentum velit. Sed varius nisl libero, at tempor lectus mollis.</p>
-                                            <a routerLink="/projects-details" class="project-more"><i class='flaticon-double-right-arrows-angles'></i></a>
-                                        </div>
-                                        <div class="project-card-bottom"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6">
-                                <div class="project-card">
-                                    <a routerLink="/projects-details"><img src="assets/img/project/project-img2.jpg" alt="Images"></a>
-                                    <div class="project-content project-content-bg">
-                                        <h3><a routerLink="/projects-details">Solicitory</a></h3>
-                                        <div class="content">
-                                            <p>Sed vel risus a sem cursus fermentum. Aliquam a fermentum velit. Sed varius nisl libero, at tempor lectus mollis.</p>
-                                            <a routerLink="/projects-details" class="project-more"><i class='flaticon-double-right-arrows-angles'></i></a>
-                                        </div>
-                                        <div class="project-card-bottom"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6">
-                                <div class="project-card">
-                                    <a routerLink="/projects-details"><img src="assets/img/project/project-img3.jpg" alt="Images"></a>
-                                    <div class="project-content project-content-bg">
-                                        <h3><a routerLink="/projects-details">Start Ups</a></h3>
-                                        <div class="content">
-                                            <p>Sed vel risus a sem cursus fermentum. Aliquam a fermentum velit. Sed varius nisl libero, at tempor lectus mollis.</p>
+                                            <p>{{(item.titre | slice:0:12)+'...'+' de '}}</p>
                                             <a routerLink="/projects-details" class="project-more"><i class='flaticon-double-right-arrows-angles'></i></a>
                                         </div>
                                         <div class="project-card-bottom"></div>
@@ -333,7 +309,9 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="service-view-btn text-center">
+                    <a routerLink="/services-1" class="view-btn">View More</a>
+                </div>
                 <div class="tabs_item">
                     <div class="project-tab-item">
                         <div class="row">
@@ -693,14 +671,15 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
 <!-- Project Area End -->
 
 <!-- Guidelines Area -->
-<div class="guidelines-area-two">
+
+<!--<div class="guidelines-area-two">
     <div class="container-fluid">
         <div class="row align-items-center">
             <div class="col-lg-5 col-md-12 pl-0">
@@ -724,11 +703,12 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
+
 <!-- Guidelines Area End -->
 
 <!-- Choose Area -->
-<div class="choose-area-two pt-100 pb-70">
+<!--<div class="choose-area-two pt-100 pb-70">
     <div class="container">
         <div class="row">
             <div class="col-lg-7 col-md-12">
@@ -794,7 +774,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
 <!-- Choose Area End -->
 
 <!-- Client Area -->
@@ -825,6 +805,7 @@
                     <img src="assets/img/client/client-img1.png" alt="Images">
                 </div>
             </div>
+
 
             <div class="client-card">
                 <h3>Sinthy Alina</h3>
@@ -863,13 +844,16 @@
                     <img src="assets/img/client/client-img3.png" alt="Images">
                 </div>
             </div>
+            
         </div>
     </div>
 </div>
+
 <!-- Client Area End -->
 
 <!-- Leader Area -->
-<div class="leader-area">
+
+<!--<div class="leader-area">
     <div class="container">
         <div class="leader-content">
             <div class="section-title text-center">
@@ -878,11 +862,13 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
+
 <!-- Leader Area End -->
 
 <!-- Contact Area -->
-<div class="contact-area pb-100">
+
+<!--<div class="contact-area pb-100">
     <div class="container">
         <div class="contact-area-bg">
             <div class="row">
@@ -935,5 +921,6 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
+
 <!-- Contact Area End -->

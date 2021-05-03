@@ -102,7 +102,7 @@ public class ArtisteService {
             .map(artisteMapper::toDto);
     }
 
-    @Transactional(readOnly = true)
+  /*  @Transactional(readOnly = true)
     public RechercheDTO onSearch(String search) {
         log.debug("Request to get all Artistes");
         artistes = artisteRepository.findArtisteByCritaria(search);
@@ -122,7 +122,7 @@ public class ArtisteService {
          }
         }
         return this.rechercheDTOS;
-    }
+    } */
 
 
     /**

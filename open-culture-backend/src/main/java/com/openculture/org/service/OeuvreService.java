@@ -36,6 +36,9 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,7 +73,6 @@ public class OeuvreService {
 
     private final ArtisteOeuvreService artisteOeuvreService;
 
-<<<<<<< HEAD
     private final UserService userService;
 
     public OeuvreService(
@@ -109,7 +111,8 @@ public class OeuvreService {
         List<ArtisteOeuvreDTO> artisteOeuvres = new ArrayList<>();
         // ArtisteOeuvre a = new ArtisteOeuvre();
 
-        if(oeuvreDTO.getId() == null){
+        if(oeuvreDTO.getId() != null){
+            
             oeuvreDTO.setRegroupementDTO(regroupementService.findOne(oeuvreDTO.getRegroupementId()).get());
             TypeOeuvreDTO typeOeuvreDTO = typeOeuvreService.findOne(oeuvreDTO.getTypeOeuvreId()).get();
             typeOeuvreDTO.setNbOeuvre(typeOeuvreDTO.getNbOeuvre()+1);
@@ -134,11 +137,11 @@ public class OeuvreService {
                 artisteOeuvre.setArtisteId(artisteService.save(oeuvreDTO.getArtisteDTO()).getId());
             }*/
 
-            File media = new File(oeuvreDTO.getPathFile());
+            // File media = new File(oeuvreDTO.getPathFile());
            // oeuvreDTO.setFileContent(FileUtils.readFileToByteArray(media));
-            String s[] = media.getName().split("\\.");
-            oeuvreDTO.setFileName(s[0]);
-            oeuvreDTO.setFileExtension(s[1]);
+            // String s[] = media.getName().split("\\.");
+            // oeuvreDTO.setFileName(s[0]);
+            // oeuvreDTO.setFileExtension(s[1]);
 
             // File media = new File(oeuvreDTO.getPathFile());
             // oeuvreDTO.setFileContent(FileUtils.readFileToByteArray(media));
@@ -460,5 +463,11 @@ public class OeuvreService {
             }
         }
         throw new FileNotFoundException();
+    }
+
+    public String formatedDateToString(Instant date){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM dd,yyyy");
+        String dateInString = dateTimeFormatter.format(date);
+        return dateInString;
     }
 }

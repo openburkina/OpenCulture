@@ -34,7 +34,7 @@ export class OeuvreComponent implements OnInit {
     this.oeuvreService.findAll(this.typeFichier).subscribe(
       response => {
           this.oeuvres = response.body;
-          this.oeuvreService.forRowView(response.body,this.typeFichier,this.oeuvres,this.oeuvresVideo,this.oeuvresAudio);
+          this.oeuvreService.forRowView(5,response.body,this.typeFichier,this.oeuvres,this.oeuvresVideo,this.oeuvresAudio);
           console.log(this.oeuvres);
       }
     );
