@@ -23,6 +23,7 @@ export class SignInComponent implements OnInit {
         password: [null, Validators.required],
         rememberMe: [false, Validators.required],
     });
+    location: string;
 
   constructor(
       private loginService: LoginService,
@@ -48,13 +49,13 @@ export class SignInComponent implements OnInit {
         this.loginService.login(this.loginVM).subscribe(
             response => {
                 this.spinner.close();
-                console.log(response);
                 if (response === null) {
                     this.errorMessage = 'Erreur lors de la connexion !';
                 } else if (response.authorities.some(roles => roles ==='ROLE_ADMIN')){
                     this.router.navigate(['/admin-dashboard']);
                     this.onDismiss(true);
                 } else {
+                    console.info('USER ',response);
                     this.router.navigate(['/dashboard']);
                     this.onDismiss(true);
                 }

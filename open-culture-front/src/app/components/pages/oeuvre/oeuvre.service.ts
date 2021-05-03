@@ -86,11 +86,15 @@ export class OeuvreService {
           tab[i].pathFile = Images[i];
       }
       for (let i = 0; i < tab.length; i += k ){
-            if(typeFichier == TypeFichier.VIDEO)
-               oeuvresVideo.push({items: oeuvres.slice(i,i+k)});
+            if(typeFichier == TypeFichier.VIDEO){
+                console.info('TYPE ',typeFichier);
+                oeuvresVideo.push({items: oeuvres.slice(i,i+k)});
+            }
 
-            else if (typeFichier == TypeFichier.AUDIO)
+            else if (typeFichier == TypeFichier.AUDIO){
+                console.info('TYPE ',typeFichier);
                 oeuvresAudio.push({items: oeuvres.slice(i,i+k)});
+            }
       }
     }  
   }
