@@ -90,7 +90,6 @@ export class OeuvreService {
                 console.info('TYPE ',typeFichier);
                 oeuvresVideo.push({items: oeuvres.slice(i,i+k)});
             }
-
             else if (typeFichier == TypeFichier.AUDIO){
                 console.info('TYPE ',typeFichier);
                 oeuvresAudio.push({items: oeuvres.slice(i,i+k)});

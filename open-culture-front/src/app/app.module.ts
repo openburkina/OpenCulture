@@ -60,6 +60,7 @@ import { EntityBlogComponent } from './components/pages/entity-blog/entity-blog.
 import { AdminDashboardComponent } from './components/pages/admin-dashboard/admin-dashboard.component';
 import { EntityBlogDetailsComponent } from './components/pages/entity-blog-details/entity-blog-details.component';
 import { ActivationComponent } from "./components/pages/activation/activation.component";
+import { DetailAbonnementComponent } from './components/pages/detail-abonnement/detail-abonnement.component';
 const notifierDefaultOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -151,7 +152,8 @@ const notifierDefaultOptions: NotifierOptions = {
     EntityBlogComponent,
     AdminDashboardComponent,
     EntityBlogDetailsComponent,
-    ActivationComponent
+    ActivationComponent,
+    DetailAbonnementComponent
   ],
     imports: [
         BrowserModule,
