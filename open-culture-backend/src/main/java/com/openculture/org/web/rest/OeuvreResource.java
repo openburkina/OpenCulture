@@ -3,10 +3,10 @@ package com.openculture.org.web.rest;
 import com.openculture.org.domain.TypeOeuvre;
 import com.openculture.org.domain.enumeration.TypeFichier;
 import com.openculture.org.repository.TypeOeuvreRepository;
+import com.openculture.org.service.ArtisteService;
 import com.openculture.org.service.OeuvreService;
-import com.openculture.org.service.dto.FiltreDTO;
+import com.openculture.org.service.dto.ArtisteDTO;
 import com.openculture.org.service.dto.OeuvreDTO;
-import com.openculture.org.service.dto.TypeOeuvreDTO;
 import com.openculture.org.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -23,6 +23,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,22 +44,37 @@ public class OeuvreResource {
     private final OeuvreService oeuvreService;
 
     private final TypeOeuvreRepository typeOeuvreRepository;
+    private final ArtisteService artisteService;
 
-    public OeuvreResource(OeuvreService oeuvreService,TypeOeuvreRepository typeOeuvreRepository) {
+    public OeuvreResource(OeuvreService oeuvreService, TypeOeuvreRepository typeOeuvreRepository, ArtisteService artisteService) {
         this.oeuvreService = oeuvreService;
         this.typeOeuvreRepository = typeOeuvreRepository;
+        this.artisteService = artisteService;
     }
 
     /**
      * {@code POST  /oeuvres} : Create a new oeuvre.
      *
-     * @param oeuvreDTO the oeuvreDTO to create.
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new oeuvreDTO, or with status {@code 400 (Bad Request)} if the oeuvre has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/oeuvres")
-    public ResponseEntity<OeuvreDTO> createOeuvre(@RequestBody OeuvreDTO oeuvreDTO) throws Exception {
+//    public ResponseEntity<OeuvreDTO> createOeuvre(@RequestBody OeuvreDTO oeuvreDTO) throws Exception {
+    public ResponseEntity<OeuvreDTO> createOeuvre() throws Exception {
+        ArtisteDTO artisteDTO = artisteService.findOne((long) 1).get();
+        OeuvreDTO oeuvreDTO = new OeuvreDTO();
+        oeuvreDTO.setArtisteId((long) 1);
+        oeuvreDTO.setDateSortie(Instant.now());
+        oeuvreDTO.setRegroupementId((long) 1);
+        oeuvreDTO.setTypeOeuvreId((long) 1);
+        oeuvreDTO.setTitre("test_1");
+        oeuvreDTO.setPathFile("/home/abdoul/Vidéos/Amzy.mp3");
+        List<ArtisteDTO> artisteDTOList = new ArrayList<>();
+        artisteDTOList.add(artisteDTO);
+        oeuvreDTO.setArtistes(artisteDTOList);
         log.debug("REST request to save Oeuvre : {}", oeuvreDTO);
+
+
         if (oeuvreDTO.getId() != null) {
             throw new BadRequestAlertException("A new oeuvre cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -112,9 +128,9 @@ public class OeuvreResource {
     }
 
     @GetMapping("/oeuvres-for-gestionnaire")
-    public ResponseEntity<List<OeuvreDTO>> findAllOeuvres(Pageable pageable) {
+    public ResponseEntity<List<OeuvreDTO>> findAllOeuvres(@RequestParam("categorie") String categorie ,Pageable pageable) {
         log.debug("REST request to get a page of Oeuvres");
-        Page<OeuvreDTO> page = oeuvreService.findCompletForAdmin(pageable);
+        Page<OeuvreDTO> page = oeuvreService.findCompletForAdmin(categorie,pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -147,11 +163,11 @@ public class OeuvreResource {
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
 
-    @CrossOrigin("http://localhost:8080")
-    @GetMapping("/test")
-    public String getVideo() {
-        System.out.println(oeuvreService.formatedDateToString(Instant.now()));
-        return oeuvreService.formatedDateToString(Instant.now());
+  //  @CrossOrigin("http://localhost:8080")
+    @GetMapping("/test/{id}")
+    public ResponseEntity<Object> getVideo(@PathVariable Long id) {
+//        System.out.println(oeuvreService.formatedDateToString(Instant.now()));
+        return oeuvreService.readMedia(id);
     }
 
     @GetMapping("oeuvres/my-recent-post-oeuvres")
@@ -178,13 +194,13 @@ public class OeuvreResource {
         // filtreDTO.setId((long) 1);
         // Pageable pageable;
         Page<OeuvreDTO> page;
-            
+
         if(typeOeuvreRepository.findAll().stream().map(TypeOeuvre::getIntitule).collect(Collectors.toList()).contains(categorie)){
             page = oeuvreService.findRecentsPostsOeuvre(categorie,pageable);
         } else {
-            page = oeuvreService.findCompletForAdmin(pageable);
+            page = oeuvreService.findCompletForAdmin(categorie,pageable);
         }
-        
+
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
