@@ -3185,13 +3185,15 @@ Blog Area
         }
     }
     .content {
-        padding: 30px;
+        padding: 5px;
         h3 {
             font-size: 20px;
             a {
                 color: $paragraph-color;
-                margin-bottom: 10px;
             }
+        }
+        span {
+            color: $main-color;
         }
         ul {
             list-style: none;
@@ -3214,8 +3216,8 @@ Blog Area
             }
         }
         p {
-            margin-top: 15px;
-            margin-bottom: 20px;
+            margin-top: 5px;
+            margin-bottom: 5px;
         }
         .blog-more {
             height: 30px;
@@ -3540,7 +3542,7 @@ Blog Area
                 float: left;
                 overflow: hidden;
                 position: relative;
-                margin-right: 15px;
+                margin-right: 0px;
                 .full-image {
                     width: 80px;
                     height: 80px;
@@ -3569,6 +3571,8 @@ Blog Area
                     line-height: 1.5;
                     font-size: 18px;
                     font-weight: 500;
+                    margin-left: 0;
+                    padding-left: 0;
                     a {
                         display: inline-block;
                         color: $paragraph-color;
@@ -4758,7 +4762,7 @@ Back To Top Button
 #toCreate {
 	position: fixed;
 	top: 20%;
-	left: 100px;
+	left: 10px;
 	// cursor: pointer;
     // display: none;
     // z-index: 100;
@@ -4958,4 +4962,19 @@ Animation CSS End
     color: #212529;
     background-color: darkorange;
 }
+
+.thumb {
+    vg-player {
+        height: 80px;
+        width: 210px;
+        padding: 0;
+        margin: 0;
+
+    video {
+            height: 80px;
+            width: 100%;
+        }
+    }
+}
+
 
