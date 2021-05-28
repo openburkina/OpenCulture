@@ -56,10 +56,14 @@ import { ArtisteEditComponent } from "./components/pages/artiste/artiste-edit.co
 import { ArtisteDeleteComponent } from "./components/pages/artiste/artiste-delete.component";
 import { OeuvreAfficheComponent } from "./components/pages/oeuvre/oeuvre-affiche.component";
 import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
-import { EntityBlogComponent } from './components/pages/entity-blog/entity-blog.component';
+import { OeuvreBlogComponent } from './components/pages/oeuvre-blog/oeuvre-blog.component';
 import { AdminDashboardComponent } from './components/pages/admin-dashboard/admin-dashboard.component';
-import { EntityBlogDetailsComponent } from './components/pages/entity-blog-details/entity-blog-details.component';
+import { OeuvreBlogDetailsComponent } from './components/pages/oeuvre-blog-details/oeuvre-blog-details.component';
 import { ActivationComponent } from "./components/pages/activation/activation.component";
+import {VgCoreModule} from '@videogular/ngx-videogular/core';
+import {VgControlsModule} from '@videogular/ngx-videogular/controls';
+import {VgOverlayPlayModule} from '@videogular/ngx-videogular/overlay-play';
+import {VgBufferingModule} from '@videogular/ngx-videogular/buffering';
 const notifierDefaultOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -148,9 +152,9 @@ const notifierDefaultOptions: NotifierOptions = {
     ArtisteEditComponent,
     ArtisteDeleteComponent,
     OeuvreAfficheComponent,
-    EntityBlogComponent,
+    OeuvreBlogComponent,
     AdminDashboardComponent,
-    EntityBlogDetailsComponent,
+    OeuvreBlogDetailsComponent,
     ActivationComponent
   ],
     imports: [
@@ -164,7 +168,11 @@ const notifierDefaultOptions: NotifierOptions = {
         BrowserAnimationsModule,
         NgbDatepickerModule,
         NgxSpinnerModule,
-        NgMultiSelectDropDownModule.forRoot()
+        NgMultiSelectDropDownModule.forRoot(),
+        VgCoreModule,
+        VgControlsModule,
+        VgOverlayPlayModule,
+        VgBufferingModule
     ],
   providers: [
       {

@@ -24,15 +24,17 @@ export class OeuvreService {
       .pipe(map((data: EntityArrayOeuvre) => (this.convertDateInArrayOeuvreToClient(data))));
   }
 
-  findComplet(): Observable<EntityArrayOeuvre> {
-      let url = this.resourceUrl+'-for-gestionnaire';
-    return this.httpClient.get<OeuvreDTO[]>(url,{observe: 'response'})
+  findComplet(categorie: string): Observable<EntityArrayOeuvre> {
+      let url = `${this.resourceUrl+'-for-gestionnaire'}`;
+    let params = new HttpParams();
+    params = params.append("categorie",categorie);
+    return this.httpClient.get<OeuvreDTO[]>(url,{params: params,observe: 'response'})
     .pipe(map((data: EntityArrayOeuvre) => (this.convertDateInArrayOeuvreToClient(data))));
   }
 
   findOne(id: number): Observable<EntityOeuvre> {
     return this.httpClient.get<OeuvreDTO>(`${this.resourceUrl}/${id}`, { observe: 'response' })
-    .pipe(map((oeuvre: EntityOeuvre) => (this.convertDateOeuvreToClient(oeuvre))));
+    .pipe(map((data: EntityOeuvre) => (this.convertDateOeuvreToClient(data))));
   }
 
   create(oeuvre: OeuvreDTO): Observable<EntityOeuvre> {
@@ -96,7 +98,7 @@ export class OeuvreService {
                 oeuvresAudio.push({items: oeuvres.slice(i,i+k)});
             }
       }
-    }  
+    }
   }
 
   findMyRecentPosts(categorie: string): Observable<EntityArrayOeuvre> {

@@ -39,7 +39,8 @@
               "node_modules/magnific-popup/dist/magnific-popup.css",
               "src/styles.scss",
               "src/responsive.scss",
-              "src/ng-multiselect-dropdown.theme.scss"
+              "src/ng-multiselect-dropdown.theme.scss",
+              "node_modules/@videogular/ngx-videogular/fonts/videogular.css"
 
             ],
             "scripts": [

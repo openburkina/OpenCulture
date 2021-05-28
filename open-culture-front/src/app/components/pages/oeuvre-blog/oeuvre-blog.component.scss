@@ -1,0 +1,31 @@
+vg-time-display {
+    //-webkit-touch-callout: none;
+    //-webkit-user-select: none;
+    //-moz-user-select: none;
+    //-ms-user-select: none;
+    //user-select: none;
+    //display: flex;
+    height: 100px;
+    width: 100px;
+    //cursor: pointer;
+    color: #5cff1c;
+    //line-height: 100px;
+    //pointer-events: none;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+.cool {
+    vg-time-display {
+        background-color: #0d1028;
+        float: right;
+        height: 45px !important;
+        width: 50px !important;
+        border-radius: 20px;
+    }
+}
+
+.container {
+    //width: 100% !important;
+    margin-left: 60px !important;
+    margin-right: 10px !important;
+}

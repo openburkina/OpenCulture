@@ -7,7 +7,7 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <property name="autoIncrement" value="true"/>
-    <changeSet author="kiemani sapiens" id="190320211656">
+    <changeSet author="kiemani sapiens" id="20052020112">
         <!--Ajouter les colonnes-->
         <addColumn tableName="oeuvre">
             <column name="file_name" type="varchar(255)"/>
@@ -15,6 +15,7 @@
             <column name="file_extension" type="varchar(255)"/>
             <column name="resume" type="varchar(255)"/>
             <column name="type_fichier" type="varchar(255)"/>
+            <column name="file_url" type="varchar(255)"/>
         </addColumn>
     </changeSet>
 </databaseChangeLog>

@@ -4,12 +4,42 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-12">
-                <div class="services-details-content">
-                    <img src="assets/img/services/services-details.jpg" alt="Images">
+                <div class="services-details-content pb-20" *ngFor="let item of oeuvre">
+                    <vg-player (onPlayerReady)="onPlayerReady($event)">
+                        <vg-overlay-play></vg-overlay-play>
+                        <vg-buffering></vg-buffering>
+                        <vg-controls>
+                            <vg-play-pause></vg-play-pause>
+                            <vg-playback-button></vg-playback-button>
+
+                            <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+
+                            <vg-scrub-bar>
+                                <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                                <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+                            </vg-scrub-bar>
+
+                            <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
+
+                            <div class="cool ">
+                                <vg-time-display vgProperty="total"
+                                                 vgFormat="mm:ss"></vg-time-display>
+
+                            </div>
+                            <vg-track-selector></vg-track-selector>
+                            <vg-mute></vg-mute>
+                            <vg-volume></vg-volume>
+
+                            <vg-fullscreen></vg-fullscreen>
+                        </vg-controls>
+                        <video  class="col-md-12" [vgMedia]="media" #media preload="auto" id="video" crossorigin="">
+                            <source [src]="item.fileUrl" [type]="item.typeFichier+'/'+item.fileExtension">
+                        </video>
+                    </vg-player>
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-12">
+            <div class="col-lg-4 col-md-12 pt-80">
                 <div class="services-side-bar">
                     <div class="services-bar-widget">
                         <h3 class="title">Menu</h3>
@@ -47,13 +77,19 @@
 
                 <div class="widget-popular-post" *ngFor="let oeuvre of oeuvres">
                     <article class="item">
-                        <a routerLink="/entity-blog-details" class="thumb">
+                        <a (click)="goTo(oeuvre.id)" class="thumb">
                             <!-- <span class="full-image cover bg1" role="img"></span> -->
-                            <img [src]="oeuvre.pathFile" class="full-image cover" role="img" alt="Images">
+                            <!--  <img [src]="oeuvre.pathFile" class="full-image cover" role="img" alt="Images">-->
+                            <vg-player class="col-md-8" (onPlayerReady)="onPlayerReady($event)">
+                                <video [vgMedia]="media" #media preload="auto" id="video" crossorigin="">
+                                    <source [src]="oeuvre.fileUrl" [type]="oeuvre.typeFichier+'/'+oeuvre.fileExtension">
+                                </video>
+                            </vg-player>
                         </a>
                         <div class="info">
-                            <h4 class="title-text"><a routerLink="/entity-blog-details">Success Depends on Strategy and Plan</a></h4>
-                            <p>March 20, 2020</p>
+                            <h4 class="title-text"><a routerLink="/entity-blog-details">{{oeuvre.nomArtiste}}</a></h4>
+                            <h4 class="title-text"><a routerLink="/entity-blog-details">{{oeuvre.titre}}</a></h4>
+                            <p>{{oeuvre.dateSortie | date: 'dd MM, yyyy' }}</p>
                         </div>
                     </article>
                     <!-- <article class="item">

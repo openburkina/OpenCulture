@@ -2,12 +2,41 @@
 <div class="blog-details-area pt-100 pb-70">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-md-12">
+            <div class="col-lg-9 col-md-12">
                 <div class="blog-article">
-                    <div class="blog-article-img">
-                        <img src="assets/img/blog/blog-details1.jpg" alt="Images">
-                    </div>
+                    <div class="col-lg-8 col-md-12 blog-article-img" *ngFor="let item of oeuvre">
+                        <vg-player (onPlayerReady)="onPlayerReady($event)">
+                            <vg-overlay-play></vg-overlay-play>
+                            <vg-buffering></vg-buffering>
+                            <vg-controls>
+                                <vg-play-pause></vg-play-pause>
+                                <vg-playback-button></vg-playback-button>
 
+                                <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+
+                                <vg-scrub-bar>
+                                    <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                                    <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+                                </vg-scrub-bar>
+
+                                <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
+
+                                <div class="cool ">
+                                    <vg-time-display vgProperty="total"
+                                                     vgFormat="mm:ss"></vg-time-display>
+
+                                </div>
+                                <vg-track-selector></vg-track-selector>
+                                <vg-mute></vg-mute>
+                                <vg-volume></vg-volume>
+
+                                <vg-fullscreen></vg-fullscreen>
+                            </vg-controls>
+                            <video  class="col-md-12" [vgMedia]="media" #media preload="auto" id="video" crossorigin="">
+                                <source [src]="item.fileUrl" [type]="item.typeFichier+'/'+item.fileExtension">
+                            </video>
+                        </vg-player>
+                    </div>
                     <div class="blog-status">
                         <div class="row">
                             <div class="col-lg-7 col-sm-7">
@@ -19,7 +48,7 @@
 
                             <div class="col-lg-5 col-sm-5">
                                 <div class="blog-comment">
-                                    <h3><i class='bx bxs-message-detail'></i> 32 Comments</h3> 
+                                    <h3><i class='bx bxs-message-detail'></i> 32 Comments</h3>
                                 </div>
                             </div>
                         </div>
@@ -32,7 +61,7 @@
 
                         <p>Ecespiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos quiratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quci velit modi tempora inciduntut labore et dolore magnam aliquam quaerat voluptatem.</p>
 
-                        <blockquote class="blockquote"> 
+                        <blockquote class="blockquote">
                             <p>Awesome dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitationaco laboris nisi ut aliquip commodo consequat. </p>
                         </blockquote>
                     </div>
@@ -56,7 +85,7 @@
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim.</p>
                                 <a routerLink="/blog-details">Reply</a>
                             </li>
-                            
+
                             <li>
                                 <img src="assets/img/blog/blog-profile3.png" alt="Image">
                                 <h3>Alina Decros</h3>
@@ -80,19 +109,19 @@
                                             <input type="text" name="name" id="name" class="form-control" placeholder="Your Name">
                                         </div>
                                     </div>
-    
+
                                     <div class="col-lg-6 col-sm-6">
                                         <div class="form-group">
                                             <input type="email" name="email" id="email" class="form-control" placeholder="Your Email">
                                         </div>
                                     </div>
-    
+
                                     <div class="col-lg-12 col-md-12">
                                         <div class="form-group">
                                             <textarea name="message" class="form-control" id="message" cols="30" rows="8" placeholder="Your Message"></textarea>
                                         </div>
                                     </div>
-    
+
                                     <div class="col-lg-12 col-md-12">
                                         <button type="submit" class="default-btn">Post A Comment</button>
                                     </div>
@@ -103,7 +132,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-12">
+            <div class="col-lg-3 col-md-12">
                 <div class="side-bar-wrap">
                     <div class="search-widget">
                         <form class="search-form">
@@ -130,15 +159,31 @@
 
                         <div class="widget-popular-post" *ngFor="let oeuvre of oeuvres">
                             <article class="item">
-                                <a routerLink="/entity-blog-details" class="thumb">
+                                <a (click)="goTo(oeuvre.id)" class="thumb">
                                     <!-- <span class="full-image cover bg1" role="img"></span> -->
-                                    <img [src]="oeuvre.pathFile" class="full-image cover" role="img" alt="Images">
+                                    <!--  <img [src]="oeuvre.pathFile" class="full-image cover" role="img" alt="Images">-->
+                                    <vg-player class="col-md-8" (onPlayerReady)="onPlayerReady($event)">
+                                        <video [vgMedia]="media" #media preload="auto" id="video" crossorigin="">
+                                            <source [src]="oeuvre.fileUrl" [type]="oeuvre.typeFichier+'/'+oeuvre.fileExtension">
+                                        </video>
+                                    </vg-player>
                                 </a>
                                 <div class="info">
+                                    <h4 class="title-text"><a routerLink="/entity-blog-details">{{oeuvre.nomArtiste}}</a></h4>
                                     <h4 class="title-text"><a routerLink="/entity-blog-details">{{oeuvre.titre}}</a></h4>
-                                    <p>March 20, 2020</p>
+                                    <p>{{oeuvre.dateSortie | date: 'dd MM, yyyy' }}</p>
                                 </div>
                             </article>
+<!--                            <article class="item">-->
+<!--                                <a routerLink="/entity-blog-details" class="thumb">-->
+<!--                                    &lt;!&ndash; <span class="full-image cover bg1" role="img"></span> &ndash;&gt;-->
+<!--                                    <img [src]="oeuvre.pathFile" class="full-image cover" role="img" alt="Images">-->
+<!--                                </a>-->
+<!--                                <div class="info">-->
+<!--                                    <h4 class="title-text"><a routerLink="/entity-blog-details">{{oeuvre.titre}}</a></h4>-->
+<!--                                    <p>March 20, 2020</p>-->
+<!--                                </div>-->
+<!--                            </article>-->
                         </div>
                     </div>
                </div>

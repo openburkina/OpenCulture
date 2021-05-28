@@ -2,11 +2,13 @@ import { ArtisteDTO } from "./artiste.model";
 import { RegroupementDTO } from "./regroupement.model";
 import { TypeOeuvreDTO } from "./type-oeuvre.model";
 import { Moment } from "moment";
+import {TypeFichier} from './enumeration/type-fichier.enum';
 export class OeuvreDTO {
     constructor(
         public id?: number,
         public titre?: string,
         public fileName?: string,
+        public fileUrl?: string,
         public fileExtension?: string,
         public pathFile?: string,
         public fileContent?: Blob,
@@ -18,6 +20,7 @@ export class OeuvreDTO {
         public artistes?: ArtisteDTO[],
         public typeOeuvreId?: number,
         public regroupementId?: number,
-        public artisteId?: number
+        public artisteId?: number,
+        public typeFichier?: TypeFichier
     ){}
 }

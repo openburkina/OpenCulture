@@ -32,15 +32,15 @@ import { RegroupementComponent } from './components/pages/regroupement/regroupem
 import { TypeOeuvreComponent } from './components/pages/type-oeuvre/type-oeuvre.component';
 import { OeuvreAfficheComponent } from './components/pages/oeuvre/oeuvre-affiche.component';
 import {ChangePasswordComponent} from "./components/pages/change-password/change-password.component";
-import { EntityBlogComponent } from './components/pages/entity-blog/entity-blog.component';
+import { OeuvreBlogComponent } from './components/pages/oeuvre-blog/oeuvre-blog.component';
 import { AdminDashboardComponent } from './components/pages/admin-dashboard/admin-dashboard.component';
-import { EntityBlogDetailsComponent } from './components/pages/entity-blog-details/entity-blog-details.component';
+import { OeuvreBlogDetailsComponent } from './components/pages/oeuvre-blog-details/oeuvre-blog-details.component';
 import {UserRouteAccessGuard} from "./components/services/routes/user-route-access.guard";
 import {RoleGuard} from "./components/services/routes/role.guard";
 
 const routes: Routes = [
-    {path: 'entity-blog', component: EntityBlogComponent,canActivate: [UserRouteAccessGuard]},
-    {path: 'entity-blog-details', component: EntityBlogDetailsComponent,canActivate: [UserRouteAccessGuard]},
+    {path: 'entity-blog', component: OeuvreBlogComponent,canActivate: [UserRouteAccessGuard]},
+    {path: 'entity-blog-details/:id',data : {pageTitle: 'entity-blog-details'}, component: OeuvreBlogDetailsComponent,canActivate: [UserRouteAccessGuard]},
     {path: 'admin-dashboard', component: AdminDashboardComponent,canActivate: [RoleGuard]},
     {path: '', component: HomeOneComponent},
     {path: 'type-oeuvres', component: TypeOeuvreComponent},

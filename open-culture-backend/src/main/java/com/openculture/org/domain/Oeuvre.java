@@ -42,6 +42,9 @@ public class Oeuvre extends AbstractAuditingEntity implements Serializable {
     @Column(name = "resume")
     private String resume;
 
+    @Column(name = "file_url")
+    private String fileUrl;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "type_fichier")
     private TypeFichier typeFichier;
@@ -182,7 +185,16 @@ public class Oeuvre extends AbstractAuditingEntity implements Serializable {
     public void setFileExtension(String fileExtension) {
         this.fileExtension = fileExtension;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
+    }
+
+// jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
     public boolean equals(Object o) {
