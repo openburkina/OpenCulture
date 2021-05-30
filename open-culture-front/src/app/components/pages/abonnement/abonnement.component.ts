@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {DetailAbonnementComponent} from "../detail-abonnement/detail-abonnement.component";
 
 @Component({
   selector: 'app-abonnement',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AbonnementComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+      private modal: NgbModal,
+  ) { }
 
   ngOnInit(): void {
   }
-
+    openDtAbonnement(): void {
+        const currentModal = this.modal.open(DetailAbonnementComponent, {container: 'body', size: 'lg', backdrop: 'static', centered: true});
+    }
 }

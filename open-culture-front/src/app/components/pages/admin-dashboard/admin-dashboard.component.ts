@@ -72,7 +72,7 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     goTo(id: number) {
-        this.route.navigate(['/entity-blog-details',id])
+        this.route.navigate(['/oeuvre-blog-details',id])
     }
   films(){}
   clips(){}

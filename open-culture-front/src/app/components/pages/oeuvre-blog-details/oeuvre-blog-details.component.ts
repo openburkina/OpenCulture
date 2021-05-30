@@ -85,7 +85,7 @@ export class OeuvreBlogDetailsComponent implements OnInit {
     }
 
   goTo(id: number) {
-      this.router.navigate(['/entity-blog-details',id])
+      this.router.navigate(['/oeuvre-blog-details',id])
   }
   films(){}
   clips(){}

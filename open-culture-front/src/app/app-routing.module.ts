@@ -27,7 +27,6 @@ import { TestimonialsComponent } from './components/pages/testimonials/testimoni
 import {AccountComponent} from './components/pages/account/account.component';
 import {OeuvreComponent} from './components/pages/oeuvre/oeuvre.component';
 import { ArtisteComponent } from './components/pages/artiste/artiste.component';
-import { OeuvreEditComponent } from './components/pages/oeuvre/oeuvre-edit.component';
 import { RegroupementComponent } from './components/pages/regroupement/regroupement.component';
 import { TypeOeuvreComponent } from './components/pages/type-oeuvre/type-oeuvre.component';
 import { OeuvreAfficheComponent } from './components/pages/oeuvre/oeuvre-affiche.component';
@@ -37,11 +36,14 @@ import { AdminDashboardComponent } from './components/pages/admin-dashboard/admi
 import { OeuvreBlogDetailsComponent } from './components/pages/oeuvre-blog-details/oeuvre-blog-details.component';
 import {UserRouteAccessGuard} from "./components/services/routes/user-route-access.guard";
 import {RoleGuard} from "./components/services/routes/role.guard";
+import {AbonnementComponent} from "./components/pages/abonnement/abonnement.component";
 
 const routes: Routes = [
     {path: 'entity-blog', component: OeuvreBlogComponent,canActivate: [UserRouteAccessGuard]},
-    {path: 'entity-blog-details/:id',data : {pageTitle: 'entity-blog-details'}, component: OeuvreBlogDetailsComponent,canActivate: [UserRouteAccessGuard]},
+    {path: 'oeuvre-blog-details/:id',data : {pageTitle: 'entity-blog-details'}, component: OeuvreBlogDetailsComponent,canActivate: [UserRouteAccessGuard]},
     {path: 'admin-dashboard', component: AdminDashboardComponent,canActivate: [RoleGuard]},
+    {path: 'abonnement', component: AbonnementComponent},
+    {path: 'login', component: SignInComponent},
     {path: '', component: HomeOneComponent},
     {path: 'type-oeuvres', component: TypeOeuvreComponent},
     {path: 'oeuvres', component: OeuvreAfficheComponent},

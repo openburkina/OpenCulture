@@ -151,6 +151,6 @@ export class OeuvreBlogComponent implements OnInit {
   arts(){}
 
     goTo(id: number) {
-        this.route.navigate(['/entity-blog-details',id])
+        this.route.navigate(['/oeuvre-blog-details',id])
     }
 }

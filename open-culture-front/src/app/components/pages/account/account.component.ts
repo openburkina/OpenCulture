@@ -62,15 +62,15 @@ export class AccountComponent implements OnInit {
             this.errorMessage = 'La confirmation du mot de passe est incorrecte !';
         } else {
            this.spinner.loading();
-            this.user.firstName = this.formAccount.get('firstName').value;
-            this.user.lastName = this.formAccount.get('lastName').value;
-            this.user.email = this.formAccount.get('email').value;
-            this.user.telephone = this.formAccount.get('telephone').value;
-            this.user.password = this.formAccount.get('password').value;
-            this.user.login = this.formAccount.get('email').value;
-            this.loginVM.username = this.user.login;
-            this.loginVM.password = this.user.password;
-            this.apiService.doInscriptionUser(this.user).subscribe(
+           this.user.firstName = this.formAccount.get('firstName').value;
+           this.user.lastName = this.formAccount.get('lastName').value;
+           this.user.email = this.formAccount.get('email').value;
+           this.user.telephone = this.formAccount.get('telephone').value;
+           this.user.password = this.formAccount.get('password').value;
+           this.user.login = this.formAccount.get('email').value;
+           this.loginVM.username = this.user.login;
+           this.loginVM.password = this.user.password;
+           this.apiService.doInscriptionUser(this.user).subscribe(
                 response => {
                    this.spinner.close();
                     if (response.body === null) {
@@ -145,6 +145,5 @@ export class AccountComponent implements OnInit {
 
        }
       )
-
     }
 }

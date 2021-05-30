@@ -28,7 +28,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="banner-two-shape">
         <div class="shape-1"><img src="assets/img/home-two/dots.png" alt="Images"></div>
         <div class="shape-2"><img src="assets/img/home-two/shape1.png" alt="Images"></div>
@@ -261,33 +261,57 @@
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et amet bibendum ante. Vestibulum ante ipsum primis in faucibus orci.</p>
             </div>
         </div>-->
-        
+
         <div class="tab project-tab text-center">
-            <ul class="tabs">
-                <li><a href="#">Solicitory</a></li>
-                <li><a href="#">Strategy</a></li>
-                <li><a href="#">Human Resources</a></li>
-                <li><a href="#">Business Planning</a></li>
-                <li><a href="#">Project Management</a></li>
-            </ul>
             <div class="special-area" *ngIf="oeuvresVideo?.length>0">
-                <div class="container">
-                    <div class="row" *ngFor="let oeuvre of oeuvresVideo">
-                        <div *ngFor="let item of oeuvre?.items" >
-                            <div class="special-card mr-2">
-                                <a routerLink="/services-details"><img [src]="item.pathFile" alt="Images"></a>
-                                <!--                    <a routerLink="/services-details"><img [src]="item.pathFile" alt="Images"></a>-->
-                                <div class="content">
-                                    <h5><a routerLink="/services-details">{{(item.titre | slice:0:12)+'...'+' de '}}</a></h5>
-                                    <h6>{{item.nomArtiste}}</h6>
-                                    <!--                        <p>{{item.resume}}</p>-->
-                                    <!--                        <a routerLink="/services-details" class="learn-btn text-center">Learn More</a>-->
+                <div class="row" *ngFor="let oeuvre of oeuvresVideo">
+                    <div class="col-lg-3 col-md-4" *ngFor="let item of oeuvre?.items">
+                        <div class="blog-card">
+                            <a (click)="goTo(item.id)">
+                                <vg-player (onPlayerReady)="onPlayerReady($event)">
+                                    <!--                                <vg-overlay-play></vg-overlay-play>-->
+                                    <vg-buffering></vg-buffering>
+
+                                    <vg-controls>
+                                        <div class="cool col-md-12">
+                                            <vg-time-display class="mx-auto" vgProperty="total"
+                                                             vgFormat="mm:ss"></vg-time-display>
+                                        </div>
+                                    </vg-controls>
+
+                                    <video [vgMedia]="media" #media id="singleVideo" preload="auto" crossorigin>
+                                        <source [src]="item.fileUrl" [type]="item.typeFichier+'/'+item.fileExtension">
+                                    </video>
+                                </vg-player>
+                                <div class="content" style="text-align: left">
+                                    <h3><a routerLink="/oeuvre-blog-details">{{item.titre}}</a></h3>
+                                    <span>{{item.nomArtiste}}</span>
+                                    <ul>
+                                        <li><span>20</span> COMMENTS /</li>
+                                        <li><span>28</span> VIEWS</li>
+                                    </ul>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     </div>
                 </div>
-            </div> 
+<!--                <div class="container">-->
+<!--                    <div class="row" *ngFor="let oeuvre of oeuvresVideo">-->
+<!--                        <div *ngFor="let item of oeuvre?.items" >-->
+<!--                            <div class="special-card mr-2">-->
+<!--                                <a routerLink="/services-details"><img [src]="item.pathFile" alt="Images"></a>-->
+<!--                                &lt;!&ndash;                    <a routerLink="/services-details"><img [src]="item.pathFile" alt="Images"></a>&ndash;&gt;-->
+<!--                                <div class="content">-->
+<!--                                    <h5><a routerLink="/services-details">{{(item.titre | slice:0:12)+'...'+' de '}}</a></h5>-->
+<!--                                    <h6>{{item.nomArtiste}}</h6>-->
+<!--                                    &lt;!&ndash;                        <p>{{item.resume}}</p>&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                        <a routerLink="/services-details" class="learn-btn text-center">Learn More</a>&ndash;&gt;-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+            </div>
 
             <!-- <div class="tab_content current active pt-45">
                 <div class="tabs_item current">
@@ -844,7 +868,7 @@
                     <img src="assets/img/client/client-img3.png" alt="Images">
                 </div>
             </div>
-            
+
         </div>
     </div>
 </div>

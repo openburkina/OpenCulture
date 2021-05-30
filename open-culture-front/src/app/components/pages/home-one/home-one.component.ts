@@ -6,6 +6,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SignInComponent } from '../sign-in/sign-in.component';
 import {ApiService} from "../../services/api/api.service";
 import {AccountComponent} from "../account/account.component";
+import {VgApiService} from '@videogular/ngx-videogular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home-one',
@@ -23,11 +25,13 @@ export class HomeOneComponent implements OnInit {
   typeFile: any;
   splitChaine: string[];
   finalCriteria ='';
+  api : VgApiService;
 
   constructor(
       protected oeuvreService: OeuvreService,
       private modal: NgbModal,
       private apiService: ApiService,
+      private route: Router
       ) {
     this.typeFichier = TypeFichier.VIDEO
    }
@@ -41,9 +45,9 @@ export class HomeOneComponent implements OnInit {
       response => {
         if (response.body.length>0) {
           this.oeuvres = response.body;
-          this.oeuvreService.forRowView(5,this.oeuvres,this.typeFichier,this.oeuvres,this.oeuvresVideo,this.oeuvresAudio);
+          this.oeuvreService.forRowView(4,this.oeuvres,this.typeFichier,this.oeuvres,this.oeuvresVideo,this.oeuvresAudio);
           console.log(this.oeuvres);
-        }  
+        }
       }
     );
   }
@@ -73,7 +77,7 @@ export class HomeOneComponent implements OnInit {
               this.oeuvres = value.body;
               this.oeuvresVideo = [];
               console.info('OEUVRE  ',this.oeuvres);
-              this.oeuvreService.forRowView(5,this.oeuvres,this.typeFile,this.oeuvres,this.oeuvresVideo,this.oeuvresAudio);
+              this.oeuvreService.forRowView(4,this.oeuvres,this.typeFile,this.oeuvres,this.oeuvresVideo,this.oeuvresAudio);
 
           this.finalCriteria='';
       })
@@ -83,4 +87,19 @@ export class HomeOneComponent implements OnInit {
   openAccount(): void {
     const currentModal = this.modal.open(AccountComponent, {container: 'body', size: 'lg', centered: true});
   }
+
+    onPlayerReady(api: VgApiService) {
+        this.api = api;
+
+        this.api.getDefaultMedia().subscriptions.ended.subscribe(
+            () => {
+                // Set the video to the beginning
+                this.api.getDefaultMedia().currentTime = 0;
+            }
+        );
+    }
+
+    goTo(id: number) {
+        this.route.navigate(['/oeuvre-blog-details',id])
+    }
 }
