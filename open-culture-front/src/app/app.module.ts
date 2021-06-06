@@ -58,6 +58,7 @@ import { OeuvreAfficheComponent } from "./components/pages/oeuvre/oeuvre-affiche
 import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
 import { OeuvreBlogComponent } from './components/pages/oeuvre-blog/oeuvre-blog.component';
 import { AdminDashboardComponent } from './components/pages/admin-dashboard/admin-dashboard.component';
+import { DetailAbonnementComponent } from './components/pages/detail-abonnement/detail-abonnement.component';
 import { OeuvreBlogDetailsComponent } from './components/pages/oeuvre-blog-details/oeuvre-blog-details.component';
 import { ActivationComponent } from "./components/pages/activation/activation.component";
 import {VgCoreModule} from '@videogular/ngx-videogular/core';
@@ -154,6 +155,7 @@ const notifierDefaultOptions: NotifierOptions = {
     OeuvreAfficheComponent,
     OeuvreBlogComponent,
     AdminDashboardComponent,
+    DetailAbonnementComponent,
     OeuvreBlogDetailsComponent,
     ActivationComponent
   ],

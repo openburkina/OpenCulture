@@ -28,6 +28,9 @@ public class Abonnement extends AbstractAuditingEntity implements Serializable  
     @Column(name = "type")
     private String type;
 
+    @Column(name = "statut")
+    private Boolean statut;
+
     @ManyToOne
     @JsonIgnoreProperties(value = "abonnements", allowSetters = true)
     private User user;
@@ -72,6 +75,14 @@ public class Abonnement extends AbstractAuditingEntity implements Serializable  
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Boolean getStatut() {
+        return statut;
+    }
+
+    public void setStatut(Boolean statut) {
+        this.statut = statut;
     }
 // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
