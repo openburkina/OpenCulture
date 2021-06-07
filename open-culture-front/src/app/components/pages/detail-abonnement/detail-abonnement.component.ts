@@ -27,7 +27,6 @@ export class DetailAbonnementComponent implements OnInit {
   ngOnInit(): void {
       this.sendMail = false;
      this.moyenPaiement = this.abonnementService.getMoyenPaiement()
-      console.info('mmmmvv ',this.moyenPaiement)
   }
     onDismiss(param: boolean) {
         this.activeModal.close(param);
@@ -43,15 +42,14 @@ export class DetailAbonnementComponent implements OnInit {
             this.sendMail==false;
             this.apiService.doAbonnement(this.abonnement).subscribe(value => {
                 if (value.body!==null && value.body!==undefined) {
-                    console.info('tdsfgfcgsc ',value.body);
-                    this.successMessage ='Votre abonnement a ete effectue avec succes'
+                    this.successMessage ='Votre abonnement a été effectue avec succès'
                 }
             })
         }
     }
     doSenMail(){
       if (this.phoneNumber===null){
-          this.errorMessage='Veuillez renseigner votre numero de telephone';
+          this.errorMessage='Veuillez renseigner votre numéro de téléphone';
       } else {
           this.errorMessage = null;
           this.apiService.sendEmailPaiment().subscribe(value => {
