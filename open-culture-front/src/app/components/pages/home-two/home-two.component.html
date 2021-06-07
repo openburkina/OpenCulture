@@ -3,7 +3,7 @@
 <div class="banner-area-two">
     <div class="container-fluid">
         <div class="row align-items-center">
-            <div class="col-lg-6 col-md-12 pl-0">
+            <div class="col-lg-4 col-md-12 pl-0">
                 <div class="banner-img-two">
                     <div class="banner-images">
                         <img src="assets/img/home-two/home-two-img.png" alt="Images">
@@ -20,6 +20,14 @@
                     <div class="banner-btn">
                         <a routerLink="/abonnement" class="get-btn">Abonner vous maintenant</a>
                     </div>
+                </div>
+            </div>
+
+            <div *ngIf="abonnement!==null || abonnement!==undefined" class="col-lg-6 col-md-12">
+                <div class="banner-content banner-two-content">
+                    <h2>Merci de vous abonnez sur notre sur notre site</h2>
+                    <h5>votre abonnement est valable jusqu'au 31 jiun</h5>
+
                 </div>
             </div>
         </div>
