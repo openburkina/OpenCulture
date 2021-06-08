@@ -12,6 +12,7 @@ export class OeuvreDTO {
         public fileExtension?: string,
         public pathFile?: string,
         public fileContent?: Blob,
+        public file?: File,
         public resume?: string,
         public nomArtiste?: string,
         public typeOeuvreDTO?: TypeOeuvreDTO,

@@ -14,19 +14,15 @@ import com.openculture.org.service.dto.TypeOeuvreDTO;
 import com.openculture.org.service.mapper.ArtisteMapper;
 import com.openculture.org.service.mapper.OeuvreMapper;
 import com.openculture.org.web.rest.OeuvreResource;
-import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -114,9 +110,9 @@ public class OeuvreService {
             oeuvreDTO.setTypeOeuvreDTO(typeOeuvreService.save(typeOeuvreDTO));
         }
 
-         File media = new File(oeuvreDTO.getPathFile());
-         oeuvreDTO.setFileContent(FileUtils.readFileToByteArray(media));
-         String s[] = media.getName().split("\\.");
+         File file = new File("src/main/resources/oeuvres/"+oeuvreDTO.getFile().getName());
+       //  FileUtils.copyFile(oeuvreDTO.getFile(),file);
+         String s[] = file.getName().split("\\.");
          oeuvreDTO.setFileName(s[0]);
          oeuvreDTO.setFileExtension(s[1]);
 
@@ -175,9 +171,6 @@ public class OeuvreService {
             && oeuvreDTO.getRegroupementId() != null
             && oeuvreDTO.getDateSortie()!=null
             && oeuvreDTO.getArtistes() != null
-            && oeuvreDTO.getFileContent() != null
-            && oeuvreDTO.getFileName() != null
-            && oeuvreDTO.getFileExtension() != null
             )
             return true;
         return false;
@@ -328,21 +321,22 @@ public class OeuvreService {
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<Object> readMedia(Long id) {
-        log.debug("Request to get Oeuvre : {}", id);
-        OeuvreDTO oeuvre =  (findOne(id));
+    public ResponseEntity<Object> readMedia(File f) {
+        log.debug("Request to get Oeuvre : {}", f);
+ //       OeuvreDTO oeuvre =  (findOne(id));
 
-        if(isVideo(oeuvre.getFileExtension()))
-            return ResponseEntity.ok()
-            .contentLength(oeuvre.getFileContent().length)
-            .contentType(MediaType.parseMediaType(getContentType(oeuvre.getFileExtension())))
-            .body(new InputStreamResource(new ByteArrayInputStream(oeuvre.getFileContent())));
-        else {
-            return ResponseEntity.ok()
-            .contentLength(oeuvre.getFileContent().length)
-            .contentType(MediaType.parseMediaType(getContentType(oeuvre.getFileExtension())))
-            .body(new InputStreamResource(new ByteArrayInputStream(oeuvre.getFileContent())));
-        }
+//        if(isVideo(oeuvre.getFileExtension()))
+//            return ResponseEntity.ok()
+//            .contentLength(oeuvre.getFileContent().length)
+//            .contentType(MediaType.parseMediaType(getContentType(oeuvre.getFileExtension())))
+//            .body(new InputStreamResource(new ByteArrayInputStream(oeuvre.getFileContent())));
+//        else {
+//            return ResponseEntity.ok()
+//            .contentLength(oeuvre.getFileContent().length)
+//            .contentType(MediaType.parseMediaType(getContentType(oeuvre.getFileExtension())))
+//            .body(new InputStreamResource(new ByteArrayInputStream(oeuvre.getFileContent())));
+//        }
+        return null;
     }
 
     public String getContentType(String contentType){

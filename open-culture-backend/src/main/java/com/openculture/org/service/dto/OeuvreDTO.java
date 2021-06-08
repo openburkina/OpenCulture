@@ -2,6 +2,7 @@ package com.openculture.org.service.dto;
 
 import com.openculture.org.domain.enumeration.TypeFichier;
 
+import java.io.File;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Arrays;
@@ -51,6 +52,8 @@ public class OeuvreDTO implements Serializable {
     private String lastModifiedDateFormatted;
 
     private String fileUrl;
+
+    private File file;
 
     public Long getId() {
         return id;
@@ -211,6 +214,22 @@ public class OeuvreDTO implements Serializable {
 
     public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
+    }
+
+    public Instant getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Instant lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
     }
 
     @Override

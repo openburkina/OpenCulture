@@ -5,7 +5,6 @@ import com.openculture.org.domain.enumeration.TypeFichier;
 import com.openculture.org.repository.TypeOeuvreRepository;
 import com.openculture.org.service.ArtisteService;
 import com.openculture.org.service.OeuvreService;
-import com.openculture.org.service.dto.ArtisteDTO;
 import com.openculture.org.service.dto.OeuvreDTO;
 import com.openculture.org.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.web.util.HeaderUtil;
@@ -20,10 +19,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,7 +49,13 @@ public class OeuvreResource {
         this.typeOeuvreRepository = typeOeuvreRepository;
         this.artisteService = artisteService;
     }
+    @PostMapping("/oeuvres/cool")
+    public void creat(@RequestBody File oeuvreDTO) throws Exception {
+        log.debug("REST request to save Oeuvre : {}", oeuvreDTO);
 
+        oeuvreService.readMedia(oeuvreDTO);
+
+    }
     /**
      * {@code POST  /oeuvres} : Create a new oeuvre.
      *
@@ -59,19 +63,19 @@ public class OeuvreResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/oeuvres")
-//    public ResponseEntity<OeuvreDTO> createOeuvre(@RequestBody OeuvreDTO oeuvreDTO) throws Exception {
-    public ResponseEntity<OeuvreDTO> createOeuvre() throws Exception {
-        ArtisteDTO artisteDTO = artisteService.findOne((long) 1).get();
-        OeuvreDTO oeuvreDTO = new OeuvreDTO();
-        oeuvreDTO.setArtisteId((long) 1);
-        oeuvreDTO.setDateSortie(Instant.now());
-        oeuvreDTO.setRegroupementId((long) 1);
-        oeuvreDTO.setTypeOeuvreId((long) 1);
-        oeuvreDTO.setTitre("test_1");
-        oeuvreDTO.setPathFile("/home/abdoul/Vidéos/Amzy.mp3");
-        List<ArtisteDTO> artisteDTOList = new ArrayList<>();
-        artisteDTOList.add(artisteDTO);
-        oeuvreDTO.setArtistes(artisteDTOList);
+    public ResponseEntity<OeuvreDTO> createOeuvre(@RequestBody OeuvreDTO oeuvreDTO) throws Exception {
+//    public ResponseEntity<OeuvreDTO> createOeuvre() throws Exception {
+//        ArtisteDTO artisteDTO = artisteService.findOne((long) 1).get();
+//        OeuvreDTO oeuvreDTO = new OeuvreDTO();
+//        oeuvreDTO.setArtisteId((long) 1);
+//        oeuvreDTO.setDateSortie(Instant.now());
+//        oeuvreDTO.setRegroupementId((long) 1);
+//        oeuvreDTO.setTypeOeuvreId((long) 1);
+//        oeuvreDTO.setTitre("test_1");
+//        oeuvreDTO.setPathFile("/home/abdoul/Vidéos/Amzy.mp3");
+//        List<ArtisteDTO> artisteDTOList = new ArrayList<>();
+//        artisteDTOList.add(artisteDTO);
+//        oeuvreDTO.setArtistes(artisteDTOList);
         log.debug("REST request to save Oeuvre : {}", oeuvreDTO);
 
 
@@ -164,11 +168,11 @@ public class OeuvreResource {
     }
 
   //  @CrossOrigin("http://localhost:8080")
-    @GetMapping("/test/{id}")
-    public ResponseEntity<Object> getVideo(@PathVariable Long id) {
+//    @GetMapping("/test/{id}")
+//    public ResponseEntity<Object> getVideo(@PathVariable Long id) {
 //        System.out.println(oeuvreService.formatedDateToString(Instant.now()));
-        return oeuvreService.readMedia(id);
-    }
+//        return oeuvreService.readMedia(id);
+//    }
 
     @GetMapping("oeuvres/my-recent-post-oeuvres")
     public ResponseEntity<List<OeuvreDTO>> getAllMyRecentPostsOeuvres(@RequestParam("categorie") String categorie, Pageable pageable) {

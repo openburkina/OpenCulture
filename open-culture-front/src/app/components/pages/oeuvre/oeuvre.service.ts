@@ -48,6 +48,11 @@ export class OeuvreService {
     .pipe(map((data: EntityOeuvre) => (this.convertDateOeuvreToClient(data))));
   }
 
+    creat(oeuvre: File): Observable<EntityOeuvre> {
+     //   const data = this.convertDateOeuvreToServer(oeuvre);
+        return this.httpClient.post<OeuvreDTO>(this.resourceUrl+"/cool",oeuvre,{observe: 'response'});
+    }
+
   delete(id: number): Observable<EntityOeuvre>{
     return this.httpClient.delete(`${this.resourceUrl}/${id}`,{observe: 'response'});
   }
