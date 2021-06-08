@@ -121,7 +121,7 @@ export class AccountComponent implements OnInit {
                 if (response.body === null) {
                     this.errorMessage = 'Erreur lors de l\'activation du compte. Veuillez réessayer !';
                 } else {
-                    this.successMessage = 'Votre compte a été  activate. Veuillez vous connecter !';
+                    this.successMessage = 'Votre compte a été activer. Veuillez vous connecter !';
                 }
             },
             error => {

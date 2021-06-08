@@ -8,31 +8,13 @@
                         <div class="blog-card">
                             <a (click)="goTo(item.id)">
                             <vg-player (onPlayerReady)="onPlayerReady($event)">
-<!--                                <vg-overlay-play></vg-overlay-play>-->
                                 <vg-buffering></vg-buffering>
 
                                 <vg-controls>
-<!--                                    <vg-play-pause></vg-play-pause>-->
-<!--                                    <vg-playback-button></vg-playback-button>-->
-
-<!--                                    <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>-->
-
-<!--                                    <vg-scrub-bar>-->
-<!--                                        <vg-scrub-bar-current-time></vg-scrub-bar-current-time>-->
-<!--                                        <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>-->
-<!--                                    </vg-scrub-bar>-->
-
-<!--                                    <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>-->
                                        <div class="cool col-md-11">
                                            <vg-time-display class="mx-auto" vgProperty="total"
                                                             vgFormat="mm:ss"></vg-time-display>
                                        </div>
-
-<!--                                    <vg-track-selector></vg-track-selector>-->
-<!--                                    <vg-mute></vg-mute>-->
-<!--                                    <vg-volume></vg-volume>-->
-
-<!--                                    <vg-fullscreen></vg-fullscreen>-->
                                 </vg-controls>
 
                                 <video [vgMedia]="media" #media id="singleVideo" preload="auto" crossorigin>
@@ -85,8 +67,6 @@
                         <div class="widget-popular-post" *ngFor="let oeuvre of oeuvres">
                             <article class="item">
                                 <a (click)="goTo(oeuvre.id)" class="thumb">
-                                    <!-- <span class="full-image cover bg1" role="img"></span> -->
-                                    <!--  <img [src]="oeuvre.pathFile" class="full-image cover" role="img" alt="Images">-->
                                     <vg-player class="col-md-8" (onPlayerReady)="onPlayerReady($event)">
                                         <video [vgMedia]="media" #media preload="auto" id="video" crossorigin="">
                                             <source [src]="oeuvre.fileUrl" [type]="oeuvre.typeFichier+'/'+oeuvre.fileExtension">

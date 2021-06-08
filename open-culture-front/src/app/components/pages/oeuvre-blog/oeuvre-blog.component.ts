@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OeuvreEditComponent } from '../oeuvre/oeuvre-edit.component';
 import {VgApiService} from '@videogular/ngx-videogular/core';
 import {Router} from '@angular/router';
+import {ApiService} from "../../services/api/api.service";
 
 @Component({
   selector: 'app-entity-blog',
@@ -23,12 +24,19 @@ export class OeuvreBlogComponent implements OnInit {
   categorie: string;
   preload : string = 'auto';
   api : VgApiService;
+  criteria: any;
+  finalCriteria ='';
+  splitChaine: string[];
+  oeuvresVideo =  new Array();
+  oeuvresAudio =  new Array();
+  typeFile: null;
 
   constructor(
     private oeuvreService: OeuvreService,
     private typeOeuvreService: TypeOeuvreService,
     private ngModalService: NgbModal,
-    private route: Router
+    private route: Router,
+    private apiService: ApiService
   ) {
     this.categorie = "Films";
    }
@@ -46,7 +54,6 @@ export class OeuvreBlogComponent implements OnInit {
   filtreByCategorie(t: TypeOeuvreDTO){
       this.oeuvreService.findComplet(t.intitule).subscribe(
           response => {
-              // this.allOeuvres = [];
               this.forRowView(response.body);
           }
       )
@@ -152,5 +159,32 @@ export class OeuvreBlogComponent implements OnInit {
 
     goTo(id: number) {
         this.route.navigate(['/oeuvre-blog-details',id])
+    }
+
+    search() {
+        console.info('criteria ',this.criteria);
+        if (this.typeFile===null || this.typeFile===undefined) {
+            this.typeFile = null;
+        }
+        if (this.criteria === null|| this.criteria===undefined){
+            this.finalCriteria = null;
+        }
+        if (this.criteria!==null &&this.criteria!==undefined) {
+            this.splitChaine = this.criteria.split(" ");
+            for (let i = 0; i < this.splitChaine.length; i++){
+                if (this.splitChaine[i].length>0){
+                    this.finalCriteria =this.finalCriteria+' '+this.splitChaine[i];
+                    console.info('final ',this.finalCriteria);
+                }
+            }
+        }
+        this.apiService.onSearch(this.finalCriteria,this.typeFile).subscribe(value => {
+            console.info('RESULTAT CHERCHER ',value.body);
+            console.info('TYPE FICHIER ',this.typeFile);
+            this.oeuvresVideo = [];
+            this.forRowView(value.body);
+            this.finalCriteria='';
+        })
+
     }
 }

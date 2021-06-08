@@ -5,6 +5,9 @@ import { ApiService } from '../../services/api/api.service';
 import { OeuvreService } from '../oeuvre/oeuvre.service';
 import {VgApiService} from '@videogular/ngx-videogular/core';
 import {Router} from '@angular/router';
+import {User} from "../../models/User";
+import {SessionStorageService} from "ngx-webstorage";
+import {Abonnement} from "../../models/abonnement";
 
 @Component({
   selector: 'app-home-two',
@@ -22,17 +25,27 @@ export class HomeTwoComponent implements OnInit {
   private splitChaine: string[];
   private finalCriteria ='';
   location: string;
+  user = new User();
+  abonnement: Abonnement;
   api : VgApiService;
 
 constructor(
     private apiService: ApiService,
     private oeuvreService: OeuvreService,
-    private route: Router
+    private route: Router,
+    private $sessionStorage: SessionStorageService,
 ) {
     this.typeFichier = TypeFichier.VIDEO
 }
 
 ngOnInit(): void {
+    this.user.id = this.$sessionStorage.retrieve('user_id');
+    this.apiService.getAbonnement(this.user.id).subscribe(
+        response => {
+            this.abonnement = response.body;
+            console.info('Abonnn ',this.abonnement);
+        }
+    );
     this.loadAll();
 }
 

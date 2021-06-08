@@ -53,6 +53,7 @@ export class AccountService {
                     if (account) {
                         this.$sessionStorage.store('firstName',account.firstName);
                         this.$sessionStorage.store('lastName',account.lastName);
+                        this.$sessionStorage.store('user_id',account.id);
                         this.$sessionStorage.store('authorities',account.authorities);
                      //   this.parameter.setLoggerUser(account);
                         this.navigateToStoredUrl();

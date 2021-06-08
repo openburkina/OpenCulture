@@ -16,6 +16,10 @@ public class AbonnementDTO implements Serializable {
 
     private String type;
 
+    private Boolean statut;
+
+    private String phoneNumber;
+
     private User user;
 
     
@@ -43,12 +47,30 @@ public class AbonnementDTO implements Serializable {
         this.type = type;
     }
 
+    public Boolean getStatut() {
+        return statut;
+    }
+
+    public void setStatut(Boolean statut) {
+        this.statut = statut;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     @Override
     public String toString() {
         return "AbonnementDTO{" +
             "id=" + id +
             ", dateAbonnement=" + dateAbonnement +
             ", type='" + type + '\'' +
+            ", statut=" + statut +
+            ", phoneNumber='" + phoneNumber + '\'' +
             ", user=" + user +
             '}';
     }

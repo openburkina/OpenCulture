@@ -2,6 +2,7 @@ package com.openculture.org.service.dto;
 
 import com.openculture.org.config.Constants;
 
+import com.openculture.org.domain.Abonnement;
 import com.openculture.org.domain.Authority;
 import com.openculture.org.domain.User;
 
@@ -41,6 +42,8 @@ public class UserDTO {
 
     private String telephone;
 
+    private Abonnement abonnement;
+
     @Size(min = 2, max = 10)
     private String langKey;
 
@@ -73,6 +76,7 @@ public class UserDTO {
         this.lastModifiedDate = user.getLastModifiedDate();
         this.telephone = user.getTelephone();
         this.password = user.getPassword();
+        this.abonnement = user.getAbonnement();
         this.authorities = user.getAuthorities().stream()
             .map(Authority::getName)
             .collect(Collectors.toSet());
@@ -194,6 +198,13 @@ public class UserDTO {
         return telephone;
     }
 
+    public Abonnement getAbonnement() {
+        return abonnement;
+    }
+
+    public void setAbonnement(Abonnement abonnement) {
+        this.abonnement = abonnement;
+    }
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
@@ -212,6 +223,7 @@ public class UserDTO {
             ", imageUrl='" + imageUrl + '\'' +
             ", activated=" + activated +
             ", telephone='" + telephone + '\'' +
+            ", abonnement=" + abonnement +
             ", langKey='" + langKey + '\'' +
             ", createdBy='" + createdBy + '\'' +
             ", createdDate=" + createdDate +

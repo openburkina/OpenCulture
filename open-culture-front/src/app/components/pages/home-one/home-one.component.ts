@@ -22,9 +22,9 @@ export class HomeOneComponent implements OnInit {
   oeuvresView = new Array();
   typeFichier: TypeFichier;
   criteria: any;
+  finalCriteria ='';
   typeFile: any;
   splitChaine: string[];
-  finalCriteria ='';
   api : VgApiService;
 
   constructor(

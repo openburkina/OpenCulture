@@ -1,143 +1,3 @@
-<!--<div class="card-group">
-    <div class="card">
-        <div class="card-header border-bottom text-center text-white bg-primary">
-            Inscription sur OpenCulture
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-12">
-                    <form [formGroup]="formAccount" (ngSubmit)="onAccount()" >
-                        <p class="text-muted text-center font-italic">
-                            Veuillez renseigner les informations suivantes pour vous inscrire. <br>
-                            Les champs marqués (<i class="text-danger">*</i>) sont obligatoires
-                        </p>
-
-                        <div class="form-group">
-                            <label for="firstName" class="col-form-label text-secondary">Nom <i class="text-danger">*</i></label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                      <i class="fa fa-user"></i>
-                                    </span>
-                                </div>
-                                <input type="text" class="form-control" autocomplete="firstName" name="firstName" formControlName="firstName" id="firstName" required>
-                            </div>
-                            <div *ngIf="formAccount.get('firstName').invalid && (formAccount.get('firstName').touched || formAccount.get('firstName').dirty)">
-                                <small class="text-danger font-italic" *ngIf="formAccount.get('firstName').errors.required">
-                                    Votre nom est obligatoire
-                                </small>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="lastName" class="col-form-label text-secondary">Prénom(s) <i class="text-danger">*</i></label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                      <i class="fa fa-user"></i>
-                                    </span>
-                                </div>
-                                <input type="text" class="form-control" autocomplete="lastName" id="lastName"
-                                       name="lastName" formControlName="lastName" required>
-                            </div>
-                            <div *ngIf="formAccount.get('lastName').invalid && (formAccount.get('lastName').touched || formAccount.get('lastName').dirty)">
-                                <small class="text-danger font-italic" *ngIf="formAccount.get('lastName').errors.required">
-                                    Votre prénom est obligatoire
-                                </small>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email" class="col-form-label text-secondary">Email <i class="text-danger">*</i></label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text">
-                                    <i class="fa fa-envelope"></i>
-                                  </span>
-                                </div>
-                                <input type="email" class="form-control" autocomplete="email" id="email"
-                                       name="email" formControlName="email" placeholder="monemail@gmail.com" required>
-                            </div>
-
-                            <div *ngIf="formAccount.get('email').invalid && (formAccount.get('email').touched || formAccount.get('email').dirty)">
-                                <small class="text-danger font-italic" *ngIf="formAccount.get('email').errors.required">
-                                    Votre email est obligatoire
-                                </small>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="telephone" class="col-form-label text-secondary">Téléphone <i class="text-danger">*</i></label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                      <i class="fa fa-phone"></i>
-                                    </span>
-                                </div>
-                                <input type="tel" class="form-control"
-                                       id="telephone" autocomplete="telephone" placeholder="+22670707070"
-                                       name="telephone" formControlName="telephone" required>
-                            </div>
-
-                            <div *ngIf="formAccount.get('telephone').invalid && (formAccount.get('telephone').touched || formAccount.get('telephone').dirty)">
-                                <small class="text-danger font-italic" *ngIf="formAccount.get('telephone').errors.required">
-                                    Votre numéro de téléphone est obligatoire
-                                </small>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="password" class="col-form-label text-secondary">Mot de passe <i class="text-danger">*</i></label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                      <i class="fa fa-lock"></i>
-                                    </span>
-                                </div>
-                                <input type="password" class="form-control"
-                                       id="password" name="password" formControlName="password">
-                            </div>
-
-                            <div *ngIf="formAccount.get('password').invalid && (formAccount.get('password').touched || formAccount.get('password').dirty)">
-                                <small class="text-danger font-italic" *ngIf="formAccount.get('password').errors.required">
-                                    Le mot de passe est obligatoire
-                                </small>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="confirmPassword" class="col-form-label text-secondary">Confirmation du mot de passe <i class="text-danger">*</i></label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                      <i class="fa fa-lock"></i>
-                                    </span>
-                                </div>
-                                <input type="password" class="form-control"
-                                       id="confirmPassword" name="confirmPassword" formControlName="confirmPassword">
-                            </div>
-
-                            <div *ngIf="formAccount.get('confirmPassword').invalid && (formAccount.get('confirmPassword').touched || formAccount.get('confirmPassword').dirty)">
-                                <small class="text-danger font-italic" *ngIf="formAccount.get('confirmPassword').errors.required">
-                                    La confirmation du mot de passe est obligatoire
-                                </small>
-                            </div>
-                        </div>
-
-                        <div class="form-group text-right">
-                            <button class="btn btn-danger mr-2" (click)="onDismiss(false)">
-                                <i class="fa fa-chevron-left"></i> Annuler
-                            </button>
-                            <button type="submit" [disabled]="formAccount.invalid" class="btn btn-primary px-4">
-                                S'inscrire <i class="fa fa-sign-in-alt"></i>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>-->
 
 <div class="card-header text-center bg" style="background-color: darkorange;">
     <h2>Inscription sur OpenCulture</h2>
@@ -156,8 +16,8 @@
         </div>
         <div *ngIf="keyActivedAccount === null || keyActivedAccount === undefined">
             <div class="section-title text-center">
-                <p>Veuillez renseigner les informations suivantes pour vous inscrire. <br>
-                    Les champs marqués (<i class="text-danger">*</i>) sont obligatoires. <br>
+                <p>
+                    Tout champs sont obligatoires. <br>
                     A la fin de l'inscription un Email vous sera envoyé pour active votre compte donc veuillez renseigner un bon adresse Email.
                 </p>
             </div>
@@ -167,17 +27,6 @@
                     <!-- <form id="contactForm" [formGroup]="formAccount" (ngSubmit)="onAccount()"> -->
                     <form [formGroup]="formAccount">    
                         <div class="row">
-                            <!-- <div class="col-lg-12 col-sm-6">
-                                <div class="alert alert-danger text-center font-italic font-weight-bold text-danger"
-                                     *ngIf="errorMessage !== null">
-                                    {{ errorMessage }}
-                                </div>
-                                <div class="alert alert-success text-center font-italic font-weight-bold text-success"
-                                     *ngIf="successMessage !== null">
-                                    {{ successMessage }}
-                                </div>
-                            </div> -->
-
                             <div class="col-lg-6 col-sm-6">
                                 <div class="form-group">
                                     <input type="text" name="firstName" autocomplete="firstName" id="firstName" formControlName="firstName" class="form-control" required placeholder="votre Nom" pattern="[a-zA-Z]*">
