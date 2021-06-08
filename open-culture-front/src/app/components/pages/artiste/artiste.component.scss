@@ -1,0 +1,14 @@
+#toCreate {
+    left: 100px !important;
+}
+.table > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 3px 3px;
+    // padding-left: 30px;
+    border-width: 0.5px;
+    border-color: #b3aeae;
+}
+
+.table-hover > tbody > tr:hover {
+    background-color: rgba(139, 134, 136, 0.82);
+    color: black;
+}

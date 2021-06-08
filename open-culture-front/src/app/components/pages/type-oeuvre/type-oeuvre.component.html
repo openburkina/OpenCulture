@@ -1,6 +1,6 @@
-<div class="text-justify-content">
-    <div class="col-lg-8 col-sm-6 mx-auto">
-        <div class="table-responsive" *ngIf="typeOeuvres?.length > 0">
+<div class="text-justify-content pt-100">
+    <div class="col-lg-10 col-sm-10 mx-auto">
+        <div class="table-responsive ml-md-5" *ngIf="typeOeuvres?.length > 0">
             <table class="table table-striped mt-4" aria-describedby="page-heading">
                 <thead class="bg-warning-1">
                 <tr >
@@ -17,12 +17,16 @@
                         <div class="btn-group">
                             <button class="btn btn-warning" (click)="editer(reg)"><i class="bx bxs-edit-alt"></i></button>
                             <button class="btn btn-danger" (click)="delete(reg)"><i class="bx bxs-eraser"></i></button>
-                            <!-- <button class="btn btn-warning px-4" (click)="create()">New</button> -->
                         </div>
                     </td>
                 </tr>
                 </tbody>
             </table>
+        </div>
+        <div>
+            <button id="toCreate" class="top-btn-create btn" (click)="create()">
+                <i class="bx bx-plus"></i>
+            </button>
         </div>
     </div>
 </div>

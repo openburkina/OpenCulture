@@ -2329,15 +2329,18 @@ Service Area
             list-style-type: none;
             li {
                 position: relative;
-                margin-bottom: 10px;
+                margin-bottom: 5px;
                 font-size: 16px;
                 font-weight: 500;
-                background-color: #fbfbfb;
+                background-color: #FBA311;
                 padding: 12px 20px;
                 border-radius: 5px;
                 &:hover {
                     background-color: $paragraph-color;
                     a {
+                        color: $color-white;
+                    }
+                    span {
                         color: $color-white;
                     }
                 }
@@ -4977,4 +4980,43 @@ Animation CSS End
     }
 }
 
+.services-menu-bar {
+    padding: 0 20px;
+    div {
+        ul {
+            padding: 0;
+            margin: 0;
+            list-style-type: none;
+            li {
+                position: relative;
+                margin-bottom: 10px;
+                font-size: 16px;
+                font-weight: 500;
+                background-color: #fb2923;
+                padding: 12px 20px;
+                border-radius: 5px;
+                &:hover {
+                    background-color: $paragraph-color;
+                    a {
+                        color: $color-white;
+                    }
 
+                }
+                i {
+                    color: $main-color;
+                    margin-right: 15px;
+                }
+                a {
+                    display: inline-block;
+                    color: $paragraph-color;
+                    font-weight: normal;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+}
+
+.cool {
+    margin-left: 40px;
+}

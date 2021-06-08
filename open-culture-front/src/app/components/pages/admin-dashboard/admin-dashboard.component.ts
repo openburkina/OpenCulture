@@ -19,6 +19,7 @@ export class AdminDashboardComponent implements OnInit {
   categorie: string;
   oeuvre: OeuvreDTO[] = new Array();
   api: VgApiService;
+  menuItem: boolean;
 
   constructor(
     private oeuvreService: OeuvreService,
@@ -29,7 +30,7 @@ export class AdminDashboardComponent implements OnInit {
    }
 
   ngOnInit(): void {
-
+    this.menuItem = false;
     this.getOeuvresByTypeOeuvre(this.categorie);
     this.getCategorie();
 
@@ -74,7 +75,10 @@ export class AdminDashboardComponent implements OnInit {
     goTo(id: number) {
         this.route.navigate(['/oeuvre-blog-details',id])
     }
-  films(){}
+
+  itemChange(){
+      this.menuItem = !this.menuItem;
+  }
   clips(){}
   musiques(){}
   litteratures(){}

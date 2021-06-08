@@ -4,6 +4,7 @@ import { TypeOeuvreEditComponent } from './type-oeuvre-edit.component';
 import { TypeOeuvreDeleteComponent } from './type-oeuvre-delete.component';
 import { TypeOeuvreService } from './type-oeuvre.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {RegroupementEditComponent} from '../regroupement/regroupement-edit.component';
 
 @Component({
   selector: 'app-type-oeuvre',
@@ -53,5 +54,16 @@ export class TypeOeuvreComponent implements OnInit {
       }
     )
   }
+
+    create(): void{
+        const modal = this.modalService.open(TypeOeuvreEditComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
+        modal.result.then(
+            response => {
+                if (response === true) {
+                    this.loadAll();
+                }
+            }
+        )
+    }
 
 }

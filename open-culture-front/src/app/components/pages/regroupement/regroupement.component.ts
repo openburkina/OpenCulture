@@ -4,6 +4,7 @@ import { RegroupementService } from './regroupement.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RegroupementEditComponent } from './regroupement-edit.component';
 import { RegroupementDeleteComponent } from './regroupement-delete.component';
+import {ArtisteEditComponent} from '../artiste/artiste-edit.component';
 
 @Component({
   selector: 'app-regroupement',
@@ -54,4 +55,14 @@ export class RegroupementComponent implements OnInit {
     )
   }
 
+  create(): void{
+    const modal = this.modalService.open(RegroupementEditComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
+    modal.result.then(
+        response => {
+            if (response === true) {
+                this.loadAll();
+            }
+        }
+    )
+  }
 }

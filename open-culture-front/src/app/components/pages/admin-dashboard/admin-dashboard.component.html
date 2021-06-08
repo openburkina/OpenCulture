@@ -39,7 +39,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-12 pt-80">
+            <div class="col-lg-4 col-md-12 pt-20">
                 <div class="services-side-bar">
                     <div class="services-bar-widget">
                         <h3 class="title">Menu</h3>
@@ -47,8 +47,12 @@
                             <ul>
                                 <li>
                                     <i class="flaticon-sort"></i>
-                                    <a href="/entity-blog">Entités </a>
+                                    <a (click)="itemChange()">Entités</a>
                                 </li>
+                                <li *ngIf="menuItem" class="cool"><a href="/entity-blog">Oeuvres </a></li>
+                                <li *ngIf="menuItem" class="cool"><a href="/artistes">Artistes </a></li>
+                                <li *ngIf="menuItem" class="cool"><a href="/regroupements">Regroupements </a></li>
+                                <li *ngIf="menuItem" class="cool"><a href="/type-oeuvres">Type d'oeuvre </a></li>
                                 <li>
                                     <i class="flaticon-balance"></i>
                                     <a href="#">Comptes visiteurs</a>
@@ -92,20 +96,6 @@
                             <p>{{oeuvre.dateSortie | date: 'dd MM, yyyy' }}</p>
                         </div>
                     </article>
-                    <!-- <article class="item">
-                        <a routerLink="/oeuvre-blog-details" class="thumb"><span class="full-image cover bg2" role="img"></span></a>
-                        <div class="info">
-                            <h4 class="title-text"><a routerLink="/oeuvre-blog-details">Reaching the Goal With Best Consulting</a></h4>
-                            <p>June 11, 2020</p>
-                        </div>
-                    </article>
-                    <article class="item">
-                        <a routerLink="/oeuvre-blog-details" class="thumb"><span class="full-image cover bg3" role="img"></span></a>
-                        <div class="info">
-                            <h4 class="title-text"><a routerLink="/oeuvre-blog-details">Aim is to Reach My Goal With Best Plan</a> </h4>
-                            <p>August 10, 2020</p>
-                        </div>
-                    </article> -->
                 </div>
             </div>
             <div class="side-bar-widget col-md-5">
