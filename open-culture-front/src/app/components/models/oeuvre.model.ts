@@ -3,6 +3,7 @@ import { RegroupementDTO } from "./regroupement.model";
 import { TypeOeuvreDTO } from "./type-oeuvre.model";
 import { Moment } from "moment";
 import {TypeFichier} from './enumeration/type-fichier.enum';
+import DateTimeFormat = Intl.DateTimeFormat;
 export class OeuvreDTO {
     constructor(
         public id?: number,
@@ -12,11 +13,11 @@ export class OeuvreDTO {
         public fileExtension?: string,
         public pathFile?: string,
         public fileContent?: Blob,
-        public file?: File,
         public resume?: string,
         public nomArtiste?: string,
         public typeOeuvreDTO?: TypeOeuvreDTO,
         public dateSortie?: Moment,
+       // public dateSortie?: Date,
         public regroupementDTO?: RegroupementDTO,
         public artistes?: ArtisteDTO[],
         public typeOeuvreId?: number,

@@ -37,21 +37,26 @@ export class OeuvreService {
     .pipe(map((data: EntityOeuvre) => (this.convertDateOeuvreToClient(data))));
   }
 
-  create(oeuvre: OeuvreDTO): Observable<EntityOeuvre> {
-    const data = this.convertDateOeuvreToServer(oeuvre);
-    return this.httpClient.post<OeuvreDTO>(this.resourceUrl,data,{observe: 'response'});
+  create(oeuvre: OeuvreDTO,file: File): Observable<EntityOeuvre> {
+      const data = this.convertDateOeuvreToServer(oeuvre);
+      let formaData = new FormData();
+      formaData.append("file",file);
+      formaData.append("dateSortie",JSON.stringify(data.dateSortie));
+      oeuvre.dateSortie = null;
+      formaData.append("oeuvreDTO",JSON.stringify(oeuvre));
+    return this.httpClient.post<OeuvreDTO>(this.resourceUrl,formaData,{observe: 'response'});
   }
 
-  update(oeuvre: OeuvreDTO): Observable<EntityOeuvre> {
-    const data = this.convertDateOeuvreToServer(oeuvre);
-    return this.httpClient.put<OeuvreDTO> (this.resourceUrl,data,{observe: 'response'})
+  update(oeuvre: OeuvreDTO,file: File): Observable<EntityOeuvre> {
+      const data = this.convertDateOeuvreToServer(oeuvre);
+      let formaData = new FormData();
+      formaData.append("file",file);
+      formaData.append("dateSortie",JSON.stringify(data.dateSortie));
+      oeuvre.dateSortie = null;
+      formaData.append("oeuvreDTO",JSON.stringify(oeuvre));
+    return this.httpClient.put<OeuvreDTO> (this.resourceUrl,formaData,{observe: 'response'})
     .pipe(map((data: EntityOeuvre) => (this.convertDateOeuvreToClient(data))));
   }
-
-    creat(oeuvre: File): Observable<EntityOeuvre> {
-     //   const data = this.convertDateOeuvreToServer(oeuvre);
-        return this.httpClient.post<OeuvreDTO>(this.resourceUrl+"/cool",oeuvre,{observe: 'response'});
-    }
 
   delete(id: number): Observable<EntityOeuvre>{
     return this.httpClient.delete(`${this.resourceUrl}/${id}`,{observe: 'response'});
@@ -60,7 +65,8 @@ export class OeuvreService {
   convertDateInArrayOeuvreToClient(data: EntityArrayOeuvre): EntityArrayOeuvre {
     if (data.body) {
        data.body.forEach((oeuvre: OeuvreDTO) => {
-        oeuvre.dateSortie = oeuvre.dateSortie != null ? moment(oeuvre.dateSortie) : null;
+        oeuvre.dateSortie = oeuvre.dateSortie
+        // != null ? moment(oeuvre.dateSortie) : null;
        })
     }
     return data;
@@ -68,7 +74,8 @@ export class OeuvreService {
 
   convertDateOeuvreToClient(data: EntityOeuvre): EntityOeuvre {
     if (data.body) {
-       data.body.dateSortie = data.body.dateSortie != null ? moment(data.body.dateSortie) : null;
+       data.body.dateSortie = data.body.dateSortie
+       != null ? moment(data.body.dateSortie) : null;
     }
     return data;
   }

@@ -108,11 +108,10 @@ export class OeuvreEditComponent implements OnInit {
     let oeuvre = new OeuvreDTO();
 
     oeuvre.id = this.oeuvreForm.get(['id']).value;
-    oeuvre.dateSortie = this.oeuvreForm.get(['dateSortie']).value != null ?
-                              moment(this.oeuvreForm.get(['dateSortie']).value, DATE_TIME_FORMAT) : undefined;
+    oeuvre.dateSortie = this.oeuvreForm.get(['dateSortie']).value != null ? moment(this.oeuvreForm.get(['dateSortie']).value) : undefined;
     oeuvre.fileExtension = this.oeuvreForm.get(['fileExtension']).value;
     oeuvre.fileContent = this.oeuvreForm.get(['fileContent']).value;
-    oeuvre.file = this.oeuvreForm.get(['fileUrl']).value;
+    this.file = this.file;
     oeuvre.resume = this.oeuvreForm.get(['resume']).value;
     oeuvre.titre = this.oeuvreForm.get(['titre']).value;
     oeuvre.typeOeuvreId = this.oeuvreForm.get(['typeOeuvreId']).value;
@@ -131,7 +130,7 @@ export class OeuvreEditComponent implements OnInit {
       typeOeuvreId: oeuvre.typeOeuvreDTO.id,
       fileContent: oeuvre.fileContent,
       fileExtension: oeuvre.fileExtension,
-      file: oeuvre.fileUrl,
+      file: this.file,
       dateSortie: oeuvre.dateSortie != null ? oeuvre.dateSortie.format(DATE_TIME_FORMAT) : null,
       artisteSelected: this.artisteSelected
    //   artisteId: oeuvre.artisteId,
@@ -143,9 +142,9 @@ export class OeuvreEditComponent implements OnInit {
     console.log(oeuvre);
     if (this.validateOeuvre(oeuvre)) {
       if(oeuvre.id !== undefined && oeuvre.id !== null){
-        this.saveState(this.oeuvreService.update(oeuvre));
+        this.saveState(this.oeuvreService.update(oeuvre,this.file));
       } else {
-        this.saveState(this.oeuvreService.create(oeuvre));
+        this.saveState(this.oeuvreService.create(oeuvre,this.file));
 
       }
     } else {
@@ -205,16 +204,9 @@ export class OeuvreEditComponent implements OnInit {
   onFileChange(event) {
       if (event.target.files.length>0){
           this.file = event.target.files[0];
-          console.log(this.file);
           this.oeuvreForm.patchValue({
-              file: this.file
+              file: this.file,
           });
       }
   }
-
-    sa(){
-        const oeuvre = this.file;
-        console.log(oeuvre);
-        this.saveState(this.oeuvreService.creat(oeuvre));
-    }
 }
