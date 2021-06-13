@@ -1,5 +1,6 @@
 package com.openculture.org.web.rest;
 
+import com.google.gson.Gson;
 import com.openculture.org.domain.TypeOeuvre;
 import com.openculture.org.domain.enumeration.TypeFichier;
 import com.openculture.org.repository.TypeOeuvreRepository;
@@ -17,14 +18,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
-
 /**
  * REST controller for managing {@link com.openculture.org.domain.Oeuvre}.
  */
@@ -49,11 +54,38 @@ public class OeuvreResource {
         this.typeOeuvreRepository = typeOeuvreRepository;
         this.artisteService = artisteService;
     }
-    @PostMapping("/oeuvres/cool")
-    public void creat(@RequestBody File oeuvreDTO) throws Exception {
-        log.debug("REST request to save Oeuvre : {}", oeuvreDTO);
+    @PostMapping("/oeuvres")
+    public ResponseEntity<OeuvreDTO> createOeuvre(@RequestParam("oeuvreDTO") String oeuvreDTOJSON,@RequestParam("dateSortie") String dateSortie, @RequestParam("file")MultipartFile multipartFile) throws Exception {
 
-        oeuvreService.readMedia(oeuvreDTO);
+        Gson gson = new Gson();
+        OeuvreDTO oeuvreDTO = gson.fromJson(oeuvreDTOJSON,OeuvreDTO.class);
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        String[] split = dateSortie.split("\"");
+        oeuvreDTO.setDateSortie(dateFormat.parse(split[1]).toInstant());
+
+        if (oeuvreDTO.getId() != null) {
+            throw new BadRequestAlertException("A new oeuvre cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        oeuvreDTO.setFileUrl("assets/"+multipartFile.getOriginalFilename());
+        String s[] = multipartFile.getOriginalFilename().split("\\.");
+        oeuvreDTO.setFileName(s[0]);
+        oeuvreDTO.setFileExtension(s[1]);
+        if (oeuvreDTO.getFileExtension().equals("mp4") || oeuvreDTO.getFileExtension().equals("avi") ||
+        oeuvreDTO.getFileExtension().equals("mkv") || oeuvreDTO.getFileExtension().equals("mgpeg")){
+            oeuvreDTO.setTypeFichier(TypeFichier.VIDEO);
+        }    else {
+            oeuvreDTO.setTypeFichier(TypeFichier.AUDIO);
+        }
+        OeuvreDTO result = oeuvreService.save(oeuvreDTO);
+        File file = new File("/home/abdoul/Documents/OpenCulture/open-culture-front/src/assets/"+multipartFile.getOriginalFilename());
+        try (OutputStream os = new FileOutputStream(file)) {
+            os.write(multipartFile.getBytes());
+        }
+
+        return ResponseEntity.created(new URI("/api/oeuvres/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            .body(result);
 
     }
     /**
@@ -62,31 +94,31 @@ public class OeuvreResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new oeuvreDTO, or with status {@code 400 (Bad Request)} if the oeuvre has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/oeuvres")
-    public ResponseEntity<OeuvreDTO> createOeuvre(@RequestBody OeuvreDTO oeuvreDTO) throws Exception {
-//    public ResponseEntity<OeuvreDTO> createOeuvre() throws Exception {
-//        ArtisteDTO artisteDTO = artisteService.findOne((long) 1).get();
-//        OeuvreDTO oeuvreDTO = new OeuvreDTO();
-//        oeuvreDTO.setArtisteId((long) 1);
-//        oeuvreDTO.setDateSortie(Instant.now());
-//        oeuvreDTO.setRegroupementId((long) 1);
-//        oeuvreDTO.setTypeOeuvreId((long) 1);
-//        oeuvreDTO.setTitre("test_1");
-//        oeuvreDTO.setPathFile("/home/abdoul/Vidéos/Amzy.mp3");
-//        List<ArtisteDTO> artisteDTOList = new ArrayList<>();
-//        artisteDTOList.add(artisteDTO);
-//        oeuvreDTO.setArtistes(artisteDTOList);
-        log.debug("REST request to save Oeuvre : {}", oeuvreDTO);
-
-
-        if (oeuvreDTO.getId() != null) {
-            throw new BadRequestAlertException("A new oeuvre cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        OeuvreDTO result = oeuvreService.save(oeuvreDTO);
-        return ResponseEntity.created(new URI("/api/oeuvres/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
-    }
+//    @PostMapping("/oeuvres")
+//    public ResponseEntity<OeuvreDTO> createOeuvre(@RequestBody OeuvreDTO oeuvreDTO) throws Exception {
+////    public ResponseEntity<OeuvreDTO> createOeuvre() throws Exception {
+////        ArtisteDTO artisteDTO = artisteService.findOne((long) 1).get();
+////        OeuvreDTO oeuvreDTO = new OeuvreDTO();
+////        oeuvreDTO.setArtisteId((long) 1);
+////        oeuvreDTO.setDateSortie(Instant.now());
+////        oeuvreDTO.setRegroupementId((long) 1);
+////        oeuvreDTO.setTypeOeuvreId((long) 1);
+////        oeuvreDTO.setTitre("test_1");
+////        oeuvreDTO.setPathFile("/home/abdoul/Vidéos/Amzy.mp3");
+////        List<ArtisteDTO> artisteDTOList = new ArrayList<>();
+////        artisteDTOList.add(artisteDTO);
+////        oeuvreDTO.setArtistes(artisteDTOList);
+//        log.debug("REST request to save Oeuvre : {}", oeuvreDTO.getDateSortie());
+//
+//
+//        if (oeuvreDTO.getId() != null) {
+//            throw new BadRequestAlertException("A new oeuvre cannot already have an ID", ENTITY_NAME, "idexists");
+//        }
+//        OeuvreDTO result = oeuvreService.save(oeuvreDTO);
+//        return ResponseEntity.created(new URI("/api/oeuvres/" + result.getId()))
+//            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+//            .body(result);
+//    }
 
     /**
      * {@code PUT  /oeuvres} : Updates an existing oeuvre.

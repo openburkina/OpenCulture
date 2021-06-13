@@ -102,19 +102,19 @@ public class OeuvreService {
         log.debug("Request to save Oeuvre : {}", oeuvreDTO);
 
         List<ArtisteOeuvreDTO> artisteOeuvres = new ArrayList<>();
+        TypeOeuvreDTO typeOeuvreDTO = typeOeuvreService.findOne(oeuvreDTO.getTypeOeuvreId()).get();
 
         if(oeuvreDTO.getId() != null){
-            oeuvreDTO.setRegroupementDTO(regroupementService.findOne(oeuvreDTO.getRegroupementId()).get());
-            TypeOeuvreDTO typeOeuvreDTO = typeOeuvreService.findOne(oeuvreDTO.getTypeOeuvreId()).get();
+          if (findOne(oeuvreDTO.getId()).getTypeOeuvreDTO().getId() != typeOeuvreDTO.getId());
+                typeOeuvreDTO.setNbOeuvre(typeOeuvreDTO.getNbOeuvre()-1);
+        } else {
             typeOeuvreDTO.setNbOeuvre(typeOeuvreDTO.getNbOeuvre()+1);
-            oeuvreDTO.setTypeOeuvreDTO(typeOeuvreService.save(typeOeuvreDTO));
         }
 
-         File file = new File("src/main/resources/oeuvres/"+oeuvreDTO.getFile().getName());
+        oeuvreDTO.setRegroupementDTO(regroupementService.findOne(oeuvreDTO.getRegroupementId()).get());
+        oeuvreDTO.setTypeOeuvreDTO(typeOeuvreService.save(typeOeuvreDTO));
+       //  File file = new File("src/main/resources/oeuvres/"+oeuvreDTO.getFile().getName());
        //  FileUtils.copyFile(oeuvreDTO.getFile(),file);
-         String s[] = file.getName().split("\\.");
-         oeuvreDTO.setFileName(s[0]);
-         oeuvreDTO.setFileExtension(s[1]);
 
         if (validedOeuvre(oeuvreDTO)) {
             if (oeuvreDTO.getArtistes() != null) {
