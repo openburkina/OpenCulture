@@ -54,10 +54,10 @@ spring:
     port: 2525
     username: feb9e177b8d036
     password: 54752070d053a0
-#    host: smtp.gmail.com
-#    port: 587
-#    username: narcissee1998@gmail.com
-#    password: Mc ma_man&
+  #    host: smtp.gmail.com
+  #    port: 587
+  #    username: narcissee1998@gmail.com
+  #    password: Mc ma_man&
 
   messages:
     cache-duration: PT1S # 1 second, see the ISO 8601 standard
@@ -120,3 +120,7 @@ jhipster:
 # ===================================================================
 
 # application:
+http:
+  multipart:
+    max-file-size: 512MB
+    max-request-size: 512MB

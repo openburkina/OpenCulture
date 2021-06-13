@@ -129,18 +129,52 @@ public class OeuvreResource {
      * or with status {@code 500 (Internal Server Error)} if the oeuvreDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+//    @PutMapping("/oeuvres")
+//    public ResponseEntity<OeuvreDTO> updateOeuvre(@RequestBody OeuvreDTO oeuvreDTO) throws Exception {
+//        log.debug("REST request to update Oeuvre : {}", oeuvreDTO);
+//        if (oeuvreDTO.getId() == null) {
+//            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+//        }
+//        OeuvreDTO result = oeuvreService.save(oeuvreDTO);
+//        return ResponseEntity.ok()
+//            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, oeuvreDTO.getId().toString()))
+//            .body(result);
+//    }
+
     @PutMapping("/oeuvres")
-    public ResponseEntity<OeuvreDTO> updateOeuvre(@RequestBody OeuvreDTO oeuvreDTO) throws Exception {
-        log.debug("REST request to update Oeuvre : {}", oeuvreDTO);
+    public ResponseEntity<OeuvreDTO> updateOeuvre(@RequestParam("oeuvreDTO") String oeuvreDTOJSON,@RequestParam("dateSortie") String dateSortie, @RequestParam("file")MultipartFile multipartFile) throws Exception {
+
+        Gson gson = new Gson();
+        OeuvreDTO oeuvreDTO = gson.fromJson(oeuvreDTOJSON,OeuvreDTO.class);
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        String[] split = dateSortie.split("\"");
+        oeuvreDTO.setDateSortie(dateFormat.parse(split[1]).toInstant());
+
         if (oeuvreDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BadRequestAlertException("A new oeuvre cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        oeuvreDTO.setFileUrl("assets/"+multipartFile.getOriginalFilename());
+        String s[] = multipartFile.getOriginalFilename().split("\\.");
+        oeuvreDTO.setFileName(s[0]);
+        oeuvreDTO.setFileExtension(s[1]);
+        if (oeuvreDTO.getFileExtension().equals("mp4") || oeuvreDTO.getFileExtension().equals("avi") ||
+            oeuvreDTO.getFileExtension().equals("mkv") || oeuvreDTO.getFileExtension().equals("mgpeg")){
+            oeuvreDTO.setTypeFichier(TypeFichier.VIDEO);
+        }    else {
+            oeuvreDTO.setTypeFichier(TypeFichier.AUDIO);
         }
         OeuvreDTO result = oeuvreService.save(oeuvreDTO);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, oeuvreDTO.getId().toString()))
-            .body(result);
-    }
+        File file = new File("/home/abdoul/Documents/OpenCulture/open-culture-front/src/assets/"+multipartFile.getOriginalFilename());
+        try (OutputStream os = new FileOutputStream(file)) {
+            os.write(multipartFile.getBytes());
+        }
 
+        return ResponseEntity.created(new URI("/api/oeuvres/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            .body(result);
+
+    }
     /**
      * {@code GET  /oeuvres} : get all the oeuvres.
      *
