@@ -45,14 +45,14 @@
                         <h3 class="title">Menu</h3>
                         <div class="services-bar-categories">
                             <ul>
-                                <li>
+                                <li  (click)="itemChange()">
                                     <i class="flaticon-sort"></i>
-                                    <a (click)="itemChange()">Entités</a>
+                                    <a>Entités</a>
                                 </li>
-                                <li *ngIf="menuItem" class="cool"><a href="/entity-blog">Oeuvres </a></li>
-                                <li *ngIf="menuItem" class="cool"><a href="/artistes">Artistes </a></li>
-                                <li *ngIf="menuItem" class="cool"><a href="/regroupements">Regroupements </a></li>
-                                <li *ngIf="menuItem" class="cool"><a href="/type-oeuvres">Type d'oeuvre </a></li>
+                                <li routerLink="/entity-blog" *ngIf="menuItem" class="cool"><a>Oeuvres </a></li>
+                                <li routerLink="/artistes" *ngIf="menuItem" class="cool"><a>Artistes </a></li>
+                                <li routerLink="/regroupements" *ngIf="menuItem" class="cool"><a>Regroupements </a></li>
+                                <li routerLink="/type-oeuvres" *ngIf="menuItem" class="cool"><a>Type d'oeuvre </a></li>
                                 <li>
                                     <i class="flaticon-balance"></i>
                                     <a href="#">Comptes visiteurs</a>
