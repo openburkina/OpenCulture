@@ -21,11 +21,7 @@ export class UserRouteAccessGuard implements CanActivate {
         if (!this.authJWT.isTokenExpired()) {
             return true;
         }
-        this.openSignin();
+        this.authJWT.logout();
         return false;
-    }
-
-    openSignin(): void {
-        const currentModal = this.modal.open(SignInComponent, {container: 'body', size: 'lg', centered: true});
     }
 }
