@@ -65,7 +65,8 @@ import {VgCoreModule} from '@videogular/ngx-videogular/core';
 import {VgControlsModule} from '@videogular/ngx-videogular/controls';
 import {VgOverlayPlayModule} from '@videogular/ngx-videogular/overlay-play';
 import {VgBufferingModule} from '@videogular/ngx-videogular/buffering';
-import { MenuItemComponent } from './components/common/menu-item/menu-item.component';
+import {MenuItemComponent} from './components/common/menu-item/menu-item.component';
+import {ChangeGestionPasswordComponent} from './components/pages/change-gestion-password/change-gestion-password.component';
 const notifierDefaultOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -159,7 +160,8 @@ const notifierDefaultOptions: NotifierOptions = {
     DetailAbonnementComponent,
     OeuvreBlogDetailsComponent,
     ActivationComponent,
-    MenuItemComponent
+    MenuItemComponent,
+    ChangeGestionPasswordComponent
   ],
     imports: [
         BrowserModule,

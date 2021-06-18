@@ -45,6 +45,7 @@ public class UserService {
     private final CacheManager cacheManager;
 
     private final MailService mailService;
+    private User newUser;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager, MailService mailService) {
         this.userRepository = userRepository;
@@ -254,7 +255,7 @@ public class UserService {
 
 
     @Transactional
-    public void changePassword(String currentClearTextPassword, String newPassword) {
+    public User changePassword(String currentClearTextPassword, String newPassword) {
         SecurityUtils.getCurrentUserLogin()
             .flatMap(userRepository::findOneByLogin)
             .ifPresent(user -> {
@@ -264,9 +265,11 @@ public class UserService {
                 }
                 String encryptedPassword = passwordEncoder.encode(newPassword);
                 user.setPassword(encryptedPassword);
+                newUser = user;
                 this.clearUserCaches(user);
                 log.debug("Changed password for User: {}", user);
             });
+        return newUser;
     }
 
     @Transactional
@@ -294,7 +297,7 @@ public class UserService {
             throw new BadRequestAlertException("Votre Email est incorrect","","");
         }
         if (user.isPresent()){
-            mailService.sendEmail(user.get().getLogin(),"Creation de compte sur OpenBurkina"," <!DOCTYPE html>\n" +
+            mailService.sendEmail(user.get().getLogin(),"Création de compte sur OpenBurkina"," <!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
                 "    <head>\n" +
                 "        <title>activation du compte sur  openculture</title>\n" +

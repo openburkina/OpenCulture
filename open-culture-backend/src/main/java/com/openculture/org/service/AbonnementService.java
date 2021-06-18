@@ -115,10 +115,11 @@ public class AbonnementService {
     public AbonnementDTO findByUserId(Long id) {
         Optional<Abonnement> abonnement;
         log.debug("Request to get Abonnement : {}", id);
-        System.out.println("-------USER ID------ "+id);
         abonnement = abonnementRepository.findByUserIdAndStatutIsTrue(id);
-        System.out.println("-------ABONNEMENT------ "+abonnement);
-        return abonnementMapper.toDto(abonnement.get());
+        if (abonnement.isPresent()){
+            return abonnementMapper.toDto(abonnement.get());
+        }
+        return null;
     }
 
     @Transactional

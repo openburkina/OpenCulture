@@ -40,20 +40,20 @@
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-12 pt-20">
+            <div class="col-lg-4 col-md-12 pt-45">
                 <div class="services-side-bar">
                     <div class="services-bar-widget">
                         <h3 class="title">Menu</h3>
                         <div class="services-bar-categories">
                             <ul>
-                                <li>
+                                <li  (click)="itemChange()">
                                     <i class="flaticon-sort"></i>
-                                    <a (click)="itemChange()">Entités</a>
+                                    <a>Entités</a>
                                 </li>
-                                <li *ngIf="menuItem" class="cool"><a href="/entity-blog">Oeuvres </a></li>
-                                <li *ngIf="menuItem" class="cool"><a href="/artistes">Artistes </a></li>
-                                <li *ngIf="menuItem" class="cool"><a href="/regroupements">Regroupements </a></li>
-                                <li *ngIf="menuItem" class="cool"><a href="/type-oeuvres">Type d'oeuvre </a></li>
+                                <li routerLink="/entity-blog" *ngIf="menuItem" class="cool"><a>Oeuvres </a></li>
+                                <li routerLink="/artistes" *ngIf="menuItem" class="cool"><a>Artistes </a></li>
+                                <li routerLink="/regroupements" *ngIf="menuItem" class="cool"><a>Regroupements </a></li>
+                                <li routerLink="/type-oeuvres" *ngIf="menuItem" class="cool"><a>Type d'oeuvre </a></li>
                                 <li>
                                     <i class="flaticon-balance"></i>
                                     <a href="#">Comptes visiteurs</a>
@@ -66,9 +66,9 @@
                                     <i class="flaticon-people"></i>
                                     <a href="#">Mon profile </a>
                                 </li>
-                                <li>
+                                <li (click)="login()">
                                     <i class="flaticon-briefcase-1"></i>
-                                    <a href="#">Mot de passe </a>
+                                    <a>Mot de passe </a>
                                 </li>
                             </ul>
                         </div>

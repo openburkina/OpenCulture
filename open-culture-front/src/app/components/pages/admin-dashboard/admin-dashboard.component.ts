@@ -6,6 +6,10 @@ import { TypeOeuvreDTO } from '../../models/type-oeuvre.model';
 import { Images } from '../../constant/constant';
 import {VgApiService} from '@videogular/ngx-videogular/core';
 import {Router} from '@angular/router';
+import {SignInComponent} from "../sign-in/sign-in.component";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {LocalStorageService, SessionStorageService} from "ngx-webstorage";
+import {ChangeGestionPasswordComponent} from "../change-gestion-password/change-gestion-password.component";
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -24,7 +28,10 @@ export class AdminDashboardComponent implements OnInit {
   constructor(
     private oeuvreService: OeuvreService,
     private typeOeuvreService: TypeOeuvreService,
-    private route: Router
+    private route: Router,
+    private modal: NgbModal,
+    private $localStorage: LocalStorageService,
+    private $sessionStorage: SessionStorageService,
   ) {
     this.categorie = "Films";
    }
@@ -83,4 +90,8 @@ export class AdminDashboardComponent implements OnInit {
   musiques(){}
   litteratures(){}
   arts(){}
+
+    login() {
+        this.modal.open(ChangeGestionPasswordComponent, {container: 'body', size: 'lg', backdrop:'static', centered: true});
+    }
 }

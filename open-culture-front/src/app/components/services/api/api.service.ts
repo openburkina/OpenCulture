@@ -5,6 +5,7 @@ import {environment} from '../../../../environments/environment';
 import {Observable} from 'rxjs';
 import {LoginVM} from "../../models/login-vm";
 import {Abonnement} from "../../models/abonnement";
+import {Password} from "../../models/Password";
 
 @Injectable({
     providedIn: 'root',
@@ -17,6 +18,10 @@ export class ApiService {
 
     doInscriptionUser(user: User): Observable<HttpResponse<User>> {
         return this.http.post<User>(`${environment.apiUrl}register`, user, {observe: 'response'});
+    }
+
+    doChangePassword(password: Password): Observable<HttpResponse<User>> {
+        return this.http.post<User>(`${environment.apiUrl}account/change-password`, password, {observe: 'response'});
     }
 
     doAbonnement(abonnement: Abonnement): Observable<HttpResponse<Abonnement>> {

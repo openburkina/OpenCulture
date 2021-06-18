@@ -14,6 +14,18 @@ export class RoleGuard implements CanActivate {
         private router: Router,
     ) { }
     canActivate(): boolean {
-        return this.resp =  this.authJWT.isAuthorities().some(value => value ==='ROLE_ADMIN');
+        if (this.authJWT.isAuthorities().length>0) {
+            this.resp =  this.authJWT.isAuthorities().some(value => value ==='ROLE_ADMIN');
+            if (this.resp) {
+                return true
+            }else {
+                this.authJWT.logout();
+                return false;
+            }
+        }else {
+            this.authJWT.logout();
+            return false;
+        }
+
     }
 }
