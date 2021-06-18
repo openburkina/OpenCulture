@@ -43,7 +43,7 @@ import { AbonnementComponent } from './components/pages/abonnement/abonnement.co
 import { OeuvreEditComponent } from './components/pages/oeuvre/oeuvre-edit.component';
 import { NotifierModule, NotifierOptions } from "angular-notifier";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbDatepickerModule, NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
 import { RegroupementComponent } from './components/pages/regroupement/regroupement.component';
 import { TypeOeuvreComponent } from './components/pages/type-oeuvre/type-oeuvre.component';
 import { ArtisteComponent } from './components/pages/artiste/artiste.component';
@@ -65,6 +65,7 @@ import {VgCoreModule} from '@videogular/ngx-videogular/core';
 import {VgControlsModule} from '@videogular/ngx-videogular/controls';
 import {VgOverlayPlayModule} from '@videogular/ngx-videogular/overlay-play';
 import {VgBufferingModule} from '@videogular/ngx-videogular/buffering';
+import { MenuItemComponent } from './components/common/menu-item/menu-item.component';
 const notifierDefaultOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -157,7 +158,8 @@ const notifierDefaultOptions: NotifierOptions = {
     AdminDashboardComponent,
     DetailAbonnementComponent,
     OeuvreBlogDetailsComponent,
-    ActivationComponent
+    ActivationComponent,
+    MenuItemComponent
   ],
     imports: [
         BrowserModule,
@@ -174,7 +176,8 @@ const notifierDefaultOptions: NotifierOptions = {
         VgCoreModule,
         VgControlsModule,
         VgOverlayPlayModule,
-        VgBufferingModule
+        VgBufferingModule,
+        NgbPaginationModule
     ],
   providers: [
       {

@@ -1,5 +1,17 @@
 <!-- Blog Area Two -->
 <div class="blog-area-two pt-100 pb-70">
+    <app-menu-item></app-menu-item>
+
+    <div class="col-lg-7 col-md-7 mx-auto">
+        <div class="side-bar-wrap">
+            <div class="search-widget">
+                <form class="search-form">
+                    <input type="search" class="form-control" placeholder="Recherche...">
+                    <button type="submit"><i class="bx bx-search"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="container mx-auto">
         <div class="row">
             <div class="col-lg-10 col-md-10">
@@ -25,8 +37,8 @@
                                 <h3><a routerLink="/oeuvre-blog-details">{{item.titre}}</a></h3>
                                 <span>{{item.nomArtiste}}</span>
                                 <ul>
-                                    <li><span>20</span> COMMENTS /</li>
-                                    <li><span>28</span> VIEWS</li>
+                                    <li><span>20</span> COMMENTAIRES /</li>
+                                    <li><span>28</span> VUES</li>
                                 </ul>
                             </div>
                             </a>
@@ -36,12 +48,12 @@
             </div>
             <div class="col-lg-2 col-md-2">
                 <div class="side-bar-wrap">
-                    <div class="search-widget">
-                        <form class="search-form">
-                            <input type="search" class="form-control" placeholder="Search...">
-                            <button type="submit"><i class="bx bx-search"></i></button>
-                        </form>
-                    </div>
+<!--                    <div class="search-widget">-->
+<!--                        <form class="search-form">-->
+<!--                            <input type="search" class="form-control" placeholder="Recherche...">-->
+<!--                            <button type="submit"><i class="bx bx-search"></i></button>-->
+<!--                        </form>-->
+<!--                    </div>-->
                     <div>
                         <button id="toCreate" class="top-btn-create btn" (click)="toCreate()">
                             <i class="bx bx-plus"></i>
@@ -62,7 +74,7 @@
                     </div>
 
                     <div class="side-bar-widget">
-                        <h3 class="title">Récents postes</h3>
+                        <h3 class="title">Récentes oeuvres</h3>
 
                         <div class="widget-popular-post" *ngFor="let oeuvre of oeuvres">
                             <article class="item">

@@ -1,5 +1,7 @@
 <div class="text-justify-content pt-100">
+    <app-menu-item></app-menu-item>
     <div class="col-lg-10 col-sm-10 mx-auto">
+        <h3 class="text-center title">Liste des regroupements</h3>
         <div class="table-responsive ml-md-5" *ngIf="regs?.length > 0">
             <table class="table table-striped mt-4" aria-describedby="page-heading">
                 <thead class="bg-warning-1">
@@ -11,7 +13,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let reg of regs ;trackBy: trackId">
+                <tr *ngFor="let reg of regs | slice: (page-1) * itemsPerPage : (page-1) * itemsPerPage + itemsPerPage">
                     <td>{{reg.id}}</td>
                     <td>{{reg.type}}</td>
                     <td>{{reg.intitule}}</td>
@@ -24,6 +26,11 @@
                 </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [ellipses]="false"
+                            [boundaryLinks]="true">
+            </ngb-pagination>
         </div>
         <div>
             <button id="toCreate" class="top-btn-create btn" (click)="create()">

@@ -67,5 +67,19 @@ export class OeuvreComponent implements OnInit {
   delete(oeuvre: OeuvreDTO): void{
     const modal = this.ngModalService.open(OeuvreDeleteComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
     modal.componentInstance.oeuvre = oeuvre;
+      modal.result.then(
+          response => {
+              console.log("modal result");
+              console.log(response);
+              if (response === true) {
+                  this.loadAll();
+              }
+          }
+      ).catch(
+          data => {
+              console.log(data);
+          }
+      );
+
   }
 }

@@ -14,6 +14,9 @@ import {RegroupementEditComponent} from '../regroupement/regroupement-edit.compo
 export class TypeOeuvreComponent implements OnInit {
 
   typeOeuvres: TypeOeuvreDTO[];
+    itemsPerPage: number = 10;
+    totalItems: number;
+    page: number = 1;
   constructor(
     private typeService: TypeOeuvreService,
     private modalService: NgbModal
@@ -27,6 +30,7 @@ export class TypeOeuvreComponent implements OnInit {
     this.typeService.findAll(null).subscribe(
       response => {
           this.typeOeuvres = response.body;
+          this.totalItems = this.typeOeuvres.length;
       }
     );
   }

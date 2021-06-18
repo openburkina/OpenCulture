@@ -33,13 +33,16 @@ reg: RegroupementDTO;
   confirmDelete(id: number) {
     this.regService.delete(id).subscribe(
       () => {
-        this.activeModal.dismiss(true);
-        this.showNotification("Suppression réussie","success")
+        this.showNotification("Suppression réussie","success");
+        this.cancel(true);
       },
       () => {
         this.showNotification("Certaines oeuvres sont liées à ce regroupement","error")
-      }  
+      }
     );
   }
+    cancel(boolean: boolean): void{
+        this.activeModal.close(boolean);
+    }
 
 }

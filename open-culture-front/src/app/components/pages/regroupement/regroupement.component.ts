@@ -14,6 +14,9 @@ import {ArtisteEditComponent} from '../artiste/artiste-edit.component';
 export class RegroupementComponent implements OnInit {
 
   regs: RegroupementDTO[];
+  itemsPerPage: number = 3;
+  totalItems: number;
+  page: number = 1;
   constructor(
     private regService: RegroupementService,
     private modalService: NgbModal
@@ -27,6 +30,7 @@ export class RegroupementComponent implements OnInit {
     this.regService.findAll(null).subscribe(
       response => {
           this.regs = response.body;
+          this.totalItems = this.regs.length;
       }
     );
   }

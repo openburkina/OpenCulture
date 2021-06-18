@@ -13,7 +13,7 @@ import { NotifierService } from 'angular-notifier';
 export class TypeOeuvreDeleteComponent implements OnInit {
 typeOeuvre: TypeOeuvreDTO;
 
-  constructor( 
+  constructor(
     private activeModal: NgbActiveModal,
     private notify: NotifierService,
     private typeOeuvreService: TypeOeuvreService) {
@@ -32,12 +32,16 @@ typeOeuvre: TypeOeuvreDTO;
  confirmDelete(id: number) {
    this.typeOeuvreService.delete(id).subscribe(
     () => {
-      this.activeModal.dismiss(true);
-      this.showNotification("Suppression réussie","success")
+      this.showNotification("Suppression réussie","success");
+      this.cancel(true);
+
     },
     () => {
       this.showNotification("Certaines oeuvres sont liées à ce type d'oeuvres","error")
     });
  }
+    cancel(boolean: boolean): void{
+        this.activeModal.close(boolean);
+    }
 
 }

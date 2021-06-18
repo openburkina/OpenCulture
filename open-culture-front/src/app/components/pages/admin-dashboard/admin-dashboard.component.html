@@ -1,9 +1,10 @@
 <!-- Services Details -->
 <app-navbar></app-navbar>
 <div class="services-details pt-100 pb-70">
+    <app-menu-item></app-menu-item>
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-md-12">
+            <div class="col-lg-8 col-md-8">
                 <div class="services-details-content pb-20" *ngFor="let item of oeuvre">
                     <vg-player (onPlayerReady)="onPlayerReady($event)">
                         <vg-overlay-play></vg-overlay-play>
@@ -77,7 +78,7 @@
         </div>
         <div class="row justify-content-center">
             <div class="side-bar-widget col-md-5 mr-5">
-                <h3 class="title">Mes récents postes</h3>
+                <h3 class="title">Mes récentes oeuvres</h3>
 
                 <div class="widget-popular-post" *ngFor="let oeuvre of oeuvres">
                     <article class="item">

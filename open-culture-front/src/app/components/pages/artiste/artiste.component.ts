@@ -12,7 +12,9 @@ import { ArtisteDeleteComponent } from './artiste-delete.component';
 })
 export class ArtisteComponent implements OnInit {
   arts: ArtisteDTO[];
-
+    itemsPerPage: number = 10;
+    totalItems: number;
+    page: number = 1;
   constructor(
     private artService: ArtisteService,
     private modalService: NgbModal
@@ -26,6 +28,7 @@ export class ArtisteComponent implements OnInit {
     this.artService.findAll(null).subscribe(
       response => {
           this.arts = response.body;
+          this.totalItems = this.arts.length;
       }
     );
   }
