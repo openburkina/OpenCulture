@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <!--
+        Added the constraints for entity Regroupement.
+    -->
+    <changeSet id="202121060432-2" author="sapiens">
+
+       <addForeignKeyConstraint baseColumnNames="type_regroupement_id"
+                                 baseTableName="regroupement"
+                                 constraintName="fk_regroupement_type_regroupement_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="type_regroupement"/>
+
+    </changeSet>
+</databaseChangeLog>

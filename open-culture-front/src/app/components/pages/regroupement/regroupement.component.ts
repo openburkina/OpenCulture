@@ -14,7 +14,7 @@ import {ArtisteEditComponent} from '../artiste/artiste-edit.component';
 export class RegroupementComponent implements OnInit {
 
   regs: RegroupementDTO[];
-  itemsPerPage: number = 3;
+  itemsPerPage: number = 10;
   totalItems: number;
   page: number = 1;
   constructor(

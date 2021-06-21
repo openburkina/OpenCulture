@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 import { NotifierService } from 'angular-notifier';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
+import {TypeRegroupementService} from '../type-regroupement/type-regroupement.service';
+import {TypeRegroupementDTO} from '../../models/type-regroupement.model';
 
 type EntityReg = HttpResponse<RegroupementDTO>;
 
@@ -17,15 +19,17 @@ type EntityReg = HttpResponse<RegroupementDTO>;
 })
 export class RegroupementEditComponent implements OnInit {
 reg = new RegroupementDTO();
+typeRegroupements: TypeRegroupementDTO[];
   regForm = this.formBuilder.group({
     id: [],
-    type: [],
+    typeRegroupementId: [],
     intitule: []
   })
 
   constructor(
     private formBuilder: FormBuilder,
     private regService: RegroupementService,
+    private typeRegService: TypeRegroupementService,
     private notify: NotifierService,
     private ngModal: NgbActiveModal,
     private activatedRoute: ActivatedRoute
@@ -38,13 +42,18 @@ reg = new RegroupementDTO();
         this.update(this.reg);
       }
     });
+      this.typeRegService.findAll("").subscribe(
+          resp => {
+              this.typeRegroupements = resp.body;
+          }
+      );
   }
 
   create(): RegroupementDTO{
     let reg = new RegroupementDTO();
 
     reg.id = this.regForm.get(['id']).value;
-    reg.type = this.regForm.get(['type']).value;
+    reg.typeRegroupementId = this.regForm.get(['typeRegroupementId']).value;
     reg.intitule = this.regForm.get(['intitule']).value;
 
     return reg;
@@ -52,7 +61,7 @@ reg = new RegroupementDTO();
   update(reg: RegroupementDTO): void{
     this.regForm.patchValue({
       id: reg.id,
-      type: reg.type,
+      typeRegroupementId: reg.typeRegroupementDTO.id,
       intitule: reg.intitule
     })
   }
@@ -60,7 +69,7 @@ reg = new RegroupementDTO();
   save(){
     const reg = this.create();
     console.log(reg.id);
-    if(reg.intitule !== null && reg.type !== null){
+    if(reg.intitule !== null && reg.typeRegroupementDTO !== null){
       if(reg.id !== undefined && reg.id !== null){
         this.saveState(this.regService.update(reg));
       } else {
@@ -70,7 +79,7 @@ reg = new RegroupementDTO();
       this.showNotification("regroupement echoue","error");
     }
   }
-  
+
   saveState(result: Observable<EntityReg>){
     result.subscribe(
       () => {
@@ -85,9 +94,13 @@ reg = new RegroupementDTO();
 
   showNotification(text: string, type: string): void {
     this.notify.notify(type,text);
-  } 
+  }
 
-  cancel(boolean: boolean): void{  
+  cancel(boolean: boolean): void{
     this.ngModal.close(boolean);
   }
+
+    trackTypeRegroupementById(index: number, item: RegroupementDTO) {
+        return item.id;
+    }
 }

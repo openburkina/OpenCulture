@@ -37,6 +37,7 @@ import { OeuvreBlogDetailsComponent } from './components/pages/oeuvre-blog-detai
 import {UserRouteAccessGuard} from "./components/services/routes/user-route-access.guard";
 import {RoleGuard} from "./components/services/routes/role.guard";
 import {AbonnementComponent} from "./components/pages/abonnement/abonnement.component";
+import {TypeRegroupementComponent} from './components/pages/type-regroupement/type-regroupement.component';
 
 const routes: Routes = [
     {path: 'entity-blog', component: OeuvreBlogComponent,canActivate: [UserRouteAccessGuard]},
@@ -46,6 +47,7 @@ const routes: Routes = [
     {path: 'login', component: SignInComponent},
     {path: '', component: HomeOneComponent},
     {path: 'type-oeuvres', component: TypeOeuvreComponent,canActivate: [UserRouteAccessGuard,RoleGuard]},
+    {path: 'type-regroupements', component: TypeRegroupementComponent,canActivate: [UserRouteAccessGuard,RoleGuard]},
     {path: 'oeuvres', component: OeuvreAfficheComponent,canActivate: [UserRouteAccessGuard,RoleGuard]},
     {path: 'oeuvres-client', component: OeuvreComponent,canActivate: [UserRouteAccessGuard,RoleGuard]},
     {path: 'regroupements', component: RegroupementComponent,canActivate: [UserRouteAccessGuard,RoleGuard]},

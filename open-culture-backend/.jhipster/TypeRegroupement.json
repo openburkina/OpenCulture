@@ -1,0 +1,29 @@
+{
+  "name": "TypeRegroupement",
+  "fields": [
+    {
+      "fieldName": "intitule",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "regroupements",
+      "otherEntityRelationshipName": "typeRegroupement",
+      "relationshipName": "regroupements",
+      "ownerSide": false
+    }
+  ],
+  "changelogDate": "20210314183229",
+  "entityTableName": "type_regroupement",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

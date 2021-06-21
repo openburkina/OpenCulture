@@ -39,7 +39,7 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:postgresql://localhost:5432/openculture
     username: postgres
-    password: admin
+    password: Abdoul
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -119,8 +119,8 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
-http:
-  multipart:
-    max-file-size: 512MB
-    max-request-size: 512MB
+## application:
+#http:
+#  multipart:
+#    max-file-size: 512MB
+#    max-request-size: 512MB

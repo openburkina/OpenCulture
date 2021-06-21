@@ -6,14 +6,15 @@ import java.io.Serializable;
  * A DTO for the {@link com.openculture.org.domain.Regroupement} entity.
  */
 public class RegroupementDTO implements Serializable {
-    
+
     private Long id;
 
-    private String type;
+    private TypeRegroupementDTO typeRegroupementDTO;
+
+    private Long typeRegroupementId;
 
     private String intitule;
 
-    
     public Long getId() {
         return id;
     }
@@ -22,20 +23,28 @@ public class RegroupementDTO implements Serializable {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getIntitule() {
         return intitule;
     }
 
     public void setIntitule(String intitule) {
         this.intitule = intitule;
+    }
+
+    public TypeRegroupementDTO getTypeRegroupementDTO() {
+        return typeRegroupementDTO;
+    }
+
+    public void setTypeRegroupementDTO(TypeRegroupementDTO typeRegroupementDTO) {
+        this.typeRegroupementDTO = typeRegroupementDTO;
+    }
+
+    public Long getTypeRegroupementId() {
+        return typeRegroupementId;
+    }
+
+    public void setTypeRegroupementId(Long typeRegroupementId) {
+        this.typeRegroupementId = typeRegroupementId;
     }
 
     @Override
@@ -60,7 +69,7 @@ public class RegroupementDTO implements Serializable {
     public String toString() {
         return "RegroupementDTO{" +
             "id=" + getId() +
-            ", type='" + getType() + "'" +
+            ", type='" + getTypeRegroupementDTO() + "'" +
             ", intitule='" + getIntitule() + "'" +
             "}";
     }

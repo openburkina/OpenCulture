@@ -67,6 +67,9 @@ import {VgOverlayPlayModule} from '@videogular/ngx-videogular/overlay-play';
 import {VgBufferingModule} from '@videogular/ngx-videogular/buffering';
 import {MenuItemComponent} from './components/common/menu-item/menu-item.component';
 import {ChangeGestionPasswordComponent} from './components/pages/change-gestion-password/change-gestion-password.component';
+import {TypeRegroupementComponent} from './components/pages/type-regroupement/type-regroupement.component';
+import {TypeRegroupementEditComponent} from './components/pages/type-regroupement/type-regroupement-edit.component';
+import {TypeRegroupementDeleteComponent} from './components/pages/type-regroupement/type-regroupement-delete.component';
 const notifierDefaultOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -161,7 +164,10 @@ const notifierDefaultOptions: NotifierOptions = {
     OeuvreBlogDetailsComponent,
     ActivationComponent,
     MenuItemComponent,
-    ChangeGestionPasswordComponent
+    ChangeGestionPasswordComponent,
+    TypeRegroupementComponent,
+    TypeRegroupementEditComponent,
+    TypeRegroupementDeleteComponent
   ],
     imports: [
         BrowserModule,
