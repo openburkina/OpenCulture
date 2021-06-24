@@ -10,7 +10,7 @@ pipeline{
             steps{
                 echo 'build stage'
                 dir('open-culture-backend'){
-                    sh 'mvnw compile'
+                    sh 'mvn compile'
                 }
                 
             }
@@ -20,7 +20,7 @@ pipeline{
             steps{
                 echo 'test stage'
                 dir('open-culture-backend'){
-                    sh 'mvnw clean test'
+                    sh 'mvn clean test'
                 }                
             }
         }
@@ -29,7 +29,7 @@ pipeline{
             steps{
                 echo 'package stage'
                 dir('open-culture-backend'){
-                    sh 'mvnw package -DskipTests'
+                    sh 'mvn package -DskipTests'
                 }
             }
         }
