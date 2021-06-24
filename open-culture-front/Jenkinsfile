@@ -1,0 +1,29 @@
+pipeline{
+    agent any
+
+    tools{
+        maven 'node 16.4.0'
+    }
+
+    stages{
+        stage('build'){
+            steps{
+                echo 'build stage'
+                dir('open-culture-frontend'){
+                    sh 'npm install'
+                }
+                
+            }
+        }
+
+        stage('test'){
+            steps{
+                echo 'test stage'
+                dir('open-culture-frontend'){
+                    sh 'ng test --no-progress --code-coverage'
+                    sh 'ng build --prod'
+                }                
+            }
+        }
+    }
+}
