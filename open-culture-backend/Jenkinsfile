@@ -9,21 +9,28 @@ pipeline{
         stage('build'){
             steps{
                 echo 'build stage'
-                sh 'mvnw compile'
+                dir('open-culture-backend'){
+                    sh 'mvnw compile'
+                }
+                
             }
         }
 
         stage('test'){
             steps{
                 echo 'test stage'
-                sh 'mvnw clean test'
+                dir('open-culture-backend'){
+                    sh 'mvnw clean test'
+                }                
             }
         }
 
         stage('package'){
             steps{
                 echo 'package stage'
-                sh 'mvnw package -DSkipTests'
+                dir('open-culture-backend'){
+                    sh 'mvnw package -DskipTests'
+                }
             }
         }
     }
