@@ -1,0 +1,30 @@
+pipeline{
+    agent any
+
+    tools{
+        maven 'maven 3.6.1'
+    }
+
+    stages{
+        stage('build'){
+            steps{
+                echo 'build stage'
+                sh 'mvnw compile'
+            }
+        }
+
+        stage('test'){
+            steps{
+                echo 'test stage'
+                sh 'mvnw clean test'
+            }
+        }
+
+        stage('package'){
+            steps{
+                echo 'package stage'
+                sh 'mvnw package -DSkipTests'
+            }
+        }
+    }
+}
