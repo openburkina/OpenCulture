@@ -1,0 +1,92 @@
+<!-- Apply Area -->
+<div class="apply-area">
+    <div class="float-right">
+        <button class="default-btn m-3" (click)="onDismiss(false)">Fermer</button>
+    </div>
+    <div class="container pt-100 pb-70">
+        <div class="col-lg-12 col-sm-6">
+            <div class="alert alert-danger text-center font-italic font-weight-bold text-danger"
+                 *ngIf="errorMessage !== null">
+                {{ errorMessage }}
+            </div>
+            <div class="alert alert-success text-center font-italic font-weight-bold text-success"
+                 *ngIf="successMessage !== null">
+                {{ successMessage }}
+            </div>
+        </div>
+        <div class="apply-form pt-45">
+            <div class="contact-form">
+                <form id="contactForm">
+                    <div *ngIf=" moyenPaiement==='operateurMobile'" class="row">
+                        <div *ngIf="sendMail===false" class="col-lg-12 col-sm-12">
+                            <div class="col-lg-12 col-sm-12">
+                                <div class="form-group">
+                                    <input type="number" name="phoneNumber" id="phoneNumber" class="form-control" [(ngModel)]="phoneNumber" required placeholder="Entrez votre numéro de téléphone du compte">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 text-center">
+                                <button class="default-btn" (click)="doSenMail()">Valider</button>
+                            </div>
+                        </div>
+
+                        <div *ngIf="sendMail===true" class="col-lg-12 col-sm-12">
+                            <h3>Un code de confirmation a été envoyé sur votre boite mail</h3>
+                            <div class="col-lg-12 col-sm-12">
+                                <div class="form-group">
+                                    <input type="number" name="otp" id="otp" class="form-control" [(ngModel)]="otp" required placeholder="Entrez le code de validation depuis votre boite Email">
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 text-center">
+                                <button class="default-btn" (click)="makePaiement()">Confirmer</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div *ngIf=" moyenPaiement==='carte'" class="row">
+                        <div class="col-lg-6 col-sm-6">
+                            <div class="form-group">
+                                <input type="text" name="name" id="first_name" class="form-control" required placeholder="First Name">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-sm-6">
+                            <div class="form-group">
+                                <input type="text" name="name" id="last_name" class="form-control" required placeholder="Last Name">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-sm-6">
+                            <div class="form-group">
+                                <input type="email" name="email" id="email" class="form-control" required placeholder="Email Address">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-sm-6">
+                            <div class="form-group">
+                                <input type="text" name="phone_number" id="phone_number" required class="form-control" placeholder="Phone">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-sm-6">
+                            <div class="form-group">
+                                <input type="text" name="address" id="address" class="form-control" required placeholder="Address">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-sm-6">
+                            <div class="form-group">
+                                <input type="text" name="msg_subject" id="msg_subject" class="form-control" required placeholder="Your Subject">
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 text-center">
+                            <button type="submit" class="default-btn">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Apply Area End -->

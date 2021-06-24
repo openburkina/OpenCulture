@@ -1,0 +1,33 @@
+ <!-- Apply Area -->
+ <div class="card-header text-center bg-warning-1" *ngIf="typeRegroupement.id === undefined">Enregistrer un type regroupement</div>
+ <div class="card-header text-center bg-warning-1" *ngIf="typeRegroupement.id !== undefined">Modifier un type regroupement</div>
+ <div class="apply-area pt-5 modal-body">
+     <div class="container">
+         <div class="apply-form">
+             <div class="contact-form">
+                 <form id="typeRegroupementForm" name="typeRegroupementForm" role="form" [formGroup]="typeRegroupementForm">
+                     <div class="row">
+                        <div class="col-lg-6 col-sm-6" hidden>
+                            <div class="form-group">
+                                <input type="text" name="id" readonly id="id" class="form-control" formControlName="id" required placeholder="id ">
+                            </div>
+                        </div>
+                         <div class="col-lg-6 col-sm-6 mx-auto">
+                            <div class="form-group">
+                                <input type="text" name="intitule" id="intitule" class="form-control" formControlName="intitule" required placeholder="Intitule ">
+                            </div>
+                        </div>
+                         <div class="col-lg-12 col-md-12">
+                             <div class="form-group float-right">
+                                 <button class="btn btn-danger mr-2" (click)="cancel(false)">Annuler</button>
+                                 <button class="btn btn-warning" (click)="save()">OK</button>
+                             </div>
+                         </div>
+                     </div>
+                 </form>
+             </div>
+         </div>
+     </div>
+ </div>
+
+ <!-- Apply Area End -->

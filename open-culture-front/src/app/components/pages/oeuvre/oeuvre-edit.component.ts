@@ -1,6 +1,6 @@
 import {Component, OnInit, ElementRef, ViewEncapsulation} from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, Validators, RequiredValidator } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { OeuvreDTO } from '../../models/oeuvre.model';
 import { OeuvreService } from './oeuvre.service';
 import { Observable } from 'rxjs';
@@ -27,7 +27,7 @@ type EntityArrayOeuvre = HttpResponse<OeuvreDTO[]>;
     encapsulation: ViewEncapsulation.None
 })
 export class OeuvreEditComponent implements OnInit {
-  oeuvre: OeuvreDTO;
+  oeuvre = new OeuvreDTO();
   oeuvreForm = this.formBuilder.group({
     id: [],
     titre: [],
@@ -38,8 +38,9 @@ export class OeuvreEditComponent implements OnInit {
     fileContent: [],
     fileExtension: [],
     filePath: [],
+    fileUrl: [],
+    file: [],
     artisteSelected: [],
-  //  artisteId: [],
     nomArtiste: []
 
   });
@@ -49,6 +50,7 @@ export class OeuvreEditComponent implements OnInit {
   typeOeuvre: TypeOeuvreDTO[];
   artisteSelected : ArtisteDTO[];
   dropdownSettings : IDropdownSettings;
+  file: File;
 
   constructor(
     private ngModal: NgbActiveModal,
@@ -64,13 +66,17 @@ export class OeuvreEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ oeuvre }) => {
-      this.updateOeuvre(this.oeuvre);
-    });
-    this.artisteSelected = this.oeuvre.artistes;
-    this.oeuvreForm.patchValue(
-        {artisteSelected: this.artisteSelected}
+      if (this.oeuvre.id !== null && this.oeuvre.id !== undefined) {
+        console.log("this.artisteSelected");
+        this.updateOeuvre(this.oeuvre);
+        this.artisteSelected = this.oeuvre.artistes;
+        this.oeuvreForm.patchValue(
+        {
+          artisteSelected: this.artisteSelected
+        }
     )
-    console.log(this.artisteSelected);
+      }
+    });
     this.regService.findAll("album").subscribe(
       resp => {
           this.regroupement = resp.body;
@@ -102,16 +108,15 @@ export class OeuvreEditComponent implements OnInit {
     let oeuvre = new OeuvreDTO();
 
     oeuvre.id = this.oeuvreForm.get(['id']).value;
-    oeuvre.dateSortie = this.oeuvreForm.get(['dateSortie']).value != null ?
-                              moment(this.oeuvreForm.get(['dateSortie']).value, DATE_TIME_FORMAT) : undefined;
+    oeuvre.dateSortie = this.oeuvreForm.get(['dateSortie']).value != null ? moment(this.oeuvreForm.get(['dateSortie']).value) : undefined;
     oeuvre.fileExtension = this.oeuvreForm.get(['fileExtension']).value;
     oeuvre.fileContent = this.oeuvreForm.get(['fileContent']).value;
+    this.file = this.file;
     oeuvre.resume = this.oeuvreForm.get(['resume']).value;
     oeuvre.titre = this.oeuvreForm.get(['titre']).value;
     oeuvre.typeOeuvreId = this.oeuvreForm.get(['typeOeuvreId']).value;
     oeuvre.regroupementId = this.oeuvreForm.get(['regroupementId']).value;
-    oeuvre.artistes = this.artisteSelected;
- //   oeuvre.artisteId = this.oeuvreForm.get(['artisteId']).value;
+    oeuvre.artistes = this.oeuvreForm.get(['artisteSelected']).value;
 
     return oeuvre;
   }
@@ -125,23 +130,21 @@ export class OeuvreEditComponent implements OnInit {
       typeOeuvreId: oeuvre.typeOeuvreDTO.id,
       fileContent: oeuvre.fileContent,
       fileExtension: oeuvre.fileExtension,
+      file: this.file,
       dateSortie: oeuvre.dateSortie != null ? oeuvre.dateSortie.format(DATE_TIME_FORMAT) : null,
+      artisteSelected: this.artisteSelected
    //   artisteId: oeuvre.artisteId,
     })
   }
 
   save(){
     const oeuvre = this.createOeuvre();
-
+    console.log(oeuvre);
     if (this.validateOeuvre(oeuvre)) {
       if(oeuvre.id !== undefined && oeuvre.id !== null){
-        console.log("update");
-        console.log(oeuvre);
-        this.saveState(this.oeuvreService.update(oeuvre));
+        this.saveState(this.oeuvreService.update(oeuvre,this.file));
       } else {
-        console.log("create");
-        console.log(oeuvre);
-        this.saveState(this.oeuvreService.create(oeuvre));
+        this.saveState(this.oeuvreService.create(oeuvre,this.file));
 
       }
     } else {
@@ -151,13 +154,7 @@ export class OeuvreEditComponent implements OnInit {
   }
 
   validateOeuvre(oeuvre: OeuvreDTO): Boolean{
-    console.log(oeuvre.titre);
-    console.log(oeuvre.artisteId);
-    console.log(oeuvre.regroupementId);
-    console.log(oeuvre.dateSortie);
-    // console.log(oeuvre.fileContent);
-    // console.log(oeuvre.fileExtension);
-    if(oeuvre.titre != null &&
+    if(oeuvre.titre.length > 0 &&
      //  oeuvre.fileContent != null &&
      //  oeuvre.fileExtension != null &&
        oeuvre.artistes != null &&
@@ -169,118 +166,14 @@ export class OeuvreEditComponent implements OnInit {
       return false;
   }
 
-  setFileData(event, field: string, isImage) {
-
-    return new Promise((resolve, reject) => {
-    if (event && event.target && event.target.files && event.target.files[0]) {
-      const file: File = event.target.files[0];
-      console.log(file.type);
-      if (isImage && !file.type.startsWith('image/')) {
-        reject(`File was expected to be an image but was found to be ${file.type}`);
-      } else {
-        const filedContentType: string = field + 'ContentType';
-        this.toBase64(file, base64Data => {
-          this.oeuvreForm.patchValue({
-            [field]: base64Data,
-            [filedContentType]: file.type
-
-          });
-        });
-      }
-    } else {
-      reject(`Base64 data was not set as file could not be extracted from passed parameter: ${event}`);
-    }
-  }).then(
-    () => console.log('blob added'), // success
-    this.notify.show
-  );
-}
-
-  clearInputImage(field: string, fieldContentType: string, idInput: string) {
-    this.oeuvreForm.patchValue({
-      [field]: null,
-      [fieldContentType]: null
-    });
-    if (this.elementRef && idInput && this.elementRef.nativeElement.querySelector('#' + idInput)) {
-      this.elementRef.nativeElement.querySelector('#' + idInput).value = null;
-    }
-  }
-
-private size(value: string): number {
-    return (value.length / 4) * 3 - this.paddingSize(value);
-}
-
-private formatAsBytes(size: number): string {
-    return size.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' bytes';
-}
-
-private endsWith(suffix: string, str: string): boolean {
-  return str.includes(suffix, str.length - suffix.length);
-}
-
-private paddingSize(value: string): number {
-  if (this.endsWith('==', value)) {
-      return 2;
-  }
-  if (this.endsWith('=', value)) {
-      return 1;
-  }
-  return 0;
-}
-
-    /**
-     * Method to find the byte size of the string provides
-     */
-  byteSize(base64String: string): string {
-      return this.formatAsBytes(this.size(base64String));
-  }
-
-  /**
-   * Method to open file
-   */
-  openFile(contentType: string, data: string): void {
-      if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-          // To support IE and Edge
-          const byteCharacters = atob(data);
-          const byteNumbers = new Array(byteCharacters.length);
-          for (let i = 0; i < byteCharacters.length; i++) {
-              byteNumbers[i] = byteCharacters.charCodeAt(i);
-          }
-          const byteArray = new Uint8Array(byteNumbers);
-          const blob = new Blob([byteArray], {
-              type: contentType
-          });
-          window.navigator.msSaveOrOpenBlob(blob);
-      } else {
-          // Other browsers
-          const fileURL = `data:${contentType};base64,${data}`;
-          const win = window.open();
-          win.document.write(
-              '<iframe src="' +
-                  fileURL +
-                  '" frameborder="0" style="border:0; top:0; left:0; bottom:0; right:0; width:100%; height:100%;" allowfullscreen></iframe>'
-          );
-      }
-  }
-
-  toBase64(file: File, cb: Function): void {
-    const fileReader: FileReader = new FileReader();
-    fileReader.onload = function(e: any) {
-        const base64Data: string = e.target.result.substr(e.target.result.indexOf('base64,') + 'base64,'.length);
-        cb(base64Data);
-    };
-    fileReader.readAsDataURL(file);
-  }
-
   saveState(result: Observable<EntityOeuvre>){
     result.subscribe(
       () => {
-        this.showNotification("oeuvre enregistree","success");
+        this.showNotification("oeuvre enregistrée","success");
         this.cancel(true);
-      //  window.history.back();
       },
       () => {
-        this.showNotification("enregistrement echoue","error");
+        this.showNotification("enregistrement echoué","error");
       }
     );
   }
@@ -308,4 +201,12 @@ private paddingSize(value: string): number {
     return item.id;
   }
 
+  onFileChange(event) {
+      if (event.target.files.length>0){
+          this.file = event.target.files[0];
+          this.oeuvreForm.patchValue({
+              file: this.file,
+          });
+      }
+  }
 }

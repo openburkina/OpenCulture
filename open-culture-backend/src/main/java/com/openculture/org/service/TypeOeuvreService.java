@@ -1,6 +1,7 @@
 package com.openculture.org.service;
 
 import com.openculture.org.domain.TypeOeuvre;
+import com.openculture.org.repository.OeuvreRepository;
 import com.openculture.org.repository.TypeOeuvreRepository;
 import com.openculture.org.service.dto.TypeOeuvreDTO;
 import com.openculture.org.service.mapper.TypeOeuvreMapper;
@@ -31,9 +32,12 @@ public class TypeOeuvreService {
 
     private final TypeOeuvreMapper typeOeuvreMapper;
 
-    public TypeOeuvreService(TypeOeuvreRepository typeOeuvreRepository, TypeOeuvreMapper typeOeuvreMapper) {
+    private final OeuvreRepository oeuvreRepository;
+
+    public TypeOeuvreService(OeuvreRepository oeuvreRepository, TypeOeuvreRepository typeOeuvreRepository, TypeOeuvreMapper typeOeuvreMapper) {
         this.typeOeuvreRepository = typeOeuvreRepository;
         this.typeOeuvreMapper = typeOeuvreMapper;
+        this.oeuvreRepository = oeuvreRepository;
     }
 
     /**
@@ -44,6 +48,9 @@ public class TypeOeuvreService {
      */
     public TypeOeuvreDTO save(TypeOeuvreDTO typeOeuvreDTO) {
         log.debug("Request to save TypeOeuvre : {}", typeOeuvreDTO);
+        if (typeOeuvreDTO.getId() == null) {
+            typeOeuvreDTO.setNbOeuvre((long) 0);
+        }
         TypeOeuvre typeOeuvre = typeOeuvreMapper.toEntity(typeOeuvreDTO);
         typeOeuvre = typeOeuvreRepository.save(typeOeuvre);
         return typeOeuvreMapper.toDto(typeOeuvre);
@@ -68,15 +75,15 @@ public class TypeOeuvreService {
      *  Get all the typeOeuvres where Oeuvre is {@code null}.
      *  @return the list of entities.
      */
-    @Transactional(readOnly = true) 
-    public List<TypeOeuvreDTO> findAllWhereOeuvreIsNull() {
-        log.debug("Request to get all typeOeuvres where Oeuvre is null");
-        return StreamSupport
-            .stream(typeOeuvreRepository.findAll().spliterator(), false)
-            .filter(typeOeuvre -> typeOeuvre.getOeuvre() == null)
-            .map(typeOeuvreMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
-    }
+    // @Transactional(readOnly = true) 
+    // public List<TypeOeuvreDTO> findAllWhereOeuvreIsNull() {
+    //     log.debug("Request to get all typeOeuvres where Oeuvre is null");
+    //     return StreamSupport
+    //         .stream(typeOeuvreRepository.findAll().spliterator(), false)
+    //         .filter(typeOeuvre -> typeOeuvre.getOeuvre() == null)
+    //         .map(typeOeuvreMapper::toDto)
+    //         .collect(Collectors.toCollection(LinkedList::new));
+    // }
 
     /**
      * Get one typeOeuvre by id.
@@ -98,6 +105,10 @@ public class TypeOeuvreService {
      */
     public void delete(Long id) {
         log.debug("Request to delete TypeOeuvre : {}", id);
-        typeOeuvreRepository.deleteById(id);
+        if (oeuvreRepository.findAllByTypeOeuvreId(id).isEmpty()) {
+            typeOeuvreRepository.deleteById(id);
+        } else {
+            throw new EntityUsedInAnotherException();
+        }
     }
 }

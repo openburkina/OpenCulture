@@ -1,9 +1,15 @@
 package com.openculture.org.service;
 
 import com.openculture.org.domain.Artiste;
+import com.openculture.org.domain.ArtisteOeuvre;
+import com.openculture.org.repository.ArtisteOeuvreRepository;
+import com.openculture.org.domain.Oeuvre;
 import com.openculture.org.repository.ArtisteRepository;
+import com.openculture.org.repository.OeuvreRepository;
 import com.openculture.org.service.dto.ArtisteDTO;
 import com.openculture.org.service.dto.InformationCivilDTO;
+import com.openculture.org.service.dto.OeuvreDTO;
+import com.openculture.org.service.dto.RechercheDTO;
 import com.openculture.org.service.mapper.ArtisteMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -28,12 +35,26 @@ public class ArtisteService {
 
     private final ArtisteMapper artisteMapper;
 
-    private final InformationCivilService informationCivilService;
+    private final ArtisteOeuvreService artisteOeuvreService;
 
-    public ArtisteService(ArtisteRepository artisteRepository, ArtisteMapper artisteMapper, InformationCivilService informationCivilService) {
+    private final OeuvreRepository oeuvreRepository;
+
+    private final InformationCivilService informationCivilService;
+   private List<Artiste> artistes;
+   private List<ArtisteOeuvre> artisteOeuvres ;
+    Optional<Oeuvre> oeuvres ;
+    RechercheDTO rechercheDTOS;
+
+    private final ArtisteOeuvreRepository artisteOeuvreRepository;
+
+    public ArtisteService(ArtisteOeuvreRepository artisteOeuvreRepository,ArtisteRepository artisteRepository, ArtisteMapper artisteMapper, InformationCivilService informationCivilService, ArtisteOeuvreService artisteOeuvreService, OeuvreRepository oeuvreRepository) {
+
         this.artisteRepository = artisteRepository;
+        this.artisteOeuvreRepository = artisteOeuvreRepository;
         this.artisteMapper = artisteMapper;
         this.informationCivilService = informationCivilService;
+        this.artisteOeuvreService = artisteOeuvreService;
+        this.oeuvreRepository = oeuvreRepository;
     }
 
     /**
@@ -81,6 +102,28 @@ public class ArtisteService {
             .map(artisteMapper::toDto);
     }
 
+  /*  @Transactional(readOnly = true)
+    public RechercheDTO onSearch(String search) {
+        log.debug("Request to get all Artistes");
+        artistes = artisteRepository.findArtisteByCritaria(search);
+        if (artistes.size()>0) {
+          artistes.forEach(artiste ->{
+              this.rechercheDTOS = new RechercheDTO();
+              this.rechercheDTOS.setArtiste(artiste);
+              artisteOeuvres = artisteOeuvreService.findByArtisteId(artiste.getId());
+          });
+         if (artisteOeuvres.size()>0){
+             artisteOeuvres.forEach(artisteOeuvre -> {
+                 System.out.println("====ID==== "+artisteOeuvre.getArtiste().getId());
+                 this.rechercheDTOS = new RechercheDTO();
+                this.oeuvres = oeuvreRepository.findById(artisteOeuvre.getOeuvre().getId());
+                 this.rechercheDTOS.setOeuvre(this.oeuvres.get());
+             });
+         }
+        }
+        return this.rechercheDTOS;
+    } */
+
 
     /**
      * Get one artiste by id.
@@ -99,9 +142,17 @@ public class ArtisteService {
      * Delete the artiste by id.
      *
      * @param id the id of the entity.
+     * @throws Exception
      */
     public void delete(Long id) {
         log.debug("Request to delete Artiste : {}", id);
-        artisteRepository.deleteById(id);
+        List<ArtisteOeuvre> artOeuvres = artisteOeuvreRepository.findAllByArtisteId(id);
+        if (artOeuvres.isEmpty()) {
+            informationCivilService.delete(this.findOne(id).get().getInformationCivilDTO().getId());
+            artisteRepository.deleteById(id);
+        } else {
+            throw new EntityUsedInAnotherException();
+        }
+        
     }
 }

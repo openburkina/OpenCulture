@@ -9,30 +9,18 @@
                 <form [formGroup]="formLogin" (ngSubmit)="onLogin()">
                     <div class="text-center h1 text-danger">OpenCulture</div>
                     <div class="text-center h2 text-secondary">Connexion</div>
-                    <p class="text-muted text-center">Connectez-vous pour accéder à votre espace de travail</p>
+                    <p class="text-muted text-center">Connectez-vous à votre compte</p>
                     <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-            <span class="input-group-text">
-              <i class="fa fa-envelope"></i>
-            </span>
-                        </div>
+                       <!-- <div class="input-group-prepend" style="background-color: darkorange;">
+                            <span class="input-group-text">
+                              <i class="fa fa-envelope"></i>
+                            </span>
+                        </div>-->
                         <input type="text" class="form-control"
                                placeholder="email" autocomplete="username"
                                name="username" formControlName="username" required>
                     </div>
-                    <!--<div class="input-group mb-4">
-                      <div class="input-group-prepend">
-                        <input type="text" class="form-control"
-                           placeholder="email" autocomplete="username"
-                           name="username" formControlName="username" required>
-                      </div>
-                    </div>-->
                     <div class="input-group mb-4">
-                        <div class="input-group-prepend">
-            <span class="input-group-text">
-              <i class="fa fa-lock"></i>
-            </span>
-                        </div>
                         <input type="password" class="form-control"
                                placeholder="Password" autocomplete="current-password"
                                name="password" formControlName="password"
@@ -48,27 +36,27 @@
 
                     <div class="row">
                         <div class="col-8 offset-2">
-                            <button type="submit" [disabled]="formLogin.invalid" class="btn btn-primary px-4">
+                            <button type="submit" [disabled]="formLogin.invalid" class="btn btn-warning px-4">
                                 Se connecter <i class="fa fa-sign-in-alt"></i>
                             </button>
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row mt-3">
                         <div class="col-8 offset-2">
-                            <button type="button" class="btn btn-link px-0">Mot de passe oublié ?</button>
+                            <button type="button" class="btn btn-link px-0" (click)="changePassword()">Mot de passe oublié ?</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
 
-        <div class="col-12 col-md-6 card text-white bg-primary py-5 d-md-down-none">
-            <div class="card-body text-center">
+        <div class="col-12 col-md-6 card text-white py-5 d-md-down-none" style="background-color: darkorange;">
+            <div class="card-body text-center" >
                 <div>
                     <h2>Inscription</h2>
-                    <p>Si vous n'avez pas encore de compte sur SyGesCAM,
-                        veuillez vous inscrire d'abord en choisissant l'offre souhaité!
+                    <p>Si vous n'avez pas encore de compte sur OpenCulture,
+                        veuillez vous inscrire !
                     </p>
                 </div>
             </div>

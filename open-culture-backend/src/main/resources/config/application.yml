@@ -58,6 +58,10 @@ management:
             enabled: true
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 1000MB
+      max-request-size: 1000MB
   application:
     name: openculture
   profiles:
@@ -117,6 +121,10 @@ server:
     session:
       cookie:
         http-only: true
+  multipart:
+    enabled: true
+    max-file-size: 900000000 #900M
+    max-request-size: 900000000
 
 # Properties to be exposed on the /info management endpoint
 info:
@@ -141,7 +149,8 @@ jhipster:
   #     allow-credentials: true
   #     max-age: 1800
   mail:
-    from: openculture@localhost
+    #    from: openculture@localhost
+    from: feb9e177b8d036
   swagger:
     default-include-pattern: /api/.*
     title: openculture API

@@ -1,11 +1,9 @@
 package com.openculture.org.service.dto;
 
-import javax.persistence.Column;
-
 import com.openculture.org.domain.enumeration.TypeFichier;
 
-import java.time.Instant;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 
@@ -48,8 +46,22 @@ public class OeuvreDTO implements Serializable {
 
     private TypeFichier typeFichier;
 
+    private Instant lastModifiedDate;
+
+    private String lastModifiedDateFormatted;
+
+    private String fileUrl;
+
     public Long getId() {
         return id;
+    }
+
+    public String getLastModifiedDateFormatted() {
+        return lastModifiedDateFormatted;
+    }
+
+    public void setLastModifiedDateFormatted(String lastModifiedDateFormatted) {
+        this.lastModifiedDateFormatted = lastModifiedDateFormatted;
     }
 
     public void setId(Long id) {
@@ -137,6 +149,14 @@ public class OeuvreDTO implements Serializable {
         this.resume = resume;
     }
 
+    public Instant getLastModifiedBy() {
+        return lastModifiedDate;
+    }
+
+    public void getLastModifiedBy(Instant lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
     public String getFileName() {
         return fileName;
     }
@@ -185,6 +205,22 @@ public class OeuvreDTO implements Serializable {
         this.artistes = artistes;
     }
 
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
+    }
+
+    public Instant getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Instant lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -212,7 +248,10 @@ public class OeuvreDTO implements Serializable {
             ", dateSortie=" + dateSortie +
             ", typeOeuvreId=" + typeOeuvreId +
             ", regroupementId=" + regroupementId +
+            ", typeOeuvreDTO=" + typeOeuvreDTO +
+            ", regroupementDTO=" + regroupementDTO +
             ", artisteId=" + artisteId +
+            ", artistes=" + artistes +
             ", artisteDTO=" + artisteDTO +
             ", resume='" + resume + '\'' +
             ", fileName='" + fileName + '\'' +
@@ -221,6 +260,9 @@ public class OeuvreDTO implements Serializable {
             ", nomArtiste='" + nomArtiste + '\'' +
             ", pathFile='" + pathFile + '\'' +
             ", typeFichier=" + typeFichier +
+            ", lastModifiedDate=" + lastModifiedDate +
+            ", lastModifiedDateFormatted='" + lastModifiedDateFormatted + '\'' +
+            ", fileUrl='" + fileUrl + '\'' +
             '}';
     }
 }

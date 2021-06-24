@@ -1,0 +1,21 @@
+.services-details-content {
+    vg-player {
+        height: 530px;
+        width: 920px;
+    }
+}
+
+.thumb {
+    vg-player {
+        height: 80px;
+        width: 210px;
+        padding: 0;
+        margin: 0;
+        background-color: #5cff1c;
+
+        video {
+            height: 80px;
+            width: 100%;
+        }
+    }
+}

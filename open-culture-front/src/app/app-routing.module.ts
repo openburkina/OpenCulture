@@ -27,20 +27,34 @@ import { TestimonialsComponent } from './components/pages/testimonials/testimoni
 import {AccountComponent} from './components/pages/account/account.component';
 import {OeuvreComponent} from './components/pages/oeuvre/oeuvre.component';
 import { ArtisteComponent } from './components/pages/artiste/artiste.component';
-import { OeuvreEditComponent } from './components/pages/oeuvre/oeuvre-edit.component';
 import { RegroupementComponent } from './components/pages/regroupement/regroupement.component';
 import { TypeOeuvreComponent } from './components/pages/type-oeuvre/type-oeuvre.component';
 import { OeuvreAfficheComponent } from './components/pages/oeuvre/oeuvre-affiche.component';
+import {ChangePasswordComponent} from "./components/pages/change-password/change-password.component";
+import { OeuvreBlogComponent } from './components/pages/oeuvre-blog/oeuvre-blog.component';
+import { AdminDashboardComponent } from './components/pages/admin-dashboard/admin-dashboard.component';
+import { OeuvreBlogDetailsComponent } from './components/pages/oeuvre-blog-details/oeuvre-blog-details.component';
+import {UserRouteAccessGuard} from "./components/services/routes/user-route-access.guard";
+import {RoleGuard} from "./components/services/routes/role.guard";
+import {AbonnementComponent} from "./components/pages/abonnement/abonnement.component";
+import {TypeRegroupementComponent} from './components/pages/type-regroupement/type-regroupement.component';
 
 const routes: Routes = [
-    {path: '', component: TestimonialsComponent},
-    {path: 'type-oeuvres', component: TypeOeuvreComponent},
-    {path: 'oeuvres', component: OeuvreAfficheComponent},
-    {path: 'oeuvres-client', component: OeuvreComponent},
-    {path: 'regroupements', component: RegroupementComponent},
-    {path: 'artistes', component: ArtisteComponent},
+    {path: 'entity-blog', component: OeuvreBlogComponent,canActivate: [UserRouteAccessGuard]},
+    {path: 'oeuvre-blog-details/:id',data : {pageTitle: 'entity-blog-details'}, component: OeuvreBlogDetailsComponent,canActivate: [UserRouteAccessGuard]},
+    {path: 'admin-dashboard', component: AdminDashboardComponent,canActivate: [UserRouteAccessGuard,RoleGuard]},
+    {path: 'abonnement', component: AbonnementComponent,canActivate: [UserRouteAccessGuard]},
+    {path: 'login', component: SignInComponent},
+    {path: '', component: HomeOneComponent},
+    {path: 'type-oeuvres', component: TypeOeuvreComponent,canActivate: [UserRouteAccessGuard,RoleGuard]},
+    {path: 'type-regroupements', component: TypeRegroupementComponent,canActivate: [UserRouteAccessGuard,RoleGuard]},
+    {path: 'oeuvres', component: OeuvreAfficheComponent,canActivate: [UserRouteAccessGuard,RoleGuard]},
+    {path: 'oeuvres-client', component: OeuvreComponent,canActivate: [UserRouteAccessGuard,RoleGuard]},
+    {path: 'regroupements', component: RegroupementComponent,canActivate: [UserRouteAccessGuard,RoleGuard]},
+    {path: 'artistes', component: ArtisteComponent,canActivate: [UserRouteAccessGuard,RoleGuard]},
+    {path: 'dashboard', component: HomeTwoComponent,canActivate: [UserRouteAccessGuard]},
     {path: 'home-three', component: HomeThreeComponent},
-    {path: 'home-two', component: HomeTwoComponent},
+    {path: 'home-two', component: HomeTwoComponent,canActivate: [UserRouteAccessGuard]},
     {path: 'about', component: AboutComponent},
     {path: 'team', component: TeamComponent},
     {path: 'apply-now', component: AppleNowComponent},
@@ -63,9 +77,12 @@ const routes: Routes = [
     {path: 'blog-details', component: BlogDetailsComponent},
     {path: 'contact', component: ContactComponent},
     {path: 'account', component: AccountComponent},
-
-
-    {path: '**', component: ErrorComponent} // This line will remain down from the whole component list
+    {path: 'signin', component: SignInComponent},
+    {path: 'account:key', component: AccountComponent},
+    {path: 'password', component: ChangePasswordComponent},
+    {path: 'password:passwordkey', component: ChangePasswordComponent},
+    {path: '**', component: HomeOneComponent},
+    {path: '**', component: ErrorComponent},// This line will remain down from the whole component list
 ];
 
 @NgModule({

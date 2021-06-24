@@ -1,4 +1,6 @@
+<app-navbar></app-navbar>
 <div class="text-justify-content">
+    <button class="btn btn-warning px-4" (click)="create()">New</button>
     <div class="col-lg-8 col-sm-6 mx-auto">
         <div class="table-responsive" *ngIf="oeuvres?.length > 0">
             <table class="table table-hover mt-4" aria-describedby="page-heading">
@@ -23,7 +25,6 @@
                         <div class="btn-group">
                             <button class="btn btn-warning" (click)="editer(oeuvre)"><i class="bx bxs-edit-alt"></i></button>
                             <button class="btn btn-danger" (click)="delete(oeuvre)"><i class="bx bxs-eraser"></i></button>
-                            <!-- <button class="btn btn-warning px-4" (click)="create()">New</button> -->
                         </div>
                     </td>
                 </tr>

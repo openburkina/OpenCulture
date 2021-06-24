@@ -1,6 +1,7 @@
 package com.openculture.org.service;
 
 import com.openculture.org.domain.Regroupement;
+import com.openculture.org.repository.OeuvreRepository;
 import com.openculture.org.repository.RegroupementRepository;
 import com.openculture.org.service.dto.RegroupementDTO;
 import com.openculture.org.service.mapper.RegroupementMapper;
@@ -27,9 +28,12 @@ public class RegroupementService {
 
     private final RegroupementMapper regroupementMapper;
 
-    public RegroupementService(RegroupementRepository regroupementRepository, RegroupementMapper regroupementMapper) {
+    private final OeuvreRepository oeuvreRepository;
+
+    public RegroupementService(OeuvreRepository oeuvreRepository, RegroupementRepository regroupementRepository, RegroupementMapper regroupementMapper) {
         this.regroupementRepository = regroupementRepository;
         this.regroupementMapper = regroupementMapper;
+        this.oeuvreRepository = oeuvreRepository;
     }
 
     /**
@@ -79,6 +83,11 @@ public class RegroupementService {
      */
     public void delete(Long id) {
         log.debug("Request to delete Regroupement : {}", id);
-        regroupementRepository.deleteById(id);
+        if (oeuvreRepository.findAllByRegroupementId(id).isEmpty()) {
+            regroupementRepository.deleteById(id);
+        } else {
+            throw new EntityUsedInAnotherException();
+        }
+        
     }
 }

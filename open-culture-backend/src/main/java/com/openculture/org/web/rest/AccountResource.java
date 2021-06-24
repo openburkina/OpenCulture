@@ -9,6 +9,7 @@ import com.openculture.org.service.dto.PasswordChangeDTO;
 import com.openculture.org.service.dto.UserDTO;
 import com.openculture.org.web.rest.errors.*;
 import com.openculture.org.web.rest.vm.KeyAndPasswordVM;
+import com.openculture.org.web.rest.vm.LoginVM;
 import com.openculture.org.web.rest.vm.ManagedUserVM;
 
 import org.apache.commons.lang3.StringUtils;
@@ -59,12 +60,13 @@ public class AccountResource {
      */
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public void registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
+    public User registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
         if (!checkPasswordLength(managedUserVM.getPassword())) {
             throw new InvalidPasswordException();
         }
         User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
         mailService.sendActivationEmail(user);
+        return  user;
     }
 
     /**
@@ -74,11 +76,12 @@ public class AccountResource {
      * @throws RuntimeException {@code 500 (Internal Server Error)} if the user couldn't be activated.
      */
     @GetMapping("/activate")
-    public void activateAccount(@RequestParam(value = "key") String key) {
+    public User activateAccount(@RequestParam(value = "key") String key) {
         Optional<User> user = userService.activateRegistration(key);
         if (!user.isPresent()) {
             throw new AccountResourceException("No user was found for this activation key");
         }
+        return user.get();
     }
 
     /**
@@ -135,11 +138,32 @@ public class AccountResource {
      * @throws InvalidPasswordException {@code 400 (Bad Request)} if the new password is incorrect.
      */
     @PostMapping(path = "/account/change-password")
-    public void changePassword(@RequestBody PasswordChangeDTO passwordChangeDto) {
+    public User changePassword(@RequestBody PasswordChangeDTO passwordChangeDto) {
         if (!checkPasswordLength(passwordChangeDto.getNewPassword())) {
             throw new InvalidPasswordException();
         }
-        userService.changePassword(passwordChangeDto.getCurrentPassword(), passwordChangeDto.getNewPassword());
+        return userService.changePassword(passwordChangeDto.getCurrentPassword(), passwordChangeDto.getNewPassword());
+    }
+
+
+    @PostMapping(path ="/account/send-email")
+    public User sendEmail(@RequestBody String login) {
+        return userService.sendEmail(login);
+    }
+
+    @PostMapping(path ="/account/send-password-email")
+    public User sendPasswordEmail(@RequestBody String login) {
+        return userService.sendPasswordEmail(login);
+    }
+
+
+    @PostMapping(path = "/account/change-user-password")
+    public User changeUserPassword(@RequestBody LoginVM loginVM) {
+        if (!checkPasswordLength(loginVM.getPassword())) {
+            throw new InvalidPasswordException();
+        }
+         User user = userService.changeUserPassword(loginVM.getUsername(), loginVM.getPassword());
+         return user;
     }
 
     /**
@@ -148,14 +172,39 @@ public class AccountResource {
      * @param mail the mail of the user.
      */
     @PostMapping(path = "/account/reset-password/init")
-    public void requestPasswordReset(@RequestBody String mail) {
+    public User requestPasswordReset(@RequestBody String mail) {
         Optional<User> user = userService.requestPasswordReset(mail);
         if (user.isPresent()) {
-            mailService.sendPasswordResetMail(user.get());
+          //  mailService.sendPasswordResetMail(user.get());
+             mailService.sendEmail(user.get().getLogin(),"Changer votre mot de passe"," <!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "    <head>\n" +
+                "        <title>Changer votre mot de passe sur  openculture</title>\n" +
+                "        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n" +
+                "        <link rel=\"icon\" href=\"http://127.0.0.1:4200/favicon.ico\" />\n" +
+                "    </head>\n" +
+                "    <body>\n" +
+                "        <p>Cher "+user.get().getLogin() +" </p>\n" +
+                "        <p>veuillez cliquer sur le lien ci-dessous pour changer votre mot de passe:</p>\n" +
+                "        <p>\n" +
+                "            <a href=\"http://127.0.0.1:4200/password?passwordkey=" +user.get().getActivationKey()+
+                "\">http://127.0.0.1:4200/password?passwordkey=" +user.get().getActivationKey()+
+                "</a>\n" +
+                "        </p>\n" +
+                "        <p>\n" +
+                "            <span>Regards,</span>\n" +
+                "            <br/>\n" +
+                "            <em>openculture.</em>\n" +
+                "        </p>\n" +
+                "    </body>\n" +
+                "</html>",false,true);
+
+            return user.get();
         } else {
             // Pretend the request has been successful to prevent checking which emails really exist
             // but log that an invalid attempt has been made
             log.warn("Password reset requested for non existing mail");
+            return null;
         }
     }
 

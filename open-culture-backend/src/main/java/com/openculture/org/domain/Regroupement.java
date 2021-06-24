@@ -1,6 +1,8 @@
 package com.openculture.org.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 import java.io.Serializable;
@@ -12,7 +14,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "regroupement")
-public class Regroupement implements Serializable {
+public class Regroupement extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,6 +31,10 @@ public class Regroupement implements Serializable {
 
     @OneToMany(mappedBy = "regroupement")
     private Set<Oeuvre> oeuvres = new HashSet<>();
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "regroupement", allowSetters = true)
+    private TypeRegroupement typeRegroupement;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -89,6 +95,15 @@ public class Regroupement implements Serializable {
     public void setOeuvres(Set<Oeuvre> oeuvres) {
         this.oeuvres = oeuvres;
     }
+
+    public TypeRegroupement getTypeRegroupement() {
+        return typeRegroupement;
+    }
+
+    public void setTypeRegroupement(TypeRegroupement typeRegroupement) {
+        this.typeRegroupement = typeRegroupement;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override

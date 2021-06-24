@@ -1,5 +1,7 @@
 package com.openculture.org.service.dto;
 
+import com.openculture.org.domain.User;
+
 import java.time.Instant;
 import java.io.Serializable;
 
@@ -13,6 +15,12 @@ public class AbonnementDTO implements Serializable {
     private Instant dateAbonnement;
 
     private String type;
+
+    private Boolean statut;
+
+    private String phoneNumber;
+
+    private User user;
 
     
     public Long getId() {
@@ -39,6 +47,42 @@ public class AbonnementDTO implements Serializable {
         this.type = type;
     }
 
+    public Boolean getStatut() {
+        return statut;
+    }
+
+    public void setStatut(Boolean statut) {
+        this.statut = statut;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "AbonnementDTO{" +
+            "id=" + id +
+            ", dateAbonnement=" + dateAbonnement +
+            ", type='" + type + '\'' +
+            ", statut=" + statut +
+            ", phoneNumber='" + phoneNumber + '\'' +
+            ", user=" + user +
+            '}';
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -56,13 +100,4 @@ public class AbonnementDTO implements Serializable {
         return 31;
     }
 
-    // prettier-ignore
-    @Override
-    public String toString() {
-        return "AbonnementDTO{" +
-            "id=" + getId() +
-            ", dateAbonnement='" + getDateAbonnement() + "'" +
-            ", type='" + getType() + "'" +
-            "}";
-    }
 }

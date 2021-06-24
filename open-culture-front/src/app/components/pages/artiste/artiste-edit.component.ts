@@ -107,7 +107,6 @@ dateNaissance: Date;
     result.subscribe(
       () => {
         this.showNotification("artiste enregistré","success");
-        //window.history.
         this.cancel(true);
       },
       () => {

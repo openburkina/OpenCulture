@@ -10,11 +10,17 @@
     <!--
         Added the entity ArtisteOeuvre.
     -->
-    <changeSet id="20210314183329-1" author="jhipster">
+    <changeSet id="230420211835-1" author="jhipster">
         <createTable tableName="artiste_oeuvre">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="varchar(50)"/>
+            <column name="last_modified_date" type="timestamp"/>
             <column name="role" type="varchar(255)">
                 <constraints nullable="true" />
             </column>

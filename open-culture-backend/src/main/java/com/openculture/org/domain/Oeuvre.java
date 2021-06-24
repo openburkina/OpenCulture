@@ -1,16 +1,11 @@
 package com.openculture.org.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonAppend.Prop;
 import com.openculture.org.domain.enumeration.TypeFichier;
 
-import org.hibernate.mapping.PropertyGeneration;
-
 import javax.persistence.*;
-
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,7 +14,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "oeuvre")
-public class Oeuvre implements Serializable {
+public class Oeuvre extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,8 +26,8 @@ public class Oeuvre implements Serializable {
     @Column(name = "titre")
     private String titre;
 
-    @Column(name = "resume")
-    private String resume;
+    @Column(name = "date_sortie")
+    private Instant dateSortie;
 
     @Column(name = "file_name")
     private String fileName;
@@ -43,17 +38,15 @@ public class Oeuvre implements Serializable {
     @Column(name = "file_extension")
     private String fileExtension;
 
-    @Column(name = "date_sortie")
-    private Instant dateSortie;
+    @Column(name = "resume")
+    private String resume;
+
+    @Column(name = "file_url")
+    private String fileUrl;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type_fichier")
     private TypeFichier typeFichier;
-
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private TypeOeuvre typeOeuvre;
 
     @OneToMany(mappedBy = "oeuvre")
     private Set<ArtisteOeuvre> artisteOeuvres = new HashSet<>();
@@ -61,6 +54,10 @@ public class Oeuvre implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties(value = "oeuvres", allowSetters = true)
     private Regroupement regroupement;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "oeuvres", allowSetters = true)
+    private TypeOeuvre typeOeuvre;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -80,14 +77,6 @@ public class Oeuvre implements Serializable {
         return this;
     }
 
-    public TypeFichier getTypeFichier() {
-        return typeFichier;
-    }
-
-    public void setTypeFichier(TypeFichier typeFichier) {
-        this.typeFichier = typeFichier;
-    }
-
     public void setTitre(String titre) {
         this.titre = titre;
     }
@@ -103,19 +92,6 @@ public class Oeuvre implements Serializable {
 
     public void setDateSortie(Instant dateSortie) {
         this.dateSortie = dateSortie;
-    }
-
-    public TypeOeuvre getTypeOeuvre() {
-        return typeOeuvre;
-    }
-
-    public Oeuvre typeOeuvre(TypeOeuvre typeOeuvre) {
-        this.typeOeuvre = typeOeuvre;
-        return this;
-    }
-
-    public void setTypeOeuvre(TypeOeuvre typeOeuvre) {
-        this.typeOeuvre = typeOeuvre;
     }
 
     public Set<ArtisteOeuvre> getArtisteOeuvres() {
@@ -156,6 +132,27 @@ public class Oeuvre implements Serializable {
         this.regroupement = regroupement;
     }
 
+    public TypeOeuvre getTypeOeuvre() {
+        return typeOeuvre;
+    }
+
+    public Oeuvre typeOeuvre(TypeOeuvre typeOeuvre) {
+        this.typeOeuvre = typeOeuvre;
+        return this;
+    }
+
+    public void setTypeOeuvre(TypeOeuvre typeOeuvre) {
+        this.typeOeuvre = typeOeuvre;
+    }
+
+    public TypeFichier getTypeFichier() {
+        return typeFichier;
+    }
+
+    public void setTypeFichier(TypeFichier typeFichier) {
+        this.typeFichier = typeFichier;
+    }
+
     public String getResume() {
         return resume;
     }
@@ -188,7 +185,15 @@ public class Oeuvre implements Serializable {
         this.fileExtension = fileExtension;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
+    }
+
+// jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
     public boolean equals(Object o) {
@@ -206,20 +211,13 @@ public class Oeuvre implements Serializable {
         return 31;
     }
 
+    // prettier-ignore
     @Override
     public String toString() {
         return "Oeuvre{" +
-            "id=" + id +
-            ", titre='" + titre + '\'' +
-            ", resume='" + resume + '\'' +
-            ", fileName='" + fileName + '\'' +
-            ", fileContent=" + Arrays.toString(fileContent) +
-            ", fileExtension='" + fileExtension + '\'' +
-            ", dateSortie=" + dateSortie +
-            ", typeFichier=" + typeFichier +
-            ", typeOeuvre=" + typeOeuvre +
-            ", artisteOeuvres=" + artisteOeuvres +
-            ", regroupement=" + regroupement +
-            '}';
+            "id=" + getId() +
+            ", titre='" + getTitre() + "'" +
+            ", dateSortie='" + getDateSortie() + "'" +
+            "}";
     }
 }

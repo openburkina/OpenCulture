@@ -4,6 +4,7 @@ import { RegroupementService } from './regroupement.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RegroupementEditComponent } from './regroupement-edit.component';
 import { RegroupementDeleteComponent } from './regroupement-delete.component';
+import {ArtisteEditComponent} from '../artiste/artiste-edit.component';
 
 @Component({
   selector: 'app-regroupement',
@@ -13,6 +14,9 @@ import { RegroupementDeleteComponent } from './regroupement-delete.component';
 export class RegroupementComponent implements OnInit {
 
   regs: RegroupementDTO[];
+  itemsPerPage: number = 10;
+  totalItems: number;
+  page: number = 1;
   constructor(
     private regService: RegroupementService,
     private modalService: NgbModal
@@ -26,6 +30,7 @@ export class RegroupementComponent implements OnInit {
     this.regService.findAll(null).subscribe(
       response => {
           this.regs = response.body;
+          this.totalItems = this.regs.length;
       }
     );
   }
@@ -33,11 +38,35 @@ export class RegroupementComponent implements OnInit {
   editer(reg: RegroupementDTO): void{
     const modal = this.modalService.open(RegroupementEditComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
     modal.componentInstance.reg = reg;
+    modal.result.then(
+      response => {
+        if (response === true) {
+          this.loadAll();
+        }
+      }
+    )
   }
 
   delete(reg: RegroupementDTO): void{
     const modal = this.modalService.open(RegroupementDeleteComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
     modal.componentInstance.reg = reg;
+    modal.result.then(
+      response => {
+        if (response === true) {
+          this.loadAll();
+        }
+      }
+    )
   }
 
+  create(): void{
+    const modal = this.modalService.open(RegroupementEditComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
+    modal.result.then(
+        response => {
+            if (response === true) {
+                this.loadAll();
+            }
+        }
+    )
+  }
 }

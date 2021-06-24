@@ -10,21 +10,27 @@
     <!--
         Added the entity Oeuvre.
     -->
-    <changeSet id="20210314183129-1" author="jhipster">
+    <changeSet id="230420211835-1" author="jhipster">
         <createTable tableName="oeuvre">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="varchar(50)"/>
+            <column name="last_modified_date" type="timestamp"/>
             <column name="titre" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="date_sortie" type="datetime">
                 <constraints nullable="true" />
             </column>
-            <column name="type_oeuvre_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_oeuvre_type_oeuvre_id" />
-            </column>
             <column name="regroupement_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="type_oeuvre_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->

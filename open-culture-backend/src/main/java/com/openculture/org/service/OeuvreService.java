@@ -10,27 +10,28 @@ import com.openculture.org.repository.OeuvreRepository;
 import com.openculture.org.service.dto.ArtisteDTO;
 import com.openculture.org.service.dto.ArtisteOeuvreDTO;
 import com.openculture.org.service.dto.OeuvreDTO;
+import com.openculture.org.service.dto.TypeOeuvreDTO;
 import com.openculture.org.service.mapper.ArtisteMapper;
 import com.openculture.org.service.mapper.OeuvreMapper;
 import com.openculture.org.web.rest.OeuvreResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,18 +58,37 @@ public class OeuvreService {
 
     private final InformationCivilService informationCivilService;
 
+    private final RegroupementService regroupementService;
+
+    private final TypeOeuvreService typeOeuvreService;
+
     private final ArtisteService artisteService;
 
     private final ArtisteOeuvreService artisteOeuvreService;
 
-    public OeuvreService(OeuvreMapper oeuvreMapper, OeuvreRepository oeuvreRepository, ArtisteMapper artisteMapper, ArtisteOeuvreRepository artisteOeuvreRepository, InformationCivilService informationCivilService, ArtisteService artisteService, ArtisteOeuvreService artisteOeuvreService) {
-        this.oeuvreRepository = oeuvreRepository;
-        this.artisteMapper = artisteMapper;
-        this.artisteOeuvreRepository = artisteOeuvreRepository;
-        this.informationCivilService = informationCivilService;
-        this.artisteService = artisteService;
-        this.artisteOeuvreService = artisteOeuvreService;
-        this.oeuvreMapper = oeuvreMapper;
+    private final UserService userService;
+
+    public OeuvreService(
+        OeuvreMapper oeuvreMapper,
+        InformationCivilService informationCivilService,
+        TypeOeuvreService typeOeuvreService,
+        RegroupementService regroupementService,
+        OeuvreRepository oeuvreRepository,
+        ArtisteMapper artisteMapper,
+        ArtisteOeuvreRepository artisteOeuvreRepository,
+        ArtisteOeuvreService artisteOeuvreService,
+        UserService userService,
+        ArtisteService artisteService) {
+                this.oeuvreRepository = oeuvreRepository;
+                this.artisteMapper = artisteMapper;
+                this.artisteOeuvreRepository = artisteOeuvreRepository;
+                this.informationCivilService = informationCivilService;
+                this.artisteOeuvreService = artisteOeuvreService;
+                this.oeuvreMapper = oeuvreMapper;
+                this.regroupementService = regroupementService;
+                this.typeOeuvreService = typeOeuvreService;
+                this.userService = userService;
+                this.artisteService = artisteService;
     }
 
     /**
@@ -82,7 +102,19 @@ public class OeuvreService {
         log.debug("Request to save Oeuvre : {}", oeuvreDTO);
 
         List<ArtisteOeuvreDTO> artisteOeuvres = new ArrayList<>();
-        ArtisteOeuvre a =new ArtisteOeuvre();
+        TypeOeuvreDTO typeOeuvreDTO = typeOeuvreService.findOne(oeuvreDTO.getTypeOeuvreId()).get();
+
+        if(oeuvreDTO.getId() != null){
+          if (findOne(oeuvreDTO.getId()).getTypeOeuvreDTO().getId() != typeOeuvreDTO.getId());
+                typeOeuvreDTO.setNbOeuvre(typeOeuvreDTO.getNbOeuvre()-1);
+        } else {
+            typeOeuvreDTO.setNbOeuvre(typeOeuvreDTO.getNbOeuvre()+1);
+        }
+
+        oeuvreDTO.setRegroupementDTO(regroupementService.findOne(oeuvreDTO.getRegroupementId()).get());
+        oeuvreDTO.setTypeOeuvreDTO(typeOeuvreService.save(typeOeuvreDTO));
+       //  File file = new File("src/main/resources/oeuvres/"+oeuvreDTO.getFile().getName());
+       //  FileUtils.copyFile(oeuvreDTO.getFile(),file);
 
         if (validedOeuvre(oeuvreDTO)) {
             if (oeuvreDTO.getArtistes() != null) {
@@ -94,33 +126,32 @@ public class OeuvreService {
                     }
                 );
             } else throw new Exception("Le champs auteur est obligatoire");
-
-            /*if (oeuvreDTO.getArtisteId() != null) {
-                artisteOeuvre.setArtisteId(oeuvreDTO.getArtisteId());
-            } else {
-                artisteOeuvre.setArtisteId(artisteService.save(oeuvreDTO.getArtisteDTO()).getId());
-            }*/
-
-            // File media = new File(oeuvreDTO.getPathFile());
-            // oeuvreDTO.setFileContent(FileUtils.readFileToByteArray(media));
-            // String s[] = media.getName().split("\\.");
-            // oeuvreDTO.setFileName(s[0]);
-            // oeuvreDTO.setFileExtension(s[1]);
-
-            // log.debug("\ntaille avant: {}",oeuvreDTO.getFileContent().length);
-
-            // oeuvreDTO.setFileContent(compressData(oeuvreDTO.getFileContent()));
-
-            // log.debug("\ntaille apres: {}",oeuvreDTO.getFileContent().length);
+            log.debug("\n\nRegroupement : {}",oeuvreDTO.getRegroupementDTO());
+            log.debug("Type Oeuvre: {}"+"\n\n",oeuvreDTO.getTypeOeuvreDTO());
 
             Oeuvre oeuvre = oeuvreMapper.toEntity(oeuvreDTO);
             oeuvre = oeuvreRepository.save(oeuvre);
+
+            List<Long> artsId = oeuvreDTO.getArtistes()
+                                .stream().map(ArtisteDTO::getId).collect(Collectors.toList());
+
+            List<Long> artOeuvres = artisteOeuvreRepository.findAllByOeuvreId(oeuvre.getId())
+                                .stream().map(ArtisteOeuvre::getArtiste)
+                                .map(Artiste::getId).collect(Collectors.toList());
+
+            for (Long long1 : artOeuvres) {
+                if (!artsId.contains(long1)) {
+                    artisteOeuvreRepository.deleteByArtisteId(long1);
+                }
+            }
 
             Oeuvre finalOeuvre = oeuvre;
             artisteOeuvres.forEach(
                 artisteOeuvreDTO -> {
                     artisteOeuvreDTO.setOeuvreId(finalOeuvre.getId());
-                    artisteOeuvreService.save(artisteOeuvreDTO);
+                    if (!artOeuvres.contains(artisteOeuvreDTO.getArtisteId())) {
+                        artisteOeuvreService.save(artisteOeuvreDTO);
+                    }
             });
             return oeuvreMapper.toDto(oeuvre);
         }
@@ -135,11 +166,11 @@ public class OeuvreService {
     }
 
     public boolean validedOeuvre(OeuvreDTO oeuvreDTO){
-        if (oeuvreDTO.getTitre() != null
+        if (oeuvreDTO.getTitre().length() > 0
             && oeuvreDTO.getTypeOeuvreId() != null
             && oeuvreDTO.getRegroupementId() != null
-           // && oeuvreDTO.getDateSortie()!=null)
-            // && oeuvreDTO.getPathFile() != null
+            && oeuvreDTO.getDateSortie()!=null
+            && oeuvreDTO.getArtistes() != null
             )
             return true;
         return false;
@@ -190,17 +221,43 @@ public class OeuvreService {
         return getOeuvreWithArtiste(oeuvreRepository.findAll(pageable).getContent(), pageable);
     }
 
+
     @Transactional(readOnly = true)
-    public Page<OeuvreDTO> findCompletForAdmin(Pageable pageable) {
+    public Page<OeuvreDTO> findRecentsPostsOeuvreByUser(String categorie, Pageable pageable) {
+        log.debug("Request to get all Oeuvres");
+    //    return oeuvreRepository.findAll(pageable)
+        //    .map(oeuvreMapper::toDto);
+        String user = this.userService.getUserWithAuthorities().get().getLogin();
+        return getOeuvreWithArtiste(oeuvreRepository.findTop5ByTypeOeuvreIntituleAndCreatedByOrderByCreatedDateDesc(categorie,user),pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<OeuvreDTO> findRecentsPostsOeuvre(String categorie, Pageable pageable) {
+        log.debug("Request to get all Oeuvres");
+    //    return oeuvreRepository.findAll(pageable)
+        //    .map(oeuvreMapper::toDto);
+        return getOeuvreWithArtiste(oeuvreRepository.findTop5ByTypeOeuvreIntituleOrderByCreatedDateDesc(categorie),pageable);
+    }
+
+
+
+    @Transactional(readOnly = true)
+    public Page<OeuvreDTO> findCompletForAdmin(String categorie,Pageable pageable) {
         log.debug("Request to get all Oeuvres");
 
         List<OeuvreDTO> oeuvreDTOList = new ArrayList<>();
-        oeuvreRepository.findAll(pageable).getContent().forEach( oeuvre -> {
-            OeuvreDTO oeuvreDTO = oeuvreMapper.toDto(oeuvre);
+        List<Oeuvre> oeuvreList = new ArrayList<>();
+        if (categorie != null){
+           oeuvreList = oeuvreRepository.findAllByTypeOeuvreIntitule(categorie,pageable);
+        } else {
+           oeuvreList = oeuvreRepository.findAll(pageable).getContent();
+        }
+        oeuvreDTOList = oeuvreMapper.toDto(oeuvreList);
+        oeuvreDTOList.forEach( oeuvreDTO -> {
             oeuvreDTO.setArtistes(artisteOeuvreRepository.findAllByOeuvreId(
-                oeuvre.getId()).stream().map(ArtisteOeuvre::getArtiste).map(artisteMapper::toDto)
+                oeuvreDTO.getId()).stream().map(ArtisteOeuvre::getArtiste).map(artisteMapper::toDto)
                 .collect(Collectors.toList()));
-            oeuvreDTOList.add(oeuvreDTO);
+//            oeuvreDTOList.add(oeuvreDTO);
         });
         oeuvreDTOList.forEach(oeuvreDTO -> {
             List<String> noms = oeuvreDTO.getArtistes().stream().map(ArtisteDTO::getNom).collect(Collectors.toList());
@@ -259,31 +316,27 @@ public class OeuvreService {
     public OeuvreDTO findOne(Long id) {
         log.debug("Request to get Oeuvre : {}", id);
         Oeuvre oeuvre = oeuvreRepository.findById(id).get();
-        int taille = oeuvre.getFileContent().length;
-        oeuvre.setFileContent(deCompressData(oeuvre.getFileContent()));
-
-        log.debug("taille compressee: {}", taille);
-        log.debug("taille reelle: {}", oeuvre.getFileContent().length);
-
+        log.debug("\n\n\n\n\nRequest to get Oeuvre cool : {}", id);
         return oeuvreMapper.toDto(oeuvre);
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<Object> readMedia(Long id) {
-        log.debug("Request to get Oeuvre : {}", id);
-        OeuvreDTO oeuvre =  (findOne(id));
+    public ResponseEntity<Object> readMedia(File f) {
+        log.debug("Request to get Oeuvre : {}", f);
+ //       OeuvreDTO oeuvre =  (findOne(id));
 
-        if(isVideo(oeuvre.getFileExtension()))
-            return ResponseEntity.ok()
-            .contentLength(oeuvre.getFileContent().length)
-            .contentType(MediaType.parseMediaType(getContentType(oeuvre.getFileExtension())))
-            .body(new InputStreamResource(new ByteArrayInputStream(oeuvre.getFileContent())));
-        else {
-            return ResponseEntity.ok()
-            .contentLength(oeuvre.getFileContent().length)
-            .contentType(MediaType.parseMediaType(getContentType(oeuvre.getFileExtension())))
-            .body(new InputStreamResource(new ByteArrayInputStream(oeuvre.getFileContent())));
-        }
+//        if(isVideo(oeuvre.getFileExtension()))
+//            return ResponseEntity.ok()
+//            .contentLength(oeuvre.getFileContent().length)
+//            .contentType(MediaType.parseMediaType(getContentType(oeuvre.getFileExtension())))
+//            .body(new InputStreamResource(new ByteArrayInputStream(oeuvre.getFileContent())));
+//        else {
+//            return ResponseEntity.ok()
+//            .contentLength(oeuvre.getFileContent().length)
+//            .contentType(MediaType.parseMediaType(getContentType(oeuvre.getFileExtension())))
+//            .body(new InputStreamResource(new ByteArrayInputStream(oeuvre.getFileContent())));
+//        }
+        return null;
     }
 
     public String getContentType(String contentType){
@@ -329,6 +382,13 @@ public class OeuvreService {
      */
     public void delete(Long id) {
         log.debug("Request to delete Oeuvre : {}", id);
+        List<ArtisteOeuvre> artOeuvres = artisteOeuvreRepository.findAllByOeuvreId(id);
+        artisteOeuvreRepository.deleteInBatch(artOeuvres);
+
+        TypeOeuvreDTO typeOeuvreDTO = findOne(id).getTypeOeuvreDTO();
+        typeOeuvreDTO.setNbOeuvre(typeOeuvreDTO.getNbOeuvre()-1);
+        typeOeuvreService.save(typeOeuvreDTO);
+
         oeuvreRepository.deleteById(id);
     }
 
@@ -379,5 +439,11 @@ public class OeuvreService {
             }
         }
         throw new FileNotFoundException();
+    }
+
+    public String formatedDateToString(Instant date){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM dd,yyyy");
+        String dateInString = dateTimeFormatter.format(date);
+        return dateInString;
     }
 }

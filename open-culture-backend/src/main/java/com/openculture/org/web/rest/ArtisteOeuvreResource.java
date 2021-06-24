@@ -1,5 +1,6 @@
 package com.openculture.org.web.rest;
 
+import com.openculture.org.domain.ArtisteOeuvre;
 import com.openculture.org.service.ArtisteOeuvreService;
 import com.openculture.org.web.rest.errors.BadRequestAlertException;
 import com.openculture.org.service.dto.ArtisteOeuvreDTO;
@@ -121,5 +122,11 @@ public class ArtisteOeuvreResource {
         log.debug("REST request to delete ArtisteOeuvre : {}", id);
         artisteOeuvreService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
+    }
+
+    @GetMapping("/artiste-oeuvres/search/{search}/{typeFile}")
+    public List<ArtisteOeuvre> onSearch(@PathVariable String search, @PathVariable String typeFile) {
+        log.debug("REST request to get a page of Artistes");
+        return artisteOeuvreService.onSearch(search,typeFile);
     }
 }

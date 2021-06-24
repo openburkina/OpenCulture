@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+//import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormBuilder, Validators} from '@angular/forms';
 import {User} from '../../models/User';
 import {SpinnerService} from '../../services/spinner/spinner.service';
 import {ApiService} from '../../services/api/api.service';
 import {LoginService} from "../../services/auth/login.service";
 import {LoginVM} from "../../models/login-vm";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-account',
@@ -17,54 +17,68 @@ export class AccountComponent implements OnInit {
 
     user: User;
     errorMessage = null;
+    isSaving: boolean;
+    isActived: boolean;
+    successMessage = null;
+    keyActivedAccount = null;
     loginVM: LoginVM;
     formAccount = this.fb.group({
-        firstName: [null, Validators.required],
-        lastName: [null, Validators.required],
+        firstName: [null, [Validators.required,Validators.minLength(2)]],
+        lastName: [null, [Validators.required,Validators.minLength(2)]],
         email: [null, [Validators.required, Validators.email]],
-        password: [null, Validators.required],
-        telephone: [null, Validators.required],
-        confirmPassword: [null, Validators.required],
+        password: [null, [Validators.required,Validators.pattern]],
+        telephone: [null, [Validators.required]],
+        confirmPassword: [null, [Validators.required,Validators.pattern]],
     });
 
   constructor(
-      private activeModal: NgbActiveModal,
+    //  private activeModal: NgbActiveModal,
       private fb: FormBuilder,
       private spinner: SpinnerService,
       private apiService: ApiService,
       private loginService: LoginService,
       private router: Router,
-  ) { }
+      private route: ActivatedRoute
+  ) {
+  }
 
   ngOnInit(): void {
+      this.route.queryParams.subscribe(params => {
+          this.keyActivedAccount = params['key'];
+          console.info('KEY ',this.keyActivedAccount)
+      });
+      this.isSaving = false;
+      this.isActived = false;
       this.user = new User();
       this.loginVM = new LoginVM();
   }
 
     onDismiss(b: boolean): void {
-        this.activeModal.close(b);
+      //  this.activeModal.close(b);
     }
 
     onAccount(): void {
         if (this.formAccount.get('password').value !== this.formAccount.get('confirmPassword').value) {
             this.errorMessage = 'La confirmation du mot de passe est incorrecte !';
         } else {
-           // this.spinner.loading();
-            this.user.firstName = this.formAccount.get('firstName').value;
-            this.user.lastName = this.formAccount.get('lastName').value;
-            this.user.email = this.formAccount.get('email').value;
-            this.user.telephone = this.formAccount.get('telephone').value;
-            this.user.password = this.formAccount.get('password').value;
-            this.user.login = this.formAccount.get('email').value;
-            this.loginVM.username = this.user.login;
-            this.loginVM.password = this.user.password;
-            this.apiService.doInscriptionUser(this.user).subscribe(
+           this.spinner.loading();
+           this.user.firstName = this.formAccount.get('firstName').value;
+           this.user.lastName = this.formAccount.get('lastName').value;
+           this.user.email = this.formAccount.get('email').value;
+           this.user.telephone = this.formAccount.get('telephone').value;
+           this.user.password = this.formAccount.get('password').value;
+           this.user.login = this.formAccount.get('email').value;
+           this.loginVM.username = this.user.login;
+           this.loginVM.password = this.user.password;
+           this.apiService.doInscriptionUser(this.user).subscribe(
                 response => {
-                  //  this.spinner.close();
+                   this.spinner.close();
                     if (response.body === null) {
                         this.errorMessage = 'Erreur lors de l\'inscription. Veuillez réessayer !';
                     } else {
-                         this.onLogin();
+                        this.isSaving = true;
+                        // this.onLogin();
+                        this.successMessage = 'Votre compte a été créé veuillez l\'activer a partir de votre Email !';
                     }
                 },
                 error => {
@@ -95,5 +109,41 @@ export class AccountComponent implements OnInit {
                 this.onDismiss(true);
             },
         );
+    }
+
+    activetAccount(keyActivedAccount: string) {
+        this.spinner.loading();
+        this.apiService.activateAccount(keyActivedAccount).subscribe(
+            response => {
+                this.isActived =true;
+                this.spinner.close();
+                console.info('USER ',response.body);
+                if (response.body === null) {
+                    this.errorMessage = 'Erreur lors de l\'activation du compte. Veuillez réessayer !';
+                } else {
+                    this.successMessage = 'Votre compte a été activer. Veuillez vous connecter !';
+                }
+            },
+            error => {
+                this.spinner.close();
+                this.errorMessage = error.error.title;
+            },
+        );
+
+    }
+
+    sendEmail() {
+      this.apiService.sendEmail(this.loginVM.username).subscribe(res => {
+          if (res.body === null) {
+              this.errorMessage ='Erreur lors du renvoi du l\'Email, Veuillez réessayer'
+          } else {
+              this.successMessage = 'Mail renvoye avec succes'
+          }
+      },
+       error => {
+          this.errorMessage = error.error.title;
+
+       }
+      )
     }
 }

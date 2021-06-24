@@ -22,7 +22,7 @@ export class AccountService {
   ) { }
 
     save(account: Account): Observable<{}> {
-        return this.http.post(environment.SERVER_URL + '/account', account);
+        return this.http.post(environment.apiUrl + 'account', account);
     }
 
     authenticate(identity: Account | null): void {
@@ -51,6 +51,10 @@ export class AccountService {
                     this.authenticate(account);
                     console.log(account);
                     if (account) {
+                        this.$sessionStorage.store('firstName',account.firstName);
+                        this.$sessionStorage.store('lastName',account.lastName);
+                        this.$sessionStorage.store('user_id',account.id);
+                        this.$sessionStorage.store('authorities',account.authorities);
                      //   this.parameter.setLoggerUser(account);
                         this.navigateToStoredUrl();
                     }
@@ -74,7 +78,7 @@ export class AccountService {
     }
 
     private fetch(): Observable<Account> {
-        return this.http.get<Account>(environment.SERVER_URL + '/account');
+        return this.http.get<Account>(environment.apiUrl + 'account');
     }
 
     private navigateToStoredUrl(): void {

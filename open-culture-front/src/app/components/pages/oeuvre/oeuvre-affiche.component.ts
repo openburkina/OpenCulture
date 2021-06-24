@@ -14,23 +14,7 @@ import { OeuvreDeleteComponent } from './oeuvre-delete.component';
 })
 export class OeuvreAfficheComponent implements OnInit {
   oeuvres:  OeuvreDTO[];
-  oeuvresVideo =  new Array();
-  oeuvresAudio =  new Array();
-
-  oeuvresView = new Array();
   typeFichier: TypeFichier;
-  imagePath = [
-      'assets/img/openculture/images-1.jpg',
-      'assets/img/openculture/images-2.jpg',
-      'assets/img/openculture/images-3.jpg',
-      'assets/img/openculture/images-4.jpg',
-      'assets/img/openculture/images-5.jpg',
-      'assets/img/openculture/images-6.jpg',
-      'assets/img/openculture/images-7.jpg',
-      'assets/img/openculture/images-8.jpg',
-      'assets/img/openculture/images-9.jpg',
-      'assets/img/contact/contact-img.png',
-  ];
   constructor(
     protected oeuvreService: OeuvreService,
     protected ngModalService: NgbModal,
@@ -42,28 +26,47 @@ export class OeuvreAfficheComponent implements OnInit {
   }
 
   loadAll(): void {
-    this.oeuvreService.findComplet().subscribe(
+    this.oeuvreService.findComplet(null).subscribe(
       response => {
           this.oeuvres = response.body;
-          console.log(this.oeuvres);
       }
     );
   }
 
   create(): void{
     const modal = this.ngModalService.open(OeuvreEditComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
+    modal.result.then(
+      response => {
+        if (response === true) {
+          this.loadAll();
+        }
+      }
+    )
   }
 
   editer(oeuvreDTO: OeuvreDTO): void{
-    console.log(oeuvreDTO);
+    console.log('OUEVRE',oeuvreDTO);
     const modal = this.ngModalService.open(OeuvreEditComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
     modal.componentInstance.oeuvre = oeuvreDTO;
-    
+    modal.result.then(
+      response => {
+        if (response === true) {
+          this.loadAll();
+        }
+      }
+    )
+
   }
 
   delete(oeuvreDTO: OeuvreDTO): void{
     const modal = this.ngModalService.open(OeuvreDeleteComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
     modal.componentInstance.oeuvre = oeuvreDTO;
-    console.log(modal.componentInstance.oeuvreDTO);
+    modal.result.then(
+      response => {
+        if (response === true) {
+          this.loadAll();
+        }
+      }
+    )
   }
 }

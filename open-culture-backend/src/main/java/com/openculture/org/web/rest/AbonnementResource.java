@@ -1,5 +1,7 @@
 package com.openculture.org.web.rest;
 
+import com.openculture.org.domain.Abonnement;
+import com.openculture.org.domain.User;
 import com.openculture.org.service.AbonnementService;
 import com.openculture.org.web.rest.errors.BadRequestAlertException;
 import com.openculture.org.service.dto.AbonnementDTO;
@@ -121,5 +123,17 @@ public class AbonnementResource {
         log.debug("REST request to delete Abonnement : {}", id);
         abonnementService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
+    }
+
+    @GetMapping("/abonnements/user-id/{id}")
+    public AbonnementDTO findByUserId(@PathVariable Long id) {
+        log.debug("REST request to get Abonnement : {}", id);
+        AbonnementDTO abonnementDTO = abonnementService.findByUserId(id);
+        return  abonnementDTO;
+    }
+
+    @GetMapping("/abonnements/send-email")
+    public User sendEmail() {
+        return abonnementService.sendEmail();
     }
 }

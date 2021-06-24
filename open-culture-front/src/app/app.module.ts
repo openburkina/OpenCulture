@@ -38,10 +38,12 @@ import {InterceptorService} from './components/services/interceptor/interceptor.
 import {NgxWebstorageModule} from 'ngx-webstorage';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { OeuvreComponent } from './components/pages/oeuvre/oeuvre.component';
+import { ChangePasswordComponent } from './components/pages/change-password/change-password.component';
+import { AbonnementComponent } from './components/pages/abonnement/abonnement.component';
 import { OeuvreEditComponent } from './components/pages/oeuvre/oeuvre-edit.component';
-import { NotifierModule, NotifierOptions } from 'angular-notifier';
+import { NotifierModule, NotifierOptions } from "angular-notifier";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbDatepickerModule, NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
 import { RegroupementComponent } from './components/pages/regroupement/regroupement.component';
 import { TypeOeuvreComponent } from './components/pages/type-oeuvre/type-oeuvre.component';
 import { ArtisteComponent } from './components/pages/artiste/artiste.component';
@@ -54,6 +56,20 @@ import { ArtisteEditComponent } from "./components/pages/artiste/artiste-edit.co
 import { ArtisteDeleteComponent } from "./components/pages/artiste/artiste-delete.component";
 import { OeuvreAfficheComponent } from "./components/pages/oeuvre/oeuvre-affiche.component";
 import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
+import { OeuvreBlogComponent } from './components/pages/oeuvre-blog/oeuvre-blog.component';
+import { AdminDashboardComponent } from './components/pages/admin-dashboard/admin-dashboard.component';
+import { DetailAbonnementComponent } from './components/pages/detail-abonnement/detail-abonnement.component';
+import { OeuvreBlogDetailsComponent } from './components/pages/oeuvre-blog-details/oeuvre-blog-details.component';
+import { ActivationComponent } from "./components/pages/activation/activation.component";
+import {VgCoreModule} from '@videogular/ngx-videogular/core';
+import {VgControlsModule} from '@videogular/ngx-videogular/controls';
+import {VgOverlayPlayModule} from '@videogular/ngx-videogular/overlay-play';
+import {VgBufferingModule} from '@videogular/ngx-videogular/buffering';
+import {MenuItemComponent} from './components/common/menu-item/menu-item.component';
+import {ChangeGestionPasswordComponent} from './components/pages/change-gestion-password/change-gestion-password.component';
+import {TypeRegroupementComponent} from './components/pages/type-regroupement/type-regroupement.component';
+import {TypeRegroupementEditComponent} from './components/pages/type-regroupement/type-regroupement-edit.component';
+import {TypeRegroupementDeleteComponent} from './components/pages/type-regroupement/type-regroupement-delete.component';
 const notifierDefaultOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -128,6 +144,8 @@ const notifierDefaultOptions: NotifierOptions = {
     AccountComponent,
     SpinnerComponent,
     OeuvreComponent,
+    ChangePasswordComponent,
+    AbonnementComponent,
     OeuvreEditComponent,
     RegroupementComponent,
     TypeOeuvreComponent,
@@ -139,7 +157,17 @@ const notifierDefaultOptions: NotifierOptions = {
     TypeOeuvreEditComponent,
     ArtisteEditComponent,
     ArtisteDeleteComponent,
-    OeuvreAfficheComponent
+    OeuvreAfficheComponent,
+    OeuvreBlogComponent,
+    AdminDashboardComponent,
+    DetailAbonnementComponent,
+    OeuvreBlogDetailsComponent,
+    ActivationComponent,
+    MenuItemComponent,
+    ChangeGestionPasswordComponent,
+    TypeRegroupementComponent,
+    TypeRegroupementEditComponent,
+    TypeRegroupementDeleteComponent
   ],
     imports: [
         BrowserModule,
@@ -152,7 +180,12 @@ const notifierDefaultOptions: NotifierOptions = {
         BrowserAnimationsModule,
         NgbDatepickerModule,
         NgxSpinnerModule,
-        NgMultiSelectDropDownModule.forRoot()
+        NgMultiSelectDropDownModule.forRoot(),
+        VgCoreModule,
+        VgControlsModule,
+        VgOverlayPlayModule,
+        VgBufferingModule,
+        NgbPaginationModule
     ],
   providers: [
       {

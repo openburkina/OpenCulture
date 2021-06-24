@@ -1,0 +1,31 @@
+<div class="sign-up-area pt-100 pb-70">
+    <div class="container">
+        <div class="user-all-form pt-45">
+            <div class="contact-form">
+                <div class="section-title text-center" style="background-color: darkorange;">
+                    <h2>Activie</h2>
+                </div>
+                <div class="alert alert-danger text-center font-italic font-weight-bold text-danger"
+                     *ngIf="errorMessage !== null">
+                    {{errorMessage}}
+                </div>
+                <div class="alert alert-success text-center font-italic font-weight-bold text-success"
+                     *ngIf="successMessage !== null">
+                    {{successMessage}}
+                </div>
+                    <div class="row">
+                        <div *ngIf="keyAccount!==null || keyAccount!==undefined" class="col-lg-12 col-md-12 mt-5 mb-5 text-center">
+                            <button (click)="activeAccount()" class="btn btn-warning px-4">
+                                Activez votre compte <i class="fa fa-sign-in-alt"></i>
+                            </button>
+                        </div>
+                        <div *ngIf="keyPassword!==null && keyPassword!== undefined" class="col-lg-12 col-md-12 text-center">
+                            <button (click)="activePasswordChange()"  class="btn btn-warning px-4">
+                                Valider <i class="fa fa-sign-in-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>

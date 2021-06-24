@@ -40,14 +40,26 @@ button {
         border: 0;
     }
 }
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4{
     font-weight: 600;
     line-height: 1.4;
     color: $paragraph-color;
 }
+h6{
+    color: black;
+    font-size: 12px;
+    text-align: start;
+    padding-bottom: 5px;
+}
+h5 a{
+    color: black;
+    font-size: 16px;
+    text-align: start;
+}
 h3 {
     font-size: 24px;
 }
+
 .d-table {
     width: 100%;
     height: 100%;
@@ -89,7 +101,7 @@ img {
 Default btn Style
 ===================================*/
 .default-btn {
-    padding: 14px 27px;
+    padding: 4px 7px;
     background-color: $main-color;
     color: $color-white;
     border-radius: 5px;
@@ -147,6 +159,10 @@ Section Title Style End
 ===================================*/
 .top-header {
     background-color: $paragraph-color;
+    top: 0;
+    width: 100%;
+    position: fixed;
+    z-index: 99;
 }
 .header-left {
     text-align: left;
@@ -311,6 +327,9 @@ Section Title Style End
 /*=================================
 Navbar Area
 ====================================*/
+.menu-pb {
+    margin-bottom: 50px;
+}
 .navbar-area {
     background-color: transparent;
     transition: 0.3s;
@@ -850,7 +869,7 @@ Sidebar Modal
 Main Banner Area
 ====================================*/
 .banner-area {
-    background-color: $color-purple;
+    // background-color: $color-purple;
     position: relative;
     overflow: hidden;
     &::before {
@@ -858,11 +877,11 @@ Main Banner Area
         position: absolute;
         overflow: hidden;
         z-index: 1;
-        left: 20%;
+        left: 0;
         top: 0;
-        width: 90%;
+        width: 100%;
         height: 100%;
-        background-image: url(assets/img/shape/shape1.png);
+        background-image: url(assets/img/openculture/high-end.jpg);
         background-size: cover;
         background-position: center center;
         background-repeat: no-repeat;
@@ -875,7 +894,7 @@ Main Banner Area
         top: 0;
         width: 50%;
         height: 100%;
-        background-image: url(assets/img/shape/shape2.png);
+        background-image: url(assets/img/openculture/high-end.jpg);
         background-size: cover;
         background-position: center center;
         background-repeat: no-repeat;
@@ -940,7 +959,7 @@ Main Banner Area
         border: 2px solid $main-color;
         border-radius: 100px 0 100px 100px;
         width: 100%;
-        height: 660px;
+        height: 260px;
         background-color: transparent;
     }
     img {
@@ -1338,11 +1357,15 @@ Status Area End
 Special Area
 ====================================*/
 .special-area {
-    background-color: #f8f9fb;
+    background-color:transparent;
 }
 .special-card {
+    margin-right: 0;
+    margin-left: 0;
     margin-bottom: 30px;
     background-color: $color-white;
+    height: 210px;
+    width: 220px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     text-align: center;
     position: relative;
@@ -1376,7 +1399,7 @@ Special Area
         right: 0;
         width: 100%;
         height: 0;
-        background-color: $paragraph-color;
+        background-color: transparent;
         border-radius: 5px ;
         transition: 0.7s;
         opacity: 0;
@@ -1386,6 +1409,7 @@ Special Area
         display: block;
         img {
             border-radius: 5px ;
+            height: 160px;
         }
     }
     .content {
@@ -2308,15 +2332,18 @@ Service Area
             list-style-type: none;
             li {
                 position: relative;
-                margin-bottom: 10px;
+                margin-bottom: 5px;
                 font-size: 16px;
                 font-weight: 500;
-                background-color: #fbfbfb;
+                background-color: #FBA311;
                 padding: 12px 20px;
                 border-radius: 5px;
                 &:hover {
                     background-color: $paragraph-color;
                     a {
+                        color: $color-white;
+                    }
+                    span {
                         color: $color-white;
                     }
                 }
@@ -2815,6 +2842,7 @@ Project Area
     margin-top: 20px;
     .tabs {
         margin: 0;
+        margin-bottom: 40px;
         padding: 0;
         list-style: none;
         li {
@@ -2876,7 +2904,8 @@ Project Area
         bottom: -150px;
         left: 0;
         right: 0;
-        background-color: #301d44ab;
+        // background-color: #301d44ab;
+        background-color: $color-white;
         padding: 10px 20px;
         height: auto;
         border-radius: 5px;
@@ -2886,7 +2915,7 @@ Project Area
             font-weight: 400;
             margin-bottom: 0;
             a {
-                color: $color-white;
+                color: $color-purple;
             }
         }
         .content {
@@ -2894,7 +2923,7 @@ Project Area
             margin-bottom: 10px;
             opacity: 0;
             p {
-                color: $color-white;
+                color: $color-purple;
                 margin-bottom: 15px;
             }
             .project-more {
@@ -3162,13 +3191,15 @@ Blog Area
         }
     }
     .content {
-        padding: 30px;
+        padding: 5px;
         h3 {
             font-size: 20px;
             a {
                 color: $paragraph-color;
-                margin-bottom: 10px;
             }
+        }
+        span {
+            color: $main-color;
         }
         ul {
             list-style: none;
@@ -3191,8 +3222,8 @@ Blog Area
             }
         }
         p {
-            margin-top: 15px;
-            margin-bottom: 20px;
+            margin-top: 5px;
+            margin-bottom: 5px;
         }
         .blog-more {
             height: 30px;
@@ -3517,7 +3548,7 @@ Blog Area
                 float: left;
                 overflow: hidden;
                 position: relative;
-                margin-right: 15px;
+                margin-right: 0px;
                 .full-image {
                     width: 80px;
                     height: 80px;
@@ -3528,7 +3559,8 @@ Blog Area
                     position: relative;
                     background-color: $paragraph-color;
                     &.bg1 {
-                        background-image: url(assets/img/blog/blog-img1.jpg);
+                        // background-image: url(assets/img/blog/blog-img1.jpg);
+                        // background-image: url(assets/img/openculture/image-1.jpg);
                     }
                     &.bg2 {
                         background-image: url(assets/img/blog/blog-img2.jpg);
@@ -3545,6 +3577,8 @@ Blog Area
                     line-height: 1.5;
                     font-size: 18px;
                     font-weight: 500;
+                    margin-left: 0;
+                    padding-left: 0;
                     a {
                         display: inline-block;
                         color: $paragraph-color;
@@ -4731,6 +4765,32 @@ Back To Top Button
     display: none;
     z-index: 99;
 }
+#toCreate {
+	position: fixed;
+	top: 20%;
+	left: 10px;
+	// cursor: pointer;
+    // display: none;
+    // z-index: 100;
+}
+.top-btn-create {
+    background-color: $main-color;
+    color: $color-white;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    box-shadow: 0 0 15px $main-color;
+    font-size: 20px;
+    display: inline-block;
+    text-align: center;
+    line-height: 45px;
+    transition: .9s;
+    &:hover{
+       background-color: $paragraph-color;
+        box-shadow: 0 0 15px #08104d;
+        color: #fff;
+    }
+}
 .top-btn {
     background-color: $main-color;
     color: $color-white;
@@ -4907,4 +4967,59 @@ Animation CSS End
 .bg-warning-1 {
     color: #212529;
     background-color: darkorange;
+}
+
+.thumb {
+    vg-player {
+        height: 80px;
+        width: 210px;
+        padding: 0;
+        margin: 0;
+
+    video {
+            height: 80px;
+            width: 100%;
+        }
+    }
+}
+
+.services-menu-bar {
+    padding: 0 20px;
+    div {
+        ul {
+            padding: 0;
+            margin: 0;
+            list-style-type: none;
+            li {
+                position: relative;
+                margin-bottom: 10px;
+                font-size: 16px;
+                font-weight: 500;
+                background-color: #fb2923;
+                padding: 12px 20px;
+                border-radius: 5px;
+                &:hover {
+                    background-color: $paragraph-color;
+                    a {
+                        color: $color-white;
+                    }
+
+                }
+                i {
+                    color: $main-color;
+                    margin-right: 15px;
+                }
+                a {
+                    display: inline-block;
+                    color: $paragraph-color;
+                    font-weight: normal;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+}
+
+.cool {
+    margin-left: 40px;
 }

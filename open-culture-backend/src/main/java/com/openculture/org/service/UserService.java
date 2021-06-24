@@ -9,6 +9,7 @@ import com.openculture.org.security.AuthoritiesConstants;
 import com.openculture.org.security.SecurityUtils;
 import com.openculture.org.service.dto.UserDTO;
 
+import com.openculture.org.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.security.RandomUtil;
 
 import org.slf4j.Logger;
@@ -43,11 +44,15 @@ public class UserService {
 
     private final CacheManager cacheManager;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager) {
+    private final MailService mailService;
+    private User newUser;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager, MailService mailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.mailService = mailService;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -81,6 +86,7 @@ public class UserService {
             .filter(User::getActivated)
             .map(user -> {
                 user.setResetKey(RandomUtil.generateResetKey());
+                user.setActivationKey(RandomUtil.generateActivationKey());
                 user.setResetDate(Instant.now());
                 this.clearUserCaches(user);
                 return user;
@@ -111,7 +117,9 @@ public class UserService {
             newUser.setEmail(userDTO.getEmail().toLowerCase());
         }
         newUser.setImageUrl(userDTO.getImageUrl());
-        newUser.setLangKey(userDTO.getLangKey());
+       // newUser.setLangKey(userDTO.getLangKey());
+        newUser.setLangKey(Constants.DEFAULT_LANGUAGE);
+        newUser.setTelephone(userDTO.getTelephone());
         // new user is not active
         newUser.setActivated(false);
         // new user gets registration key
@@ -119,10 +127,10 @@ public class UserService {
         Set<Authority> authorities = new HashSet<>();
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
-        userRepository.save(newUser);
+        User saveUser = userRepository.save(newUser);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
-        return newUser;
+        return saveUser;
     }
 
     private boolean removeNonActivatedUser(User existingUser) {
@@ -166,12 +174,9 @@ public class UserService {
             user.setAuthorities(authorities);
         } else {
             Set<Authority> authoritie = new HashSet<>();
-            System.out.println("====AUTORITY1=====");
             authority = authorityRepository.getOne(AuthoritiesConstants.USER);
-            System.out.println("====AUTORITY2=====");
             authoritie.add(authority);
             user.setAuthorities(authoritie);
-            System.out.println("====AUTORITY3=====");
         }
         userRepository.save(user);
         this.clearUserCaches(user);
@@ -250,7 +255,7 @@ public class UserService {
 
 
     @Transactional
-    public void changePassword(String currentClearTextPassword, String newPassword) {
+    public User changePassword(String currentClearTextPassword, String newPassword) {
         SecurityUtils.getCurrentUserLogin()
             .flatMap(userRepository::findOneByLogin)
             .ifPresent(user -> {
@@ -260,9 +265,100 @@ public class UserService {
                 }
                 String encryptedPassword = passwordEncoder.encode(newPassword);
                 user.setPassword(encryptedPassword);
+                newUser = user;
                 this.clearUserCaches(user);
                 log.debug("Changed password for User: {}", user);
             });
+        return newUser;
+    }
+
+    @Transactional
+    public User changeUserPassword(String key, String newPassword) {
+
+        Optional<User> user = userRepository.findOneByActivationKey(key);
+        if (!user.isPresent()){
+            throw new BadRequestAlertException("Votre Email est incorrect","","");
+        }
+        if (user.isPresent()){
+            String encryptedPassword = passwordEncoder.encode(newPassword);
+            user.get().setPassword(encryptedPassword);
+            //user.get().setActivated(false);
+            user.get().setActivationKey(null);
+            this.clearUserCaches(user.get());
+        }
+        log.debug("Changed password for User: {}", user);
+        return userRepository.save(user.get());
+    }
+
+    @Transactional
+    public User sendEmail(String login) {
+        Optional<User> user = userRepository.findOneByLogin(login);
+        if (!user.isPresent()){
+            throw new BadRequestAlertException("Votre Email est incorrect","","");
+        }
+        if (user.isPresent()){
+            mailService.sendEmail(user.get().getLogin(),"Création de compte sur OpenBurkina"," <!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "    <head>\n" +
+                "        <title>activation du compte sur  openculture</title>\n" +
+                "        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n" +
+                "        <link rel=\"icon\" href=\"http://127.0.0.1:4200/favicon.ico\" />\n" +
+                "    </head>\n" +
+                "    <body>\n" +
+                "        <p>Cher "+user.get().getLogin() +" </p>\n" +
+                "        <p>Votre compte sur openculture a été créé, veuillez cliquer sur le lien ci-dessous pour l'activer:</p>\n" +
+                "        <p>\n" +
+                "            <a href=\"http://127.0.0.1:4200/account?key=" +user.get().getActivationKey()+
+                "\">http://127.0.0.1:4200/account?key=" +user.get().getActivationKey()+
+                "</a>\n" +
+                "        </p>\n" +
+                "        <p>\n" +
+                "            <span>Regards,</span>\n" +
+                "            <br/>\n" +
+                "            <em>openculture.</em>\n" +
+                "        </p>\n" +
+                "    </body>\n" +
+                "</html>",false,true);
+        }
+        log.debug("Changed password for User: {}", user);
+        log.info("-----------------: {}");
+        log.info(user.get().getActivationKey());
+        log.info("-----------------: {}");
+        return user.get();
+    }
+
+    @Transactional
+    public User sendPasswordEmail(String login) {
+        Optional<User> user = userRepository.findOneByLogin(login);
+        if (!user.isPresent()){
+            throw new BadRequestAlertException("Votre Email est incorrect","","");
+        }
+        if (user.isPresent()){
+            mailService.sendEmail(user.get().getLogin(),"Changer votre mot de passe"," <!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "    <head>\n" +
+                "        <title>Changer votre mot de passe sur  openculture</title>\n" +
+                "        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n" +
+                "        <link rel=\"icon\" href=\"http://127.0.0.1:4200/favicon.ico\" />\n" +
+                "    </head>\n" +
+                "    <body>\n" +
+                "        <p>Cher "+user.get().getLogin() +" </p>\n" +
+                "        <p>veuillez cliquer sur le lien ci-dessous pour changer votre mot de passe:</p>\n" +
+                "        <p>\n" +
+                "            <a href=\"http://127.0.0.1:4200/password?passwordkey=" +user.get().getActivationKey()+
+                "\">http://127.0.0.1:4200/password?passwordkey=" +user.get().getActivationKey()+
+                "</a>\n" +
+                "        </p>\n" +
+                "        <p>\n" +
+                "            <span>Regards,</span>\n" +
+                "            <br/>\n" +
+                "            <em>openculture.</em>\n" +
+                "        </p>\n" +
+                "    </body>\n" +
+                "</html>",false,true);
+        }
+        log.debug("Changed password for User: {}", user);
+        return user.get();
     }
 
     @Transactional(readOnly = true)

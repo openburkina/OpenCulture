@@ -13,19 +13,22 @@
     <property name="clobType" value="clob" dbms="mysql, oracle, mssql, mariadb, postgresql"/>
     <property name="uuidType" value="uuid" dbms="h2, postgresql"/>
 
-    <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <!-- <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210314182929_added_entity_Artiste.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210314183029_added_entity_InformationCivil.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210314183129_added_entity_Oeuvre.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210314183229_added_entity_TypeOeuvre.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210314183329_added_entity_ArtisteOeuvre.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210314183429_added_entity_Regroupement.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20210314183529_added_entity_Abonnement.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210314183529_added_entity_Abonnement.xml" relativeToChangelogFile="false"/> -->
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
-    <include file="config/liquibase/changelog/20210314182929_added_entity_constraints_Artiste.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20210314183129_added_entity_constraints_Oeuvre.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20210314183329_added_entity_constraints_ArtisteOeuvre.xml" relativeToChangelogFile="false"/>
+    <!-- <include file="config/liquibase/changelog/20210314182929_added_entity_constraints_Artiste.xml" relativeToChangelogFile="false"/> -->
+    <!-- <include file="config/liquibase/changelog/20210314183129_added_entity_constraints_Oeuvre.xml" relativeToChangelogFile="false"/> -->
+    <!-- <include file="config/liquibase/changelog/20210314183329_added_entity_constraints_ArtisteOeuvre.xml" relativeToChangelogFile="false"/> -->
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
-    <include file="config/liquibase/changelog/ajout_colonnes_dans_oeuvre.xml" relativeToChangelogFile="false"/>
+    <!-- <include file="config/liquibase/changelog/ajout_colonnes_dans_oeuvre.xml" relativeToChangelogFile="false"/>-->
+    <!-- <include file="config/liquibase/changelog/ajout_colonnes_dans_type_oeuvre.xml" relativeToChangelogFile="false"/>-->
+     <include file="config/liquibase/changelog/added_entity_TypeRegroupement.xml" relativeToChangelogFile="false"/>
+     <include file="config/liquibase/changelog/added_entity_constraints_Regroupement.xml" relativeToChangelogFile="false"/>
 </databaseChangeLog>

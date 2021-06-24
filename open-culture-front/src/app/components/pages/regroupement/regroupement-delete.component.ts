@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RegroupementService } from "./regroupement.service";
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { RegroupementDTO } from '../../models/regroupement.model';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-regroupement',
@@ -14,6 +15,7 @@ reg: RegroupementDTO;
 
   constructor(
     private regService: RegroupementService,
+    private notify: NotifierService,
     private activeModal: NgbActiveModal) {
    }
 
@@ -24,10 +26,23 @@ reg: RegroupementDTO;
     this.activeModal.dismiss('cancel');
   }
 
-  confirmDelete(id: number) {
-    this.regService.delete(id).subscribe(() => {
-      this.activeModal.dismiss(true);
-    });
+  showNotification(text: string, type: string): void {
+    this.notify.notify(type,text);
   }
+
+  confirmDelete(id: number) {
+    this.regService.delete(id).subscribe(
+      () => {
+        this.showNotification("Suppression réussie","success");
+        this.cancel(true);
+      },
+      () => {
+        this.showNotification("Certaines oeuvres sont liées à ce regroupement","error")
+      }
+    );
+  }
+    cancel(boolean: boolean): void{
+        this.activeModal.close(boolean);
+    }
 
 }

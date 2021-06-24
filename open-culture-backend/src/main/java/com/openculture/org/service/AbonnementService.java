@@ -1,9 +1,13 @@
 package com.openculture.org.service;
 
 import com.openculture.org.domain.Abonnement;
+import com.openculture.org.domain.User;
 import com.openculture.org.repository.AbonnementRepository;
+import com.openculture.org.repository.UserRepository;
+import com.openculture.org.security.SecurityUtils;
 import com.openculture.org.service.dto.AbonnementDTO;
 import com.openculture.org.service.mapper.AbonnementMapper;
+import com.openculture.org.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.Optional;
+import java.util.Random;
 
 /**
  * Service Implementation for managing {@link Abonnement}.
@@ -27,9 +33,18 @@ public class AbonnementService {
 
     private final AbonnementMapper abonnementMapper;
 
-    public AbonnementService(AbonnementRepository abonnementRepository, AbonnementMapper abonnementMapper) {
+    private final UserService userService;
+
+    private final UserRepository userRepository;
+
+    private final MailService mailService;
+
+    public AbonnementService(AbonnementRepository abonnementRepository, AbonnementMapper abonnementMapper, UserService userService ,UserRepository userRepository,MailService mailService) {
         this.abonnementRepository = abonnementRepository;
         this.abonnementMapper = abonnementMapper;
+        this.userService = userService;
+        this.userRepository = userRepository;
+        this.mailService = mailService;
     }
 
     /**
@@ -40,9 +55,23 @@ public class AbonnementService {
      */
     public AbonnementDTO save(AbonnementDTO abonnementDTO) {
         log.debug("Request to save Abonnement : {}", abonnementDTO);
-        Abonnement abonnement = abonnementMapper.toEntity(abonnementDTO);
-        abonnement = abonnementRepository.save(abonnement);
-        return abonnementMapper.toDto(abonnement);
+
+      Optional<User>  user = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByLogin);
+      if (user.isPresent()){
+          Optional<Abonnement> allAbon = abonnementRepository.findByUserIdAndStatutIsTrue(user.get().getId());
+          if (allAbon.isPresent()){
+              allAbon.get().setStatut(false);
+              abonnementRepository.save(allAbon.get());
+          }
+          abonnementDTO.setDateAbonnement(Instant.now());
+          abonnementDTO.setType("test");
+          abonnementDTO.setUser(user.get());
+          Abonnement abonnement = abonnementMapper.toEntity(abonnementDTO);
+          abonnement.setStatut(true);
+          abonnement = abonnementRepository.save(abonnement);
+          return abonnementMapper.toDto(abonnement);
+      }
+      return null;
     }
 
     /**
@@ -80,5 +109,45 @@ public class AbonnementService {
     public void delete(Long id) {
         log.debug("Request to delete Abonnement : {}", id);
         abonnementRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public AbonnementDTO findByUserId(Long id) {
+        Optional<Abonnement> abonnement;
+        log.debug("Request to get Abonnement : {}", id);
+        abonnement = abonnementRepository.findByUserIdAndStatutIsTrue(id);
+        if (abonnement.isPresent()){
+            return abonnementMapper.toDto(abonnement.get());
+        }
+        return null;
+    }
+
+    @Transactional
+    public User sendEmail() {
+        Random rnd = new Random();
+        int n = rnd.nextInt(900000);
+        Optional<User> user = userService.getUserWithAuthorities();
+        if (user.isPresent()){
+            mailService.sendEmail(user.get().getLogin(),"OpenBurkina"," <!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "    <head>\n" +
+                "        <title>Valider votre paiement </title>\n" +
+                "        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n" +
+                "        <link rel=\"icon\" href=\"http://127.0.0.1:4200/favicon.ico\" />\n" +
+                "    </head>\n" +
+                "    <body>\n" +
+                "        <p>Cher "+user.get().getLogin() +" </p>\n" +
+                "        <p>Votre code de validation est: "+n+"</p>\n" +
+                "        <p>\n" +
+                "        </p>\n" +
+                "        <p>\n" +
+                "            <span>Regards,</span>\n" +
+                "            <br/>\n" +
+                "            <em>openculture.</em>\n" +
+                "        </p>\n" +
+                "    </body>\n" +
+                "</html>",false,true);
+        }
+        return user.get();
     }
 }
