@@ -1,0 +1,32 @@
+version: '3'
+
+networks:
+  openculture:
+    driver: bridge
+
+services:
+  fe:
+    image: 'openculture-fe:latest'
+    build:
+      context: ./open-culture-front
+    ports:
+      - 80:80
+    depends_on:
+      - be
+    networks:
+      - openculture
+  be:
+    image: 'openculture-be:latest'
+    build:
+      context: ./open-culture-backend
+    depends_on:
+      - db
+    networks:
+      - openculture
+          
+  db:
+    image: 'postgres:12-alpine'
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    networks:
+      - openculture
