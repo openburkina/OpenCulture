@@ -7,6 +7,8 @@ networks:
 services:
   fe:
     image: 'openculture-fe:latest'
+    volumes: 
+      - app_data:/usr/share/nginx/html
     build:
       context: ./open-culture-front
     ports:
@@ -17,8 +19,12 @@ services:
       - openculture
   be:
     image: 'openculture-be:latest'
+    volumes: 
+      - posgresql_data:/var/lib/postgresql/data/
     build:
       context: ./open-culture-backend
+    ports:
+      - 8080:8080
     depends_on:
       - db
     networks:
