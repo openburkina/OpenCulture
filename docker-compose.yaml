@@ -22,9 +22,9 @@ services:
     build:
       context: ./open-culture-backend
     ports:
-      - 8080:8080
+      - 8080:8080 
     volumes: 
-      - posgresql_data:/var/lib/postgresql/data/
+      - maven_dependencies:/root/.m2
     depends_on:
       - db
     networks:
@@ -34,6 +34,8 @@ services:
     image: 'postgres:12-alpine'
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes: 
+      - posgresql_data:/var/lib/postgresql/data/
     networks:
       - openculture
 
@@ -41,4 +43,5 @@ services:
 volumes: 
   app_data:
   posgresql_data:
+  maven_dependencies:
   
