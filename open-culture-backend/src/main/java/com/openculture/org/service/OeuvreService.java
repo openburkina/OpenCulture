@@ -103,12 +103,16 @@ public class OeuvreService {
 
         List<ArtisteOeuvreDTO> artisteOeuvres = new ArrayList<>();
         TypeOeuvreDTO typeOeuvreDTO = typeOeuvreService.findOne(oeuvreDTO.getTypeOeuvreId()).get();
-
+         System.out.println("-----------typeOeuvreDTO-------- "+typeOeuvreDTO.toString());
         if(oeuvreDTO.getId() != null){
           if (findOne(oeuvreDTO.getId()).getTypeOeuvreDTO().getId() != typeOeuvreDTO.getId());
                 typeOeuvreDTO.setNbOeuvre(typeOeuvreDTO.getNbOeuvre()-1);
         } else {
-            typeOeuvreDTO.setNbOeuvre(typeOeuvreDTO.getNbOeuvre()+1);
+            if (typeOeuvreDTO.getNbOeuvre() != null) {
+                typeOeuvreDTO.setNbOeuvre(typeOeuvreDTO.getNbOeuvre()+1);
+            } else {
+                typeOeuvreDTO.setNbOeuvre(new Long(1));
+            }
         }
 
         oeuvreDTO.setRegroupementDTO(regroupementService.findOne(oeuvreDTO.getRegroupementId()).get());

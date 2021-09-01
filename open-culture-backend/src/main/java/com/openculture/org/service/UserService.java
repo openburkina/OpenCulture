@@ -10,11 +10,14 @@ import com.openculture.org.security.SecurityUtils;
 import com.openculture.org.service.dto.UserDTO;
 
 import com.openculture.org.web.rest.errors.BadRequestAlertException;
+import com.sendgrid.*;
 import io.github.jhipster.security.RandomUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -22,6 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -33,7 +37,8 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class UserService {
-
+   private static final String apiKey = "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";
+   private static final String from = "sender@openburkina.bf";
     private final Logger log = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
@@ -93,7 +98,7 @@ public class UserService {
             });
     }
 
-    public User registerUser(UserDTO userDTO, String password) {
+    public User registerUser(UserDTO userDTO, String password)throws IOException {
         userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).ifPresent(existingUser -> {
             boolean removed = removeNonActivatedUser(existingUser);
             if (!removed) {
@@ -130,6 +135,7 @@ public class UserService {
         User saveUser = userRepository.save(newUser);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
+        this.sendTextEmail(saveUser);
         return saveUser;
     }
 
@@ -406,6 +412,28 @@ public class UserService {
         Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
         if (user.getEmail() != null) {
             Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
+        }
+    }
+
+    public String sendTextEmail(User user) throws IOException {
+        // the sender email should be the same as we used to Create a Single Sender Verification
+        Email from = new Email(this.from);
+        String subject = "The subject";
+        Email to = new Email(user.getEmail());
+        Content content = new Content("text/plain", "This is a test email");
+        Mail mail = new Mail(from, subject, to, content);
+
+        SendGrid sg = new SendGrid(this.apiKey);
+        Request request = new Request();
+        try {
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
+            Response response = sg.api(request);
+            log.info("-------EMAIL BODY ----------"+response.getBody());
+            return response.getBody();
+        } catch (IOException ex) {
+            throw ex;
         }
     }
 }

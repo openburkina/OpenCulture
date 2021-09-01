@@ -67,7 +67,7 @@ public class OeuvreResource {
         if (oeuvreDTO.getId() != null) {
             throw new BadRequestAlertException("A new oeuvre cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        oeuvreDTO.setFileUrl("assets/"+multipartFile.getOriginalFilename());
+        oeuvreDTO.setFileUrl("assets/video/"+multipartFile.getOriginalFilename());
         String s[] = multipartFile.getOriginalFilename().split("\\.");
         oeuvreDTO.setFileName(s[0]);
         oeuvreDTO.setFileExtension(s[1]);
@@ -78,7 +78,7 @@ public class OeuvreResource {
             oeuvreDTO.setTypeFichier(TypeFichier.AUDIO);
         }
         OeuvreDTO result = oeuvreService.save(oeuvreDTO);
-        File file = new File("/home/abdoul/Documents/OpenCulture/open-culture-front/src/assets/"+multipartFile.getOriginalFilename());
+        File file = new File("C:/Users/Narcisse SOME/Documents/spaceDev/OpenCulture/open-culture-front/src/assets/video/"+multipartFile.getOriginalFilename());
         try (OutputStream os = new FileOutputStream(file)) {
             os.write(multipartFile.getBytes());
         }
@@ -165,7 +165,7 @@ public class OeuvreResource {
             oeuvreDTO.setTypeFichier(TypeFichier.AUDIO);
         }
         OeuvreDTO result = oeuvreService.save(oeuvreDTO);
-        File file = new File("/home/abdoul/Documents/OpenCulture/open-culture-front/src/assets/"+multipartFile.getOriginalFilename());
+        File file = new File("C:/Users/Narcisse SOME/Documents/spaceDev/OpenCulture/open-culture-front/src/assets/video/"+multipartFile.getOriginalFilename());
         try (OutputStream os = new FileOutputStream(file)) {
             os.write(multipartFile.getBytes());
         }
