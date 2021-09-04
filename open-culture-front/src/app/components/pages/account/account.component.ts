@@ -62,7 +62,8 @@ export class AccountComponent implements OnInit {
 
     onAccount(): void {
         if (this.formAccount.get('password').value !== this.formAccount.get('confirmPassword').value) {
-            this.errorMessage = 'La confirmation du mot de passe est incorrecte !';
+            this.showNotification('La confirmation du mot de passe est incorrecte!','error');
+            // this.errorMessage = 'La confirmation du mot de passe est incorrecte !';
         } else {
            this.spinner.loading();
            this.user.firstName = this.formAccount.get('firstName').value;
