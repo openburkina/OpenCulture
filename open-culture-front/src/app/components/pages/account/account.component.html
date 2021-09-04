@@ -1,6 +1,9 @@
 
 <div class="card-header text-center bg" style="background-color: darkorange;">
     <h2>Inscription sur OpenCulture</h2>
+    <!--<div class="float-right">
+        <button class="default-btn m-3" (click)="onDismiss(false)">Fermer</button>
+    </div>-->
 </div>
 <div class="apply-area ">
     <div class="container">
@@ -15,17 +18,10 @@
             </div>
         </div>
         <div *ngIf="keyActivedAccount === null || keyActivedAccount === undefined">
-            <div class="section-title text-center">
-                <p>
-                    Tout champs sont obligatoires. <br>
-                    A la fin de l'inscription un Email vous sera envoyé pour active votre compte donc veuillez renseigner un bon adresse Email.
-                </p>
-            </div>
-
             <div class="apply-form pt-45">
                 <div class="contact-form">
                     <!-- <form id="contactForm" [formGroup]="formAccount" (ngSubmit)="onAccount()"> -->
-                    <form [formGroup]="formAccount">    
+                    <form [formGroup]="formAccount">
                         <div class="row">
                             <div class="col-lg-6 col-sm-6">
                                 <div class="form-group">
@@ -95,7 +91,7 @@
 
 
                             <div class="col-lg-12 col-md-12 mt-3 mb-3 text-center text-success">
-                                Votre mot de passe doit contenir au moins 8 caracteres,une lettre Majuscule et une lettre miniscule
+                                Votre mot de passe doit contenir au moins 8 caracteres,une lettre Majuscule et une lettre miniscule et des chiffres
                             </div>
 
                             <div *ngIf="isSaving===false" class="col-lg-12 col-md-12  mb-5 text-center">
@@ -117,19 +113,6 @@
 
         <div *ngIf="keyActivedAccount !== null && keyActivedAccount !== undefined">
             <div class="row">
-                <!-- <div class="col-lg-12 col-md-12 mt-5 mb-5 text-center">
-                    <div class="alert alert-danger text-center font-italic font-weight-bold text-danger"
-                         *ngIf="errorMessage !== null">
-                        {{ errorMessage }}
-                    </div>
-                </div>
-
-                <div class="col-lg-12 col-md-12 mt-5 mb-5 text-center">
-                    <div class="alert alert-success text-center font-italic font-weight-bold text-success"
-                         *ngIf="successMessage !== null">
-                        {{ successMessage }}
-                    </div>
-                </div> -->
                 <div class="col-lg-12 col-md-12 mt-5 mb-5 text-center">
                     <button [disabled]="isActived===true" class="btn btn-warning px-4 " (click)="activetAccount(keyActivedAccount)">
                         Activer votre compte

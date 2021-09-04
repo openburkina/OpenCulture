@@ -7,6 +7,8 @@ import {ApiService} from '../../services/api/api.service';
 import {LoginService} from "../../services/auth/login.service";
 import {LoginVM} from "../../models/login-vm";
 import {ActivatedRoute, Router} from "@angular/router";
+import {NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NotifierService} from "angular-notifier";
 
 @Component({
   selector: 'app-account',
@@ -32,20 +34,21 @@ export class AccountComponent implements OnInit {
     });
 
   constructor(
-    //  private activeModal: NgbActiveModal,
+     // private activeModal: NgbActiveModal,
       private fb: FormBuilder,
       private spinner: SpinnerService,
       private apiService: ApiService,
       private loginService: LoginService,
       private router: Router,
-      private route: ActivatedRoute
+      private route: ActivatedRoute,
+     private notify: NotifierService,
+
   ) {
   }
 
   ngOnInit(): void {
       this.route.queryParams.subscribe(params => {
           this.keyActivedAccount = params['key'];
-          console.info('KEY ',this.keyActivedAccount)
       });
       this.isSaving = false;
       this.isActived = false;
@@ -54,7 +57,7 @@ export class AccountComponent implements OnInit {
   }
 
     onDismiss(b: boolean): void {
-      //  this.activeModal.close(b);
+       // this.activeModal.close(b);
     }
 
     onAccount(): void {
@@ -74,7 +77,8 @@ export class AccountComponent implements OnInit {
                 response => {
                    this.spinner.close();
                     if (response.body === null) {
-                        this.errorMessage = 'Erreur lors de l\'inscription. Veuillez réessayer !';
+                        this.showNotification('Erreur lors de l\'inscription. Veuillez réessayer !','error');
+                        // this.errorMessage = 'Erreur lors de l\'inscription. Veuillez réessayer !';
                     } else {
                         this.isSaving = true;
                         // this.onLogin();
@@ -83,14 +87,15 @@ export class AccountComponent implements OnInit {
                 },
                 error => {
                     this.spinner.close();
-                    this.errorMessage = error.error.title;
+                    this.showNotification('Erreur lors de l\'inscription. Veuillez réessayer !','error');
+                    //this.errorMessage = error.error.title;
                 },
             );
         }
 
     }
 
-    onLogin(): void {
+    /*onLogin(): void {
         this.spinner.loading();
         this.loginService.login(this.loginVM).subscribe(
             response => {
@@ -109,7 +114,7 @@ export class AccountComponent implements OnInit {
                 this.onDismiss(true);
             },
         );
-    }
+    }*/
 
     activetAccount(keyActivedAccount: string) {
         this.spinner.loading();
@@ -119,14 +124,16 @@ export class AccountComponent implements OnInit {
                 this.spinner.close();
                 console.info('USER ',response.body);
                 if (response.body === null) {
-                    this.errorMessage = 'Erreur lors de l\'activation du compte. Veuillez réessayer !';
+                    this.showNotification('Erreur lors de l\'activation du compte. Veuillez réessayer !','error');
+                    // this.errorMessage = 'Erreur lors de l\'activation du compte. Veuillez réessayer !';
                 } else {
                     this.successMessage = 'Votre compte a été activer. Veuillez vous connecter !';
                 }
             },
             error => {
                 this.spinner.close();
-                this.errorMessage = error.error.title;
+                this.showNotification('Erreur lors de l\'activation du compte. Veuillez réessayer !','error');
+                //this.errorMessage = error.error.title;
             },
         );
 
@@ -145,5 +152,8 @@ export class AccountComponent implements OnInit {
 
        }
       )
+    }
+    showNotification(text: string, type: string): void {
+        this.notify.notify(type,text);
     }
 }

@@ -8,6 +8,7 @@ import {LoginService} from "../../services/auth/login.service";
 import {ChangePasswordComponent} from "../change-password/change-password.component";
 import {AccountService} from "../../services/auth/account.service";
 import {User} from "../../models/User";
+import {NotifierService} from "angular-notifier";
 
 @Component({
   selector: 'app-sign-in',
@@ -33,6 +34,7 @@ export class SignInComponent implements OnInit {
       private router: Router,
       private activeModal: NgbActiveModal,
       private modal: NgbModal,
+      private notify: NotifierService,
   ) { }
 
   ngOnInit(): void {
@@ -50,7 +52,8 @@ export class SignInComponent implements OnInit {
             response => {
                 this.spinner.close();
                 if (response === null) {
-                    this.errorMessage = 'Erreur lors de la connexion !';
+                   // this.errorMessage = 'Erreur lors de la connexion !';
+                    this.showNotification('Erreur lors de la connexion !','error');
                 } else if (response.authorities.some(roles => roles ==='ROLE_ADMIN')){
                     this.router.navigate(['/admin-dashboard']);
                     this.onDismiss(true);
@@ -63,7 +66,8 @@ export class SignInComponent implements OnInit {
             error => {
                 console.log(error);
                 this.spinner.close();
-                this.errorMessage = error.error.detail;
+                this.showNotification(error.error.detail,'error');
+               // this.errorMessage = error.error.detail;
             },
         );
     }
@@ -77,7 +81,7 @@ export class SignInComponent implements OnInit {
         const currentModal = this.modal.open(ChangePasswordComponent, {container: 'body', size: 'lg', centered: true});
     }
 
-    close() {
-
+    showNotification(text: string, type: string): void {
+        this.notify.notify(type,text);
     }
 }

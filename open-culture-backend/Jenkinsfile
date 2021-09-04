@@ -1,0 +1,36 @@
+pipeline{
+    docker{
+        image 'maven:3.6.1-jdk-8-slim'
+        args '-v $HOME/.m2:/root/.m2'
+    }
+
+    stages{
+        stage('build'){
+            steps{
+                echo 'build stage'
+                dir('open-culture-backend'){
+                    sh 'mvn compile'
+                }
+                
+            }
+        }
+
+        stage('test'){
+            steps{
+                echo 'test stage'
+                dir('open-culture-backend'){
+                    sh 'mvn clean test'
+                }                
+            }
+        }
+
+        stage('package'){
+            steps{
+                echo 'package stage'
+                dir('open-culture-backend'){
+                    sh 'mvn package -DskipTests'
+                }
+            }
+        }
+    }
+}

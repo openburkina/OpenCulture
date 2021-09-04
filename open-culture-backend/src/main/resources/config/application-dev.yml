@@ -37,9 +37,13 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://localhost:5432/openculture
+    url: jdbc:postgresql://db:5432/postgres
     username: postgres
+<<<<<<< HEAD
     password: admin
+=======
+    password: 
+>>>>>>> 464aecac15962114e70bdfc799cd5192f7aca0f2
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -84,7 +88,7 @@ jhipster:
       max-entries: 100 # Number of objects in each cache entry
   # CORS is only enabled by default with the "dev" profile, so BrowserSync can access the API
   cors:
-    allowed-origins: '*'
+    allowed-origins: 'http://localhost,http://fe'
     allowed-methods: '*'
     allowed-headers: '*'
     exposed-headers: 'Authorization,Link,X-Total-Count'

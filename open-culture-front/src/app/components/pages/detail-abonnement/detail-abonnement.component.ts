@@ -3,6 +3,7 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {AbonnementService} from "../../services/abonnement/abonnement.service";
 import {ApiService} from "../../services/api/api.service";
 import {Abonnement} from "../../models/abonnement";
+import {NotifierService} from "angular-notifier";
 
 @Component({
   selector: 'app-detail-abonnement',
@@ -22,6 +23,7 @@ export class DetailAbonnementComponent implements OnInit {
       private activeModal: NgbActiveModal,
       private apiService: ApiService,
       private abonnementService: AbonnementService,
+      private notify: NotifierService,
   ) { }
 
   ngOnInit(): void {
@@ -35,7 +37,8 @@ export class DetailAbonnementComponent implements OnInit {
     makePaiement() {
         console.info('dfdfdgfd ',this.phoneNumber);
         if (this.otp===null) {
-            this.errorMessage='veuillez renseigner votre code de validation';
+           // this.errorMessage='veuillez renseigner votre code de validation';
+            this.showNotification('veuillez renseigner votre code de validation','error');
         } else {
             this.errorMessage=null;
             this.abonnement.phoneNumber = this.phoneNumber;
@@ -49,7 +52,8 @@ export class DetailAbonnementComponent implements OnInit {
     }
     doSenMail(){
       if (this.phoneNumber===null){
-          this.errorMessage='Veuillez renseigner votre numéro de téléphone';
+          this.showNotification('Veuillez renseigner votre numéro de téléphone','error');
+          // this.errorMessage='Veuillez renseigner votre numéro de téléphone';
       } else {
           this.errorMessage = null;
           this.apiService.sendEmailPaiment().subscribe(value => {
@@ -58,5 +62,8 @@ export class DetailAbonnementComponent implements OnInit {
               }
           })
       }
+    }
+    showNotification(text: string, type: string): void {
+        this.notify.notify(type,text);
     }
 }

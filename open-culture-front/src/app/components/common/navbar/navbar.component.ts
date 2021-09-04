@@ -41,12 +41,12 @@ export class NavbarComponent implements OnInit {
 
     openAccount(): void {
          // const currentModal = this.modal.open(AccountComponent, {backdrop: 'static', container: 'body', centered: true, size: 'lg'});
-        const currentModal = this.modal.open(AccountComponent, { container: 'body', centered: true, size: 'lg'});
+        const currentModal = this.modal.open(AccountComponent, {container: 'body', size: 'lg', centered: true});
 
     }
 
     openSignin(): void {
-        const currentModal = this.modal.open(SignInComponent, {container: 'body', size: 'lg', centered: true});
+        const currentModal = this.modal.open(SignInComponent, {container: 'body', size: 'lg', centered: true,backdrop:'static'});
     }
 
   /*  onSearch() {

@@ -1,0 +1,47 @@
+version: '3'
+
+networks:
+  openculture:
+    driver: bridge
+
+services:
+  fe:
+    image: 'openculture-fe:latest'
+    build:
+      context: ./open-culture-front
+    ports:
+      - 80:80
+    volumes: 
+      - app_data:/usr/share/nginx/html
+    depends_on:
+      - be
+    networks:
+      - openculture
+  be:
+    image: 'openculture-be:latest'
+    build:
+      context: ./open-culture-backend
+    ports:
+      - 8080:8080 
+    volumes: 
+      - maven_dependencies:/root/.m2
+    depends_on:
+      - db
+    networks:
+      - openculture
+          
+  db:
+    image: 'postgres:12-alpine'
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes: 
+      - posgresql_data:/var/lib/postgresql/data/
+    networks:
+      - openculture
+
+
+volumes: 
+  app_data:
+  posgresql_data:
+  maven_dependencies:
+  

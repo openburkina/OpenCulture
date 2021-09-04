@@ -1,5 +1,6 @@
 <div class="card-group">
-    <div class="row">
+
+    <!--<div class="row">-->
         <div class="col-12 col-md-6 card p-2">
             <div class="alert alert-danger text-center font-italic font-weight-bold text-danger"
                  *ngIf="errorMessage !== null">
@@ -51,8 +52,13 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-6 card text-white py-5 d-md-down-none" style="background-color: darkorange;">
-            <div class="card-body text-center" >
+        <div class="col-12 col-md-6 " style="background-color: darkorange;">
+            <div class="float-right">
+                <button class="default-btn mt-2" (click)="onDismiss(false)">Fermer</button>
+            </div>
+            <!--card text-white py-5 d-md-down-none-->
+
+            <div class="card-body text-center mt-5" >
                 <div>
                     <h2>Inscription</h2>
                     <p>Si vous n'avez pas encore de compte sur OpenCulture,
@@ -61,5 +67,6 @@
                 </div>
             </div>
         </div>
-    </div>
+
+  <!--  </div>-->
 </div>

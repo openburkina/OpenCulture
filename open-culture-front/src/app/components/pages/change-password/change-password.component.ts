@@ -5,6 +5,7 @@ import {ApiService} from "../../services/api/api.service";
 import {LoginService} from "../../services/auth/login.service";
 import {SpinnerService} from "../../services/spinner/spinner.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {NotifierService} from "angular-notifier";
 
 @Component({
   selector: 'app-change-password',
@@ -29,7 +30,8 @@ export class ChangePasswordComponent implements OnInit {
       private loginService: LoginService,
       private spinner: SpinnerService,
       private router: Router,
-      private route: ActivatedRoute
+      private route: ActivatedRoute,
+     private notify: NotifierService,
   ) { }
 
   ngOnInit(): void {
@@ -45,7 +47,8 @@ export class ChangePasswordComponent implements OnInit {
         this.loginVM.rememberMe = false;
       if (this.key!==null && this.key!==undefined) {
           if (this.formChangePassword.get('password').value !== this.formChangePassword.get('confirmPassword').value) {
-              this.errorMessage = 'La confirmation du mot de passe est incorrecte !';
+              this.showNotification('La confirmation du mot de passe est incorrecte !','error');
+             // this.errorMessage = 'La confirmation du mot de passe est incorrecte !';
           } else {
               this.spinner.loading();
               this.loginVM.username = this.key;
@@ -54,15 +57,18 @@ export class ChangePasswordComponent implements OnInit {
                   response => {
                       this.spinner.close();
                       if (response.body === null) {
-                          this.errorMessage = 'Erreur lors de l\'initialisation. Veuillez réessayer !';
+                         // this.errorMessage = 'Erreur lors de l\'initialisation. Veuillez réessayer !';
+                          this.showNotification('Erreur lors de l\'initialisation. Veuillez réessayer !','error');
                       } else {
                           this.isSaving =true;
-                          this.successMessage = 'Votre mot de passe a ete changer,vous pouvez-vous connecter!';
+                         // this.showNotification('Votre mot de passe a ete changer,vous pouvez-vous connecter! !','success');
+                           this.successMessage = 'Votre mot de passe a ete changer,vous pouvez-vous connecter!';
                       }
                   },
                   error => {
                       this.spinner.close();
-                      this.errorMessage = error.error.title;
+                      this.showNotification(error.error.title,'error');
+                     // this.errorMessage = error.error.title;
                   },
               );
           }
@@ -70,7 +76,9 @@ export class ChangePasswordComponent implements OnInit {
           this.loginVM.username = this.formChangePassword.get('username').value;
           this.apiService.findByLogin(this.loginVM.username).subscribe(value => {
               if (value.body===null) {
-                  this.errorMessage = 'Erreur lors de l\'initialisation. Veuillez réessayer !';
+                  this.showNotification('Erreur lors de l\'initialisation. Veuillez réessayer !','error');
+
+                  // this.errorMessage = 'Erreur lors de l\'initialisation. Veuillez réessayer !';
               } else {
                   this.successMessage = 'Un mail vous est envoye pour changer votre mot de passe';
                   this.isSaving = true;
@@ -96,5 +104,8 @@ export class ChangePasswordComponent implements OnInit {
             }
         )
 
+    }
+    showNotification(text: string, type: string): void {
+        this.notify.notify(type,text);
     }
 }
