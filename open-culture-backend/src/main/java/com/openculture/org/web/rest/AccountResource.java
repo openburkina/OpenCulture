@@ -78,6 +78,7 @@ public class AccountResource {
      */
     @GetMapping("/activate")
     public User activateAccount(@RequestParam(value = "key") String key) {
+        System.out.println("-------- KEY------- "+key);
         Optional<User> user = userService.activateRegistration(key);
         if (!user.isPresent()) {
             throw new AccountResourceException("No user was found for this activation key");
@@ -148,12 +149,12 @@ public class AccountResource {
 
 
     @PostMapping(path ="/account/send-email")
-    public User sendEmail(@RequestBody String login) {
+    public User sendEmail(@RequestBody String login) throws IOException {
         return userService.sendEmail(login);
     }
 
     @PostMapping(path ="/account/send-password-email")
-    public User sendPasswordEmail(@RequestBody String login) {
+    public User sendPasswordEmail(@RequestBody String login) throws IOException {
         return userService.sendPasswordEmail(login);
     }
 
@@ -173,37 +174,12 @@ public class AccountResource {
      * @param mail the mail of the user.
      */
     @PostMapping(path = "/account/reset-password/init")
-    public User requestPasswordReset(@RequestBody String mail) {
+    public User requestPasswordReset(@RequestBody String mail) throws IOException {
         Optional<User> user = userService.requestPasswordReset(mail);
         if (user.isPresent()) {
-          //  mailService.sendPasswordResetMail(user.get());
-             mailService.sendEmail(user.get().getLogin(),"Changer votre mot de passe"," <!DOCTYPE html>\n" +
-                "<html lang=\"en\">\n" +
-                "    <head>\n" +
-                "        <title>Changer votre mot de passe sur  openculture</title>\n" +
-                "        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n" +
-                "        <link rel=\"icon\" href=\"http://127.0.0.1:4200/favicon.ico\" />\n" +
-                "    </head>\n" +
-                "    <body>\n" +
-                "        <p>Cher "+user.get().getLogin() +" </p>\n" +
-                "        <p>veuillez cliquer sur le lien ci-dessous pour changer votre mot de passe:</p>\n" +
-                "        <p>\n" +
-                "            <a href=\"http://127.0.0.1:4200/password?passwordkey=" +user.get().getActivationKey()+
-                "\">http://127.0.0.1:4200/password?passwordkey=" +user.get().getActivationKey()+
-                "</a>\n" +
-                "        </p>\n" +
-                "        <p>\n" +
-                "            <span>Regards,</span>\n" +
-                "            <br/>\n" +
-                "            <em>openculture.</em>\n" +
-                "        </p>\n" +
-                "    </body>\n" +
-                "</html>",false,true);
-
+            userService.sendTextEmail(user.get(),"Reinitialiser mot de passe","Reinitialisation du mot de passe","password","passwordkey");
             return user.get();
         } else {
-            // Pretend the request has been successful to prevent checking which emails really exist
-            // but log that an invalid attempt has been made
             log.warn("Password reset requested for non existing mail");
             return null;
         }

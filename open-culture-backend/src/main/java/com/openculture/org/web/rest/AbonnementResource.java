@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -133,7 +134,7 @@ public class AbonnementResource {
     }
 
     @GetMapping("/abonnements/send-email")
-    public User sendEmail() {
+    public User sendEmail() throws IOException {
         return abonnementService.sendEmail();
     }
 }

@@ -78,7 +78,7 @@ public class OeuvreResource {
             oeuvreDTO.setTypeFichier(TypeFichier.AUDIO);
         }
         OeuvreDTO result = oeuvreService.save(oeuvreDTO);
-        File file = new File("C:/Users/Narcisse SOME/Documents/spaceDev/OpenCulture/open-culture-front/src/assets/video/"+multipartFile.getOriginalFilename());
+        File file = new File("/src/assets/video/"+multipartFile.getOriginalFilename());
         try (OutputStream os = new FileOutputStream(file)) {
             os.write(multipartFile.getBytes());
         }

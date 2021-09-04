@@ -37,13 +37,9 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://db:5432/postgres
+    url: jdbc:postgresql://localhost:5432/openculture
     username: postgres
-<<<<<<< HEAD
     password: admin
-=======
-    password: 
->>>>>>> 464aecac15962114e70bdfc799cd5192f7aca0f2
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -59,9 +55,6 @@ spring:
     username: feb9e177b8d036
     password: 54752070d053a0
 
- sendgrid:
-  key: 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
-  from: sender@openburkina.bf
   #    host: smtp.gmail.com
   #    port: 587
   #    username: narcissee1998@gmail.com
@@ -88,7 +81,8 @@ jhipster:
       max-entries: 100 # Number of objects in each cache entry
   # CORS is only enabled by default with the "dev" profile, so BrowserSync can access the API
   cors:
-    allowed-origins: 'http://localhost,http://fe'
+    allowed-origins: '*'
+#    http://localhost,http://fe
     allowed-methods: '*'
     allowed-headers: '*'
     exposed-headers: 'Authorization,Link,X-Total-Count'

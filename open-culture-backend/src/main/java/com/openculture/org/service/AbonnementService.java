@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.Random;
@@ -123,12 +124,13 @@ public class AbonnementService {
     }
 
     @Transactional
-    public User sendEmail() {
+    public User sendEmail() throws IOException {
         Random rnd = new Random();
         int n = rnd.nextInt(900000);
         Optional<User> user = userService.getUserWithAuthorities();
         if (user.isPresent()){
-            mailService.sendEmail(user.get().getLogin(),"OpenBurkina"," <!DOCTYPE html>\n" +
+            this.userService.sendTextEmail(user.get(),"Votre code de validation est :"+n,"Valider votre paiement","","");
+           /* mailService.sendEmail(user.get().getLogin(),"OpenBurkina"," <!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
                 "    <head>\n" +
                 "        <title>Valider votre paiement </title>\n" +
@@ -146,7 +148,7 @@ public class AbonnementService {
                 "            <em>openculture.</em>\n" +
                 "        </p>\n" +
                 "    </body>\n" +
-                "</html>",false,true);
+                "</html>",false,true);*/
         }
         return user.get();
     }
